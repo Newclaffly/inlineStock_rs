@@ -1,0 +1,196 @@
+﻿@model inlineStock_rs.Models.Model_Search
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <script type="text/javascript" src="~/Scripts/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/respond.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/moment.js"></script>
+    <script type="text/javascript" src="~/Scripts/fabric/fabric.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/sweetalert.min.js"></script>
+
+
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Scripts/DataTables/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/fonts/fabric-icons-4edc6faa.woff">
+    <link rel="stylesheet" href="~/Content/fabric_icon/fabric-icons.css">
+    <link rel="stylesheet" href="~/Content/fabric_icon/fabric-icons-inline.css">
+
+</head>
+
+<body class="text-center">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+        }
+
+            .form-signin .checkbox {
+                font-weight: 400;
+            }
+
+            .form-signin .form-control {
+                position: relative;
+                box-sizing: border-box;
+                height: auto;
+                padding: 10px;
+                font-size: 16px;
+            }
+
+                .form-signin .form-control:focus {
+                    z-index: 2;
+                }
+
+            .form-signin input[type="email"] {
+                margin-bottom: -1px;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .form-signin input[type="password"] {
+                margin-bottom: 10px;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        .login-or {
+            position: relative;
+            color: #aaa;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .span-or {
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: -2px;
+            margin-left: -25px;
+            background-color: #fff;
+            width: 50px;
+            text-align: center;
+        }
+
+        .hr-or {
+            height: 1px;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+        .google {
+            color: #666;
+            width: 100%;
+            height: 40px;
+            text-align: center;
+            outline: none;
+        }
+    </style>
+    <main class="form-signin">
+        @using (Html.BeginForm("Login_axis", "Login", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <img class="mb-4" src="~/Content/20945347.jpg" alt="" width="220" height="150">
+            <h1 class="h3 mb-3 fw-normal">Inline Stock Material</h1>
+            <h5 class="mb-3 fw-normal">Please sign in AXIS ID</h5>
+            @Html.EditorFor(model => model.emp_id, new { htmlAttributes = new { @class = "form-control", placeholder = "Emp ID", required = "required", id = "empid" } })
+            @Html.ValidationMessageFor(model => model.emp_id, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.password_axis, new { htmlAttributes = new { @class = "form-control mt-2", Type = "password", placeholder = "Password", required = "required", id = "password_axis" } })
+            @Html.ValidationMessageFor(model => model.password_axis, "", new { @class = "text-danger" })
+
+            <div class="col-md-12 mb-3">
+                <p class="text-center">
+                    <button class="w-100 btn btn-lg btn-outline-primary" type="submit">LOGIN</button>
+                </p>
+            </div>
+        }
+        <div class="col-md-12 ">
+            <div class="login-or">
+                <hr class="hr-or">
+                <span class="span-or">or</span>
+            </div>
+        </div>
+        <div class="col-md-12 mb-3">
+            <p class="text-center">
+                <a class="w-100 btn btn-lg google" href="@Url.Action("Login", "Login")">Login with Username & Password</a>
+            </p>
+        </div>
+        <p class="mt-5 mb-3 text-muted">Administrator : Thatphon Chuitnan <a href="mailto:Thatphon.Chutinan@sony.com"> <span class="glyphicon">✉</span></a></p>
+
+    </main>
+</body>
+</html>
+<script>
+    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+        window.location = 'microsoft-edge:' + window.location;
+        setTimeout(function () {
+            window.location = 'https://go.microsoft.com/fwlink/?linkid=2135547';
+        }, 1);
+    }
+</script>
+
+
+@if (@ViewBag.Message != null)
+{
+    <script>
+
+        $(document).ready(function () {
+            $('#empid').focus();
+            swal({
+                title: "Fail Login!",
+                text: "Emp ID or Password incorrect.!",
+                icon: "error",
+                button: "OK",
+            });
+            $('#empid').val('');
+            $('#password_axis').val('');
+
+            $("#forgot").click(function () {
+                alert("Please call Adminstrator to if you forgot password : Thatphon.Chutinan@sony.com");
+            });
+
+            $("#new_member").click(function () {
+                alert("Please contract Adminstrator to register : Thatphon.Chutinan@sony.com");
+            });
+        }); @*End Document ready*@
+
+
+    </script>
+
+}
+

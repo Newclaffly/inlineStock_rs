@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "vw_request_stats";
+}
+<style>
+    .table th, td {
+        color: black;
+    }
+</style>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom">
+    <h5> Request Material Log</h5>
+</div>
+<div class="table-responsive mt-2">
+    <table class="table center-all table-bordered table-responsive-lg table-hover dataTable " id="req_mat">
+        <thead>
+            <tr>
+                <th scope="col" style="background-color:royalblue; color:white;">REQUISITION ID</th>
+                <th scope="col" style="background-color:royalblue; color:white;">MATCODE</th>
+                <th scope="col" style="background-color:royalblue; color:white;">MATERIAL NAME</th>
+                <th scope="col" style="background-color:royalblue; color:white;">REQ QTY</th>
+                <th scope="col" style="background-color:royalblue; color:white;">UNIT</th>
+                <th scope="col" style="background-color:royalblue; color:white;">COST CENTER</th>
+                <th scope="col" style="background-color:royalblue; color:white;">COST CENTER NAME</th>
+                <th scope="col" style="background-color:royalblue; color:white;">CREATE DATE</th>
+                <th scope="col" style="background-color:royalblue; color:white;">CREATE BY</th>
+                <th scope="col" style="background-color:royalblue; color:white;">USE DATE</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script type="text/javascript" src="~/Scripts/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="~/Scripts/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <script>
+        $(document).ready(function () {
+            Create_req_mat();
+            function Create_req_mat() {
+                $('#req_mat').DataTable({
+                    "destroy": true,
+                    //"searching": true,
+                    //"lengthChange": false,
+                    //"paging": false,
+                    //"bInfo": false,
+                    //"stateSave": true,
+                    //"scrollY": '70vh',
+                    //"scrollCollapse": true,
+                    //"lengthChange": false,
+                    "ajax": {
+                        "type": "POST",
+                        url: '/Material/InlineStock/Transaction/ajax_get_request_inventory',
+                        //url: '/Transaction/ajax_get_request_inventory',
+                        "datatype": "json"
+                    },
+                    "columns": [
+                              { data: "REQUISITION_ID", "name": "REQUISITION_ID", "autoWidth": true },
+                              { data: "MATCODE", "name": "MATCODE", "autoWidth": true },
+                              { data: "MATNAME", "name": "MATNAME", "autoWidth": true },
+                              { data: "REQ_QTY", "name": "REQ_QTY", "autoWidth": true },
+                              { data: "REQ_UOM", "name": "REQ_UOM", "autoWidth": true },
+                              { data: "COST_CENTER", "name": "COST_CENTER", "autoWidth": true },
+                              { data: "COST_CENTER_NAME", "name": "COST_CENTER_NAME", "autoWidth": true },
+                               {
+                                   data: "CREATE_DATE",
+                                   "render": function (value) {
+                                       if (value === null) return "";
+                                       return moment(value).format('YYYY-MM-DD HH:mm:ss');
+                                   }
+                               },
+                              { data: "CREATE_BY", "name": "CREATE_BY", "autoWidth": true },
+                              { data: "USE_DATE", "name": "USE_DATE", "autoWidth": true },
+                    ], // end columns
+                });
+            }
+        });
+    </script>
+
+
+
+

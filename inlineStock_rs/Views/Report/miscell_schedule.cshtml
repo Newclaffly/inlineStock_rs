@@ -1,0 +1,280 @@
+﻿
+@{
+    ViewBag.Title = "";
+}
+@if (Session["GOALBAL_ID"] != null)
+{
+    <input type="hidden" value="@Session["GOALBAL_ID"].ToString()" id="temp_user" />
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mt-3">
+        <h5 class="mr-2">SET SCHEDULE FOR MATERIAL ISSUE DAILY REPORT </h5>
+        <a type="button" class="btn btn-sm btn-primary" href="@Url.Action("material_issue_daily_report", "Report")">BACK</a>
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-lg-12 mt-2">
+        <div class="card">
+            <div class="card-header" style="background-color:royalblue; color:white;">
+                Featured
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-inline col-sm-6">
+                        <div class="form-group mb-2">
+                            <input type="text" readonly class="form-control-plaintext" id="staticDate" value="Select Date">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <div class="input-group date">
+                                <input type="text" class="form-control" id="select_date">
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-success mb-2" id="con_date">Confirm Date</button>
+                    </div>
+
+                    <div class="row justify-content-between">
+                        <div class="col-auto">
+                            <div class="table-responsive mt-4">
+                                <table class="table table-bordered mb-0 table-hover" id="table_schedule">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="background-color:royalblue; color:white;">DATE</th>
+                                            <th scope="col" style="background-color:royalblue; color:white;">CREATE DATE</th>
+                                            <th scope="col" style="background-color:royalblue; color:white;">CREATE BY</th>
+                                            <th scope="col" style="background-color:royalblue; color:white;">UPDATE DATE</th>
+                                            <th scope="col" style="background-color:royalblue; color:white;">UPDATE BY</th>
+                                            <th scope="col" style="background-color:royalblue; color:white;">TOOLS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+       var temp_user = $('#temp_user').val();
+
+        $(document).ready(function () {
+            var oTable = $('#table_schedule').DataTable();
+            create_table_schedule();
+            datepicker_date();
+
+            function create_table_schedule() {
+                $('#table_schedule').DataTable({
+                    "dom": 'lrtip',
+                    "destroy": true,
+                    "searching": true,
+                    "bInfo": false,
+                    "stateSave": false,
+                    "scrollY": '25vh',
+                    "scrollX": true,
+                    "lengthChange": false,
+                    "paging": false,
+                    "ajax": {
+                        "type": "POST",
+                        "url": "./ajax_miscell_schedule",
+                        //"url": "/Report/ajax_miscell_schedule",
+                        "datatype": "json"
+                    },
+                    "initComplete": function (settings, data) {
+                        console.log(data);
+                    },
+                    "columns": [
+                    /*{ data: "SC_DATE", "name": "SC_DATE", "sWidth": "100%" },*/
+                        {
+                            data: "SC_DATE",
+                            "render": function (value) {
+                                if (value === null) return "";
+                                return moment(value).format('YYYY-MMM-DD');
+                            }
+                        },
+                        {
+                            data: "SC_CREATE_DATE",
+                            "render": function (value) {
+                                if (value === null) return "";
+                                return moment(value).format('YYYY-MM-DD HH:mm:ss');
+                            }
+                        },
+                        { data: "SC_CREATE_BY", "name": "SC_CREATE_BY", "autoWidth": true },
+
+                        {
+                            data: "SC_UPDATE_DATE",
+                            "render": function (value) {
+                                if (value === null) return "";
+                                return moment(value).format('YYYY-MM-DD HH:mm:ss');
+                            }
+                        },
+                        { data: "SC_UPDATE_BY", "name": "SC_UPDATE_BY", "autoWidth": true },
+                        {
+                            "render": function (data, type, Me, meta) {
+                                return '<button  type="button" class="btn btn-sm-custom btn-sm btn-outline-warning edit_date " aria-hidden="true" " data-toggle="modal" data-target="#Mymodal_edit_date" ' +
+                                    'data-id ="' + Me.ID_SC + '"  data-sc_date ="' + Me.SC_DATE + '" ' +
+                                    '>EDIT</button >';
+                            }
+                        },
+                    ],
+                    columnDefs: [
+                        {
+                            targets: [0, 1 ,2, 3, 4, 5], className: 'text-center'
+                        },
+                    ],
+                });
+
+            }
+
+            //Datepicker set
+            function datepicker_date() {
+                //var today = new Date();
+                //var startDate = new Date(today.getFullYear(), 12, 1);
+                //var endDate = new Date(today.getFullYear(), 12, 31);
+                $('#select_date').datepicker({
+                    format: 'yyyy-mm-dd',
+                    orientation: 'bottom'
+
+                });
+            }
+
+            //Save data datepicker
+            function insert_schedule(full_date,day_text,month_text,year_text) {
+                var schedule_value = {
+                    "SC_DATE": full_date,
+                    "SC_SELECT_DAY": day_text,
+                    "SC_SELECT_MONTH_VALUE": month_text,
+                    "SC_SELECT_YEAR": year_text,
+                    "SC_CREATE_BY": temp_user
+                }
+                console.log(schedule_value);
+                $.ajax({
+                    type: "POST",
+                    url: "./insert_schedule",
+                    //url: "/Report/update_schedule",
+                    data: { schedule_value: schedule_value },
+                    datatype: "json",
+                    success: function (data) {
+                        swal({
+                            title: "Insert success!",
+                            text: "You insert of the information success!",
+                            icon: "success",
+                            button: "OK!",
+                        });
+                        $('#table_schedule').DataTable().ajax.reload();
+                    },
+                    error: function (request, status, error) {
+                        console.log(status)
+                        swal({
+                            title: "Fail Insert!",
+                            text: "Please check the correct of the information.!",
+                            icon: "error",
+                            button: "OK",
+                        });
+                    }
+                })
+            }
+
+            //Event confirm datepicker
+            $("#con_date").click(function () {
+                var date_format = $('#select_date').val();
+                var arr = date_format.split('-');
+                var year = arr[0];
+                var month = arr[1];
+                var day = arr[2];
+               // console.log(date_format);
+               /* console.log("[Year]" + year + "[Month]" + month + "[Day]" + day);*/
+                insert_schedule(date_format,year,month,day,temp_user);
+            });
+
+            $('#Mymodal_edit_date').on('shown.bs.modal', function () {
+                $('.modal-body #select_date_edit').datepicker({
+                    format: 'yyyy-mm-dd',
+                    orientation: 'bottom'
+                });
+            });
+
+            $(document).on("click", ".edit_date", function () {
+                var id_sc = $(this).data('id');
+                $(".modal-body #id_sc").val(id_sc);
+
+
+            });
+
+            $("#modal_select_date_save").click(function () {
+                var schedule_edit_value = {
+                    "ID_SC": $('.modal-body #id_sc').val(),
+                    "SC_DATE": $('.modal-body #select_date_edit').val(),
+                    "SC_UPDATE_BY": temp_user
+                }
+                console.log(schedule_edit_value);
+                $.ajax({
+                    type: "POST",
+                    url: "./update_schedule",
+                    //url: "/Report/update_schedule",
+                    data: { schedule_edit_value: schedule_edit_value },
+                    datatype: "json",
+                    success: function (data) {
+                        swal({
+                            title: "Update success!",
+                            text: "You update of the information success!",
+                            icon: "success",
+                            button: "OK!",
+                        });
+                        $('#Mymodal_edit_date').modal('hide');
+                        $('#table_schedule').DataTable().ajax.reload();
+                    },
+                    error: function (request, status, error) {
+                        console.log(status)
+                        swal({
+                            title: "Fail Update!",
+                            text: "Please check the correct of the information.!",
+                            icon: "error",
+                            button: "OK",
+                        });
+                    }
+                })
+            });
+
+            }); @*End Document ready*@
+    </script>
+
+    <div class="modal fade" id="Mymodal_edit_date" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Edit Date</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-inline col-sm-12">
+                        <div class="form-group mb-2">
+                            <input type="text" readonly class="form-control-plaintext" id="staticDate_edit" value="Select Date">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <div class="input-group date">
+                                <input type="hidden" id="id_sc">
+                                <input type="text" class="form-control" id="select_date_edit">
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="modal_select_date_save">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}

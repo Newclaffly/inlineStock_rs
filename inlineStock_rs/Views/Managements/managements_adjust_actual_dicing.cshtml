@@ -1,0 +1,128 @@
+﻿@model List<inlineStock_rs.Models.tb_NEvent>
+@{
+    ViewBag.Title = "";
+}
+@if (Session["GOALBAL_ID"] != null)
+{
+    <style>
+        .table th, td {
+            color: black;
+        }
+
+        table.center-all td, th {
+            text-align: center;
+        }
+
+        td.highlight_7212 {
+            background-color: deeppink;
+            font-weight: bold;
+            color: white;
+        }
+
+        highlight_7213 {
+            background-color: blue;
+            font-weight: bold;
+            color: white;
+        }
+    </style>
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mt-3">
+        <h5 class="mr-2"> Fucntion Adjust data End of Month</h5>
+    </div>
+
+    <div class="table-responsive">
+        @using (Ajax.BeginForm("managements_adjust_actual_dicing", "Managements", new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure", LoadingElementId = "progress" }))
+        {
+            <table class="table table-hover table-bordered mb-0" id="inline_dicing_adjust">
+                <thead>
+                    <tr>
+                        <th scope="col" style="background-color:royalblue;color:white;">MATERIAL CODE</th>
+                        <th scope="col" style="background-color:royalblue;color:white;">ITEM NUMBER</th>
+                        <th scope="col" style="background-color:royalblue;color:white;">MATERIAL NAME</th>
+                        <th scope="col" style="background-color:royalblue;color:white;">MATERIAL GROUP</th>
+                        <th scope="col" style="background-color:royalblue;color:white;">COST CENTER</th>
+                        <th scope="col" style="background-color:royalblue;color:white;">REMAIN INLINE</th>
+                        <th scope="col" style="background-color:royalblue;color:white;">UNIT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            @if (Model[i].COST_CENTER == "7213")
+                            {
+                                <td>@Html.DisplayFor(model => model[i].MATCODE, new { htmlAttributes = new { @class = "text-center", @readonly = "" } })</td>
+                                <td>@Html.DisplayFor(model => model[i].ITEM_NUMBER, new { htmlAttributes = new { @class = "text-center", @readonly = "" } })</td>
+                                <td>@Html.DisplayFor(model => model[i].MATNAME, new { htmlAttributes = new { @class = "", @readonly = "" } })</td>
+                                <td>@Html.DisplayFor(model => model[i].MATGROUP, new { htmlAttributes = new { @class = "text-center", @readonly = "" } })</td>
+                                <td>@Html.DisplayFor(model => model[i].COST_CENTER, new { htmlAttributes = new { @class = "highlight_7213 text-center", @readonly = "" } })</td>
+                                <td>@Html.EditorFor(model => model[i].REMAIN_INLINE, new { htmlAttributes = new { @class = "text-center" } })</td>
+                                <td>@Html.DisplayFor(model => model[i].Unit, new { htmlAttributes = new { @class = "text-center", @readonly = "" } })</td>
+
+                                @Html.HiddenFor(model => model[i].MATCODE, new { htmlAttributes = new { @class = "", @readonly = "" } }) <!-- Hidden -->
+                                @Html.HiddenFor(model => model[i].ITEM_NUMBER, new { htmlAttributes = new { @class = "", @readonly = "" } }) <!-- Hidden -->
+                                @Html.HiddenFor(model => model[i].MATNAME, new { htmlAttributes = new { @class = "", @readonly = "" } }) <!-- Hidden -->
+                                @Html.HiddenFor(model => model[i].MATGROUP, new { htmlAttributes = new { @class = "text-center", @readonly = "" } }) <!-- Hidden -->
+                                @Html.HiddenFor(model => model[i].COST_CENTER, new { htmlAttributes = new { @class = "text-center", @readonly = "" } }) <!-- Hidden -->
+                                @Html.HiddenFor(model => model[i].Unit, new { htmlAttributes = new { @class = "text-center", @readonly = "" } }) <!-- Hidden -->
+
+                            }
+
+                            @if (Model[i].COST_CENTER == "7212")
+                            {
+                                <td>@Html.DisplayFor(model => model[i].MATCODE, new { htmlAttributes = new { @class = "text-center", @readonly = "" } })</td>
+                                <td>@Html.DisplayFor(model => model[i].ITEM_NUMBER, new { htmlAttributes = new { @class = "text-center", @readonly = "" } })</td>
+                                <td>@Html.DisplayFor(model => model[i].MATNAME, new { htmlAttributes = new { @class = "", @readonly = "" } })</td>
+                                <td>@Html.DisplayFor(model => model[i].MATGROUP, new { htmlAttributes = new { @class = "text-center", @readonly = "" } })</td>
+                                <td>@Html.DisplayFor(model => model[i].COST_CENTER, new { htmlAttributes = new { @class = "text-center", @readonly = "" } })</td>
+                                <td>@Html.EditorFor(model => model[i].REMAIN_INLINE, new { htmlAttributes = new { @class = "text-center" } })</td>
+                                <td>@Html.DisplayFor(model => model[i].Unit, new { htmlAttributes = new { @class = "text-center", @readonly = "" } })</td>
+
+                                @Html.HiddenFor(model => model[i].MATCODE, new { htmlAttributes = new { @class = "", @readonly = "" } }) <!-- Hidden -->
+                                @Html.HiddenFor(model => model[i].ITEM_NUMBER, new { htmlAttributes = new { @class = "", @readonly = "" } }) <!-- Hidden -->
+                                @Html.HiddenFor(model => model[i].MATNAME, new { htmlAttributes = new { @class = "", @readonly = "" } }) <!-- Hidden -->
+                                @Html.HiddenFor(model => model[i].MATGROUP, new { htmlAttributes = new { @class = "text-center", @readonly = "" } }) <!-- Hidden -->
+                                @Html.HiddenFor(model => model[i].COST_CENTER, new { htmlAttributes = new { @class = "text-center", @readonly = "" } }) <!-- Hidden -->
+                                @Html.HiddenFor(model => model[i].Unit, new { htmlAttributes = new { @class = "text-center", @readonly = "" } }) <!-- Hidden -->
+                            }
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div style="text-align: center; margin-top:10px; margin-bottom:10px;">
+                <button type="submit" class="btn  btn-sm btn-primary" id="save_all">SAVE DATA</button>
+            </div>
+        }
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            function OnSuccess(response) {
+                alert("Update information success");
+            }
+            function OnFailure(response) {
+                alert("Error occured.");
+            }
+            var table = $('#inline_dicing_adjust').dataTable({
+                "destroy": true,
+                "searching": false,
+                "lengthChange": false,
+                "paging": false,
+                "bInfo": false,
+                "stateSave": false,
+                "scrollY": '70vh',
+                "scrollCollapse": true,
+                "lengthChange": false,
+                columnDefs: [
+                    { targets: [0, 1, 3, 4, 5, 6], className: 'text-center' },
+                ],
+            });
+        });
+    </script>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}

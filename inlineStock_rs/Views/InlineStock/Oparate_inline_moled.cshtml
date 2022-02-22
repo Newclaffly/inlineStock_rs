@@ -1,0 +1,408 @@
+﻿
+@{
+    ViewBag.Title = "Oparate_inline_moled";
+}
+@if (Session["GOALBAL_ID"] != null)
+{
+    <style>
+        .table th, td {
+            color: black;
+            font-size: 0.70rem;
+        }
+
+        .modal-body label {
+            color: black;
+        }
+
+        td.highlight_max_issue_target {
+            background-color: red;
+            font-weight: bold;
+            color: white;
+        }
+
+        td.highlight_green {
+            background-color: green;
+            font-weight: bold;
+            color: white;
+        }
+
+        td.highlight_red {
+            background-color: red;
+            font-weight: bold;
+            color: white;
+        }
+
+        td.highlight_yellow {
+            background-color: yellow;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
+
+    <input type="hidden" value="@Session["GOALBAL_ID"].ToString()" id="temp_user" />
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mt-3">
+        <h5 class="mr-2"> Records usage (M-OLED)</h5>
+        <a type="button" class="btn btn-sm btn-warning" href="@Url.Action("Oparate_inline_moled_view", "InlineStock")">Back to View</a>
+    </div>
+    <div class="table-responsive border-0 mt-4">
+        <table class="table table-bordered table-hover" id="table_moled_usage">
+            <thead>
+                <tr>
+                    <th scope="col" style="background-color:royalblue; color:white;">ORDER</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">BIZ</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">PROCESS</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">MATERIAL GROUP</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">PART CODE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">MATERIAL NAME</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">CAL TYPE</th>
+                    <th scope="col" style="background-color: yellow;">STOCK W/H</th>
+                    <th scope="col" style="background-color: yellow;">ISSUE QTY</th>
+                    <th scope="col" style="background-color: yellow;">ISSUE TARGET</th>
+                    <th scope="col" style="background-color: yellow;">ISSUE GAP</th>
+                    <th scope="col" style="background-color: yellow;">UNIT</th>
+                    <th scope="col" style="background-color: orange;">REMAIN INLINE</th>
+                    <th scope="col" style="background-color: orange;">UNIT INLINE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">TOOLS</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+            function commaSeparateNumber(val){
+                while (/(\d+)(\d{3})/.test(val.toString())){
+                    val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+                }
+                return val;
+            }
+            var temp_user = $('#temp_user').val();
+
+            $(document).ready(function () {
+                $("#divError").html("").removeClass("error-msg");
+                Create_table_show_moled();
+
+                var table = $('#table_moled_usage').DataTable();
+
+                function Create_table_show_moled() {
+                    $('#table_moled_usage').DataTable({
+                        "destroy": true,
+                        "searching": true,
+                        "lengthChange": false,
+                        "paging": false,
+                        "bInfo": false,
+                        "stateSave": false,
+                    /*    "scrollY": '65vh',*/
+                        "scrollY": '65vh',
+                        "scrollX": true,
+                        "scrollCollapse": true,
+                        "lengthChange": false,
+                        "ajax": {
+                            "type": "POST",
+                            "url": "./ajax_show_moled",
+                            //"url": "/InlineStock/ajax_show_moled",
+                            "datatype": "json"
+                        },
+                        createdRow: function (node, data) {
+                            $('td', node).eq(10).addClass('testTd');
+                            if (data.hasOwnProperty('ISSUE_WH')) {
+                                if (data.ISSUE_WH > data.ISSUE_TARGET) {
+                                    $('td', node).eq(6).addClass('highlight_max_issue_target');
+                                    $('td', node).eq(7).addClass('highlight_max_issue_target');
+                                }
+                                if (data.TARGET_GAP > 0) {
+                                   $('td', node).eq(8).addClass('highlight_green');
+                                }
+                                if (data.TARGET_GAP < 0) {
+                                    $('td', node).eq(8).addClass('highlight_red');
+                                }
+                                //if (data.MATCODE == 'WAS_MMD_12' || data.MATCODE == 'WAS_MMD_04' || data.MATCODE == 'WAS_MMD_05'
+                                //    || data.MATCODE == 'WAS_MMD_06' || data.MATCODE == 'WAS_MMD_07' || data.MATCODE == 'WAS_MMD_08' || data.MATCODE == 'WAS_MMD_09') {
+                                //    //$('td', node).eq(1).addClass('highlight_yellow');
+                                //    //$('td', node).eq(2).addClass('highlight_yellow');
+                                //    $('td', node).eq(3).addClass('highlight_yellow');
+                                //    $('td', node).eq(4).addClass('highlight_yellow');
+                                //}
+                            }
+                        },
+                        //order: [[0, "asc"], [4, "asc"]],
+                       order: [0, "asc"],
+                        columnDefs: [
+                             {
+                                 targets: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], className: 'text-center'
+                             },
+                              {
+                                  targets: [7,8,9,10,12] , render: $.fn.dataTable.render.number( ',' )
+                            },
+                            {
+                                "targets": [0],
+                                "visible": false,
+                                "searchable": false
+                            },
+                            {
+                                "targets": [1],
+                                "visible": false,
+                                "searchable": false
+                            },
+                        ],
+                        "columns": [
+                                    { data: "ORDERING", "name": "ORDERING", "autoWidth": true },
+                                  { data: "BIZ_NAME", "name": "BIZ_NAME", "autoWidth": true },
+                                  { data: "PROCESS", "name": "PROCESS", "autoWidth": true },
+                                  { data: "MATGROUP", "name": "MATGROUP", "autoWidth": true },
+                                  { data: "ITEM_NUMBER", "name": "ITEM_NUMBER", "autoWidth": true },
+                                  { data: "MATNAME", "name": "MATNAME", "autoWidth": true },
+                                  { data: "FLAG_CAL_TYPE", "name": "FLAG_CAL_TYPE", "autoWidth": true },
+                                  { data: "STOCK_WH", "name": "STOCK_WH", "autoWidth": true },
+                                  { data: "ISSUE_WH", "name": "ISSUE_WH", "autoWidth": true },
+                                  { data: "ISSUE_TARGET", "name": "ISSUE_TARGET", "autoWidth": true },
+                                  { data: "TARGET_GAP", "name": "TARGET_GAP", "autoWidth": true },
+                                  { data: "UNIT", "name": "UNIT", "autoWidth": true },
+                                  { data: "REMAIN_INLINE", "name": "REMAIN_INLINE", "autoWidth": true },
+                                  { data: "UNIT_INLINE", "name": "UNIT_INLINE", "autoWidth": true },
+                                    {
+                                        "render": function (data, type, Me, meta) {
+                                            return '<button  type="button" class="btn btn-sm-custom btn-sm btn-outline-success Edit_moled " aria-hidden="true" " data-toggle="modal" data-target="#myModal_moled" ' +
+                                            'data-biz ="' + Me.BIZ_NAME + '"  data-matcode ="' + Me.MATCODE + '" data-partcode="' + Me.ITEM_NUMBER + '" data-matname = "' + Me.MATNAME + '" ' +
+                                            'data-matgroup ="' + Me.MATGROUP + '"  data-fmat ="' + Me.FLAG_MAT + '" data-stockwh = "' + Me.STOCK_WH + '" data-issue ="' + Me.ISSUE_WH + '"data-issue_target ="' + Me.ISSUE_TARGET + '"   data-balance ="' + Me.ISSUE_BALANCE + '" data-usage ="' + Me.USAGE + '" ' +
+                                            'data-flag_cal_type ="' + Me.FLAG_CAL_TYPE+'" data-flag_usage = "' + Me.FLAG_USAGE + '" data-factor_usage ="' + Me.FACTOR_USAGE + '" data-unit_inline ="' + Me.UNIT_INLINE + '" data-remain ="' + Me.REMAIN_INLINE + '"data-remain_current ="' + Me.REMAIN_INLINE_CURRENT + '"  data-upby = "' + Me.UPDATE_BY + '" data-unit="' + Me.UNIT +'"  data-purpose = "' + Me.PURPOSE_DETAIL + '" data-factor = "'+Me.FACTOR+'">RECORD</button >';
+                                        }
+                                    },
+                        ], // end columns
+                    });
+                }
+                $('#table_moled_usage td').css('white-space', 'initial');
+
+                 //Edit Modal
+                $(document).on("click", ".Edit_moled", function () {
+                    var get_biz = $(this).data('biz');
+                    var get_matcode = $(this).data('matcode');
+                    var get_partcode = $(this).data('partcode');
+                    var get_matname = $(this).data('matname');
+                    var get_stock_wh = $(this).data('stockwh');
+                    var get_issue_wh = $(this).data('issue');
+                    var get_remain = $(this).data('remain');
+                    var get_fmat = $(this).data('fmat');
+                    var get_matgroup = $(this).data('matgroup');
+                    var date_format = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+                    var get_unit_wh = $(this).data('unit');
+                    var get_unit_inline = $(this).data('unit_inline');
+                    var get_remain_current = $(this).data('remain_current');
+                    var get_factor = $(this).data('factor');
+                    var get_factor_usage = $(this).data('factor_usage');
+                    var get_flag_usage = $(this).data('flag_usage');
+                    var get_flag_cal_type = $(this).data('flag_cal_type');
+
+                    $(".modal-body #biz").val(get_biz);
+                    $(".modal-body #matcode").val(get_matcode);
+                    $(".modal-body #partcode").val(get_partcode);
+                    $(".modal-body #matname").val(get_matname);
+                    $(".modal-body #stockwh").val(get_stock_wh);
+                    $(".modal-body #issue").val(get_issue_wh);
+                    $(".modal-body #remain").val(get_remain);
+                    $(".modal-body #modal_remain_inline_current").val(get_remain);
+                    $(".modal-body #modal_remain_inline_current_static_convert").val(get_remain);
+                    $(".modal-body #modal_remain_inline_current_static").val(get_remain_current);
+                    $(".modal-body #fmat").val(get_fmat);
+                    $(".modal-body #matgroup").val(get_matgroup);
+                    $(".modal-body #updd").val(date_format);
+                    $(".modal-body #unit").text(get_unit_wh);
+                    $(".modal-body #unit_inline").text(get_factor + ' / ' + get_unit_inline);
+                    $(".modal-body #modal_flag_usage").val(get_flag_usage);
+                    $(".modal-body #modal_factor_usage").val(get_factor_usage);
+                    $(".modal-body #modal_unit_inline").text(get_factor_usage + ' / ' + get_unit_inline);
+                    $(".modal-body #modal_flag_cal_tye").val(get_flag_cal_type);
+
+                    $('#usage').keyup(function (event) {
+                        var x_goalbal;
+                        if ($(".modal-body #modal_flag_usage").val() == 'F') {
+                            var v_factor = $(".modal-body #modal_factor").val();
+                            var v_remain_inline_current_static = $(".modal-body #modal_remain_inline_current_static_convert").val();
+                            var v_usage = $(".modal-body #usage").val();
+                            //Phase
+                            var v_factor_phase_float = parseFloat(v_factor);
+                            var v_remain_inline_current_phase_float_static = parseFloat(v_remain_inline_current_static);
+                            var v_usage_phase_float = parseFloat(v_usage);
+
+                            if (isNaN(v_usage_phase_float)) {
+                                x_goalbal = v_usage_phase_float = 0;
+                            } else {
+                                x_goalbal = v_usage_phase_float
+                            }
+
+                            var v_result = (v_remain_inline_current_phase_float_static - (x_goalbal * v_factor_phase_float));
+                            $('#modal_remain_inline_current').val(v_result);
+                            if (parseFloat($('#modal_remain_inline_current').val()) < 0) {
+                                $('#save_data_moled').attr("disabled", true);
+                            } else {
+                                $('#save_data_moled').removeAttr("disabled");
+                            }
+
+                        } else {
+                            var v_remain_inline_current_static = $(".modal-body #modal_remain_inline_current_static_convert").val();
+                            var v_usage = $(".modal-body #usage").val();
+                            //Phase
+                            var v_remain_inline_current_phase_float_static = parseFloat(v_remain_inline_current_static);
+                            var v_usage_phase_float = parseFloat(v_usage);
+
+                            if (isNaN(v_usage_phase_float)) {
+                                x_goalbal = v_usage_phase_float = 0;
+                            } else {
+                                x_goalbal = v_usage_phase_float
+                            }
+
+                            var v_result = (v_remain_inline_current_phase_float_static - x_goalbal);
+
+                            $('#modal_remain_inline_current').val(v_result);
+
+                            if (parseFloat($('#modal_remain_inline_current').val()) < 0) {
+                                $('#save_data_moled').attr("disabled", true);
+                            } else {
+                                $('#save_data_moled').removeAttr("disabled");
+                            }
+                        }
+                    });
+                });
+
+                $('#save_data_moled').click(function () {
+                    var cleanNumber_stock_wh = $("#stockwh").val().split(",").join("");
+                    var cleanNumber_issue_wh = $("#issue").val().split(",").join("");
+                    var cleanNumber_remain_inlne = $("#remain").val().split(",").join("");
+                    var cleanNumber_usage = $("#usage").val().split(",").join("");
+
+                    var edit_value = {
+                        "BIZ_NAME": $("#biz").val(),
+                        "MATCODE": $("#matcode").val(),
+                        "ITEM_NUMBER": $("#partcode").val(),
+                        "MATNAME": $("#matname").val(),
+                        "MATGROUP": $("#matgroup").val(),
+                        "COST_CENTER": '-',
+                        "FLAG_MAT": $("#fmat").val(),
+                        "STOCK_WH": cleanNumber_stock_wh,
+                        "ISSUE_WH": cleanNumber_issue_wh,
+                        "USAGE": cleanNumber_usage,
+                        "REMAIN_INLINE": cleanNumber_remain_inlne,
+                        "UPDATE_BY": $("#temp_user").val(),
+                        "UPDATE_DATE": $("#updd").val(),
+                        "PURPOSE_DETAIL": 'ADJUST',
+                        "FLAG_CAL_TYPE": $("#modal_flag_cal_tye").val()
+                    }
+                    console.log(edit_value);
+                    $.ajax({
+                        type: "POST",
+                        url: "./CU",
+                        //url: "/InlineStock/CU",
+                        data: { edit_value: edit_value },
+                        datatype: "json",
+                        success: function (data) {
+                            setInterval( function () {
+                                scrollPos = $(".dataTables_scrollBody").scrollTop();
+                                table.ajax.reload(function() {
+                                    $(".dataTables_scrollBody").scrollTop(scrollPos);
+                                },false);
+                            }, 1000 );
+                            $('#myModal_moled').modal('hide');
+                            swal({
+                                title: "Record success!",
+                                text: "You record of the information success!",
+                                icon: "success",
+                                button: "OK!",
+                            });
+                        },
+                        error: function (request, status, error) {
+                            $('#usage').attr('required', true);
+                            $('#myModal_moled').modal('hide');
+                            $('#usage').val("");
+                            swal({
+                                title: "Fail Record!",
+                                text: "Please check the correct of the information.!",
+                                icon: "error",
+                                button: "OK",
+                            });
+                        }
+                    })
+                });
+
+                $("#myModal_moled").on('shown.bs.modal', function(){
+                    $(this).find('#usage').focus();
+                    $('#usage').val("");
+                });
+
+            }); @*End Document ready*@
+    </script>
+
+    <div class="modal fade" id="myModal_moled" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Windows Input</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label class="mt-2">MATERIAL NAME</label>
+                    <input type="text" class="form-control" id="matname" readonly />
+                    <label class="mt-2">STOCK W/H</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="stockwh" readonly />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="unit"></span>
+                        </div>
+                    </div>
+                    <label class="mt-2">ISSUE W/H</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="issue" readonly />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="unit"></span>
+                        </div>
+                    </div>
+                    <label class="mt-2">Reamin Inline</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="modal_remain_inline_current" disabled />
+                        <input type="hidden" class="form-control" id="modal_remain_inline_current_static_convert" />
+                        <input type="hidden" class="form-control" id="modal_remain_inline_current_static" />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="unit"></span>
+                        </div>
+                    </div>
+                    <label class="mt-2">Quantity (Usage)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="usage" required />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="modal_unit_inline"></span>
+                        </div>
+                    </div>
+                    <div id="divError"></div>
+                    <label class="mt-2">PURPOSE</label>
+                    <select class="custom-select" id="purpose">
+                        <option value="USAGE" selected>USAGE</option>
+                        <option value="REQUEST">ENG REQUEST</option>
+                    </select>
+
+                    @* Hidden Value*@
+                    <input type="hidden" class="form-control" id="biz" />
+                    <input type="hidden" class="form-control" id="matcode" />
+                    <input type="hidden" class="form-control" id="partcode" />
+                    <input type="hidden" class="form-control" id="matgroup" />
+                    <input type="hidden" class="form-control" id="remain" />
+                    <input type="hidden" class="form-control" id="issue" />
+                    <input type="hidden" class="form-control" id="fmat" />
+                    <input type="hidden" class="form-control" id="updd" />
+                    <input type="hidden" class="form-control" id="modal_factor_usage" />
+                    <input type="hidden" class="form-control" id="modal_flag_usage" />
+                    <input type="hidden" class="" id="modal_flag_cal_tye" />
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save_data_moled">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}

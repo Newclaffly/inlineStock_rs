@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <style>
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid rgb(221, 221, 221);
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+            table td,
+            table th {
+                border: 1px solid rgb(204, 204, 204);
+                border-collapse: collapse;
+                font-size: 10px;
+                text-align: center;
+                /* padding: 4px;
+            white-space: nowrap !important; */
+            }
+            /* table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #ddd;
+        } */
+
+            table th {
+                /* padding-top: 5px;
+            padding-bottom: 5px; */
+                text-align: center;
+                background-color: royalblue;
+                color: white;
+            }
+    </style>
+</head>
+
+<body>
+    Dear concern member,
+    <h4>Material issue daily report <b style="color:red;">Please inspection !!</b></h4>
+    <h4>Link: <b>http://43.72.20.56/Material/InlineStock/Report/material_issue_daily_report</b></h4>
+
+    <br />
+    Business : (BMS) Critical: [total_critical_bms] items
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">MATERIAL CATEGORY</th>
+                <th scope="col">MATERIAL GROUP</th>
+                <th scope="col">PROCESS</th>
+                <th scope="col">MATERIAL NAME</th>
+                <th scope="col">COST CENTER</th>
+                <th scope="col">ITEM NUMBER</th>
+                <th scope="col">GAP AMOUNTH (THB)</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            [table_critical_bms]
+        </tbody>
+    </table>
+
+    <br /><br />
+    Business : (FFP) Critical: [total_critical_ffp] items
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">MATERIAL CATEGORY</th>
+                <th scope="col">MATERIAL GROUP</th>
+                <th scope="col">PROCESS</th>
+                <th scope="col">MATERIAL NAME</th>
+                <th scope="col">COST CENTER</th>
+                <th scope="col">ITEM NUMBER</th>
+                <th scope="col">GAP AMOUNTH (THB)</th>
+            </tr>
+        </thead>
+        <tbody>
+            [table_critical_ffp]
+        </tbody>
+    </table>
+
+    <br /><br />
+    Business : (LSI) Critical: [total_critical_lsi] items
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">MATERIAL CATEGORY</th>
+                <th scope="col">MATERIAL GROUP</th>
+                <th scope="col">PROCESS</th>
+                <th scope="col">MATERIAL NAME</th>
+                <th scope="col">COST CENTER</th>
+                <th scope="col">ITEM NUMBER</th>
+                <th scope="col">GAP AMOUNTH (THB)</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            [table_critical_lsi]
+        </tbody>
+    </table>
+    <br /><br />
+
+    Business : (IS) Critical: [total_critical_is] items
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">MATERIAL CATEGORY</th>
+                <th scope="col">MATERIAL GROUP</th>
+                <th scope="col">PROCESS</th>
+                <th scope="col">MATERIAL NAME</th>
+                <th scope="col">COST CENTER</th>
+                <th scope="col">ITEM NUMBER</th>
+                <th scope="col">GAP AMOUNTH (THB)</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            [table_critical_is]
+        </tbody>
+    </table>
+    <br /><br />
+    Business : (HTPS) Critical: [total_critical_htps] items
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">MATERIAL CATEGORY</th>
+                <th scope="col">MATERIAL GROUP</th>
+                <th scope="col">PROCESS</th>
+                <th scope="col">MATERIAL NAME</th>
+                <th scope="col">COST CENTER</th>
+                <th scope="col">ITEM NUMBER</th>
+                <th scope="col">GAP AMOUNTH (THB)</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            [table_critical_htps]
+        </tbody>
+    </table>
+
+    <br /><br />
+    Business : (M-OLED) Critical: [total_critical_moled] items
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">MATERIAL CATEGORY</th>
+                <th scope="col">MATERIAL GROUP</th>
+                <th scope="col">PROCESS</th>
+                <th scope="col">MATERIAL NAME</th>
+                <th scope="col">COST CENTER</th>
+                <th scope="col">ITEM NUMBER</th>
+                <th scope="col">GAP AMOUNTH (THB)</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            [table_critical_moled]
+        </tbody>
+    </table>
+
+    <br />
+    <span>
+        Best regards, <br />
+        Thatphon C.
+    </span>
+
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c247d558129b4cdf81edcf57efe9eabb" Name="Diagram1" ZoomLevel="62">
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_formula_factor" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_information_issue_daily_report" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_log_reason" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_Master_cut_off" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_master_issue_daily" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_Master_MAC_D" Width="1.5" PointX="6.75" PointY="4.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_Master_Purpose" Width="1.5" PointX="4.75" PointY="7.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.Tb_Material_Flag" Width="1.5" PointX="6.75" PointY="7.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.Tb_member_Inline" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_Monitor_log" Width="1.5" PointX="8.75" PointY="5.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_NEvent" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_NEvent_CG" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_NEvent_CSAT" Width="1.5" PointX="2.75" PointY="10.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_NEvent_HTPS" Width="1.5" PointX="10.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_NEvent_JUNBS" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_NEvent_M_OLED" Width="1.5" PointX="4.75" PointY="12.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_Ntransaction" Width="1.5" PointX="12.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_SanpInline" Width="1.5" PointX="10.75" PointY="12.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_std_cost_upload" Width="1.5" PointX="12.75" PointY="11.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_temp_data_assy" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_temp_junb_csat_target" Width="1.5" PointX="14.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_temp_obe" Width="1.5" PointX="6.75" PointY="14.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_UsageAuto_MST" Width="1.5" PointX="14.75" PointY="10.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_wh_std_pack" Width="1.5" PointX="14.75" PointY="14.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.Bom_access" Width="1.5" PointX="16.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tbDailyPlan" Width="1.5" PointX="16.75" PointY="4.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.V_MaterialMaster_Biz" Width="1.5" PointX="16.75" PointY="8.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.V_REQUEST_MAT" Width="1.5" PointX="8.75" PointY="16.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.V_REQUEST_MAT_HISTORY" Width="1.5" PointX="16.75" PointY="11.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.vw_miscell_summary_email_is" Width="1.5" PointX="16.75" PointY="16.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.vw_miscell_summary_email_other" Width="1.5" PointX="0.75" PointY="17.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.vw_test" Width="1.5" PointX="10.75" PointY="17.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.vwV_RECEIPT" Width="1.5" PointX="12.75" PointY="17.75" />
+        <EntityTypeShape EntityType="MATERIAL_STOCKModel.tb_NEvent_ASSY" Width="1.5" PointX="3.375" PointY="18.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

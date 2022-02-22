@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "";
+}
+@*<link rel="stylesheet" href="~/Content/overview-custom.css">*@
+<div class="container-fluid">
+    <a class="btn btn-sm btn-primary mt-3" href="@Url.Action("Oparate_inline_assy", "InlineStock")">On Website</a>
+    <div class="row mt-3">
+        <div class="col text-center">
+            <h2><b>Please select Material Group</b></h2>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col text-center">
+            <button type="button" class="btn btn-lg btn-outline-success my-5 mx-lg-5" id="interposer">INTERPOSER (IP)</button>
+            <button type="button" class="btn btn-lg btn-outline-success my-5 mx-lg-5" id="b_frame">B-FRAME</button>
+            <button type="button" class="btn btn-lg btn-outline-success my-5 mx-lg-5" id="ffp_frame">FFP FRAME (FRAME)</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <button type="button" class="btn btn-lg btn-outline-success my-5 mx-lg-5" id="seal_glass">SEAL GLASS</button>
+            <button type="button" class="btn btn-lg btn-outline-success my-5 mx-lg-5" id="resin">RESIN</button>
+            <button type="button" class="btn btn-lg btn-outline-success my-5 mx-lg-5" id="capillary">CAPILLARY</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <button type="button" class="btn btn-lg btn-outline-success my-5 mx-lg-5" id="gold_wire">GOLD WIRES</button>
+        </div>
+    </div>
+
+</div>
+@*<div class="container-fluid">
+        <a class="btn btn-sm btn-outline-primary mt-3" href="@Url.Action("Oparate_inline_assy", "InlineStock")">On Website</a>
+        <div class="container-fluid bg-light rounded">
+            <div class="h4 font-weight-bold text-center py-3" id="select_option">Select Option</div>
+            <div class="row " id="record">
+                <div class="col-lg-4 col-sm-6 my-lg-5" id="interposer">
+                    <div class="box bg-white shadow border">
+                        <div class="d-flex align-items-center">
+                            <div class=" text-center d-flex align-items-center justify-content-center"></div>
+                            <div class="d-flex flex-column">
+                                <b>INTERPOSER (IP)</b>
+                                <p class="text-muted">MATERIALS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 my-lg-0 my-lg-5" id="b_frame">
+                    <div class="box bg-white shadow border">
+                        <div class="d-flex align-items-center">
+                            <div class=" d-flex align-items-center justify-content-center"></div>
+                            <div class="d-flex flex-column">
+                                <b>B-FRAME</b>
+                                <p class="text-muted">MATERIALS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 my-lg-5" id="ffp_frame">
+                    <div class="box bg-white shadow border">
+                        <div class="d-flex align-items-center">
+                            <div class=" d-flex align-items-center justify-content-center"></div>
+                            <div class="d-flex flex-column">
+                                <b>FFP FRAME (FRAME)</b>
+                                <p class="text-muted">MATERIALS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-sm-6 my-lg-5" id="seal_glass">
+                    <div class="box bg-white shadow border">
+                        <div class="d-flex align-items-center">
+                            <div class=" d-flex align-items-center justify-content-center"></div>
+                            <div class="d-flex flex-column">
+                                <b>SEAL GLASS</b>
+                                    <p class="text-muted">MATERIALS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 my-lg-5">
+                    <div class="box bg-white shadow border" id="resin">
+                        <div class="d-flex align-items-center">
+                            <div class=" d-flex align-items-center justify-content-center"></div>
+                            <div class="d-flex flex-column">
+                                <b>RESIN</b>
+                                <p class="text-muted">MATERIALS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 my-lg-5" id="capillary">
+                    <div class="box bg-white shadow border">
+                        <div class="d-flex align-items-center">
+                            <div class=" d-flex align-items-center justify-content-center"></div>
+                            <div class="d-flex flex-column">
+                                <b>CAPILLARY</b>
+                                <p class="text-muted">MATERIALS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-sm-6 my-lg-5" id="gold_wire">
+                    <div class="box bg-white shadow border">
+                        <div class="d-flex align-items-center">
+                            <div class=" d-flex align-items-center justify-content-center"></div>
+                            <div class="d-flex flex-column">
+                                <b>GOLD WIRE</b>
+                                <p class="text-muted">MATERIALS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#back").click(function () {
+           window.location.href = "@Url.Action("Oparate_inline_assy_tablet", "InlineStock")";
+        });
+
+        $("#interposer").click(function () {
+            window.location.href = "@Url.Action("record_assy_interposer", "SpRecord")";
+        });
+
+        $("#resin").click(function () {
+            window.location.href = "@Url.Action("record_assy_resin", "SpRecord")";
+        });
+
+        $("#b_frame").click(function () {
+            window.location.href = "@Url.Action("record_assy_b_frame", "SpRecord")";
+        });
+
+        $("#ffp_frame").click(function () {
+            swal({
+                title: "Process by auto system!",
+                text: "Auto issue and usage by system!",
+                icon: "success",
+                button: "OK!",
+            });
+        });
+
+        $("#seal_glass").click(function () {
+            window.location.href = "@Url.Action("record_assy_seal_glass", "SpRecord")";
+        });
+
+        $("#capillary").click(function () {
+            window.location.href = "@Url.Action("record_assy_capillary", "SpRecord")";
+        });
+
+        $("#gold_wire").click(function () {
+            window.location.href = "@Url.Action("record_assy_gold_wire", "SpRecord")";
+        });
+    });
+</script>

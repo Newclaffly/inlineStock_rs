@@ -1,0 +1,240 @@
+﻿
+@{
+    ViewBag.Title = "managements_adjust_actual_csat";
+}
+@if (Session["GOALBAL_ID"] != null)
+{
+    <style>
+        .table th, td {
+            color: black;
+        }
+
+        table.center-all td, th {
+            text-align: center;
+        }
+
+        .custom-from-control {
+            height: calc(0.5em + .75rem + 1px);
+            font-size: 0.8rem;
+        }
+
+        td.highlight_7218 {
+            background-color: #0094ff;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+    <input type="hidden" value="@Session["GOALBAL_ID"].ToString()" id="temp_user" />
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mt-3">
+        <h5 class="mr-2"> Fucntion Adjust data End of Month (CG)</h5>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered mb-0" id="inline_cg_adjust">
+            <thead>
+                <tr>
+                    <th scope="col" style="background-color:royalblue;color:white;">MATERIAL GROUP</th>
+                    <th scope="col" style="background-color:royalblue;color:white;">MATERIAL CODE</th>
+                    <th scope="col" style="background-color:royalblue;color:white;">ITEM NUMBER</th>
+                    <th scope="col" style="background-color:royalblue;color:white;">MATERIAL NAME</th>
+                    <th scope="col" style="background-color:royalblue;color:white;">COST CENTER</th>
+                    <th scope="col" style="background-color:royalblue;color:white;">REMAIN INLINE</th>
+                    <th scope="col" style="background-color:royalblue;color:white;">UNIT</th>
+                    <th scope="col" style="background-color:royalblue;color:white;">TOOLS</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+          function commaSeparateNumber(val){
+                while (/(\d+)(\d{3})/.test(val.toString())){
+                    val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+                }
+                return val;
+            }
+        var temp_user = $('#temp_user').val();
+        $(document).ready(function () {
+            Create_table_show_cg();
+            var table = $('#inline_cg_adjust').DataTable();
+
+            function Create_table_show_cg() {
+                $('#inline_cg_adjust').DataTable({
+                    "destroy": true,
+                    "searching": false,
+                    "lengthChange": false,
+                    "paging": false,
+                    "bInfo": false,
+                    "stateSave": false,
+                    "scrollY": '70vh',
+                    "scrollCollapse": true,
+                    "lengthChange": false,
+                    "responsive": true,
+                    "ajax": {
+                        "type": "POST",
+                        "url": "/Material/InlineStock/Managements/ajax_get_managements_adjust_actual_cg",
+                        //"url": "/InlineStock/ajax_get_managements_adjust_actual_cg",
+                        "datatype": "json"
+                    },
+
+                    createdRow: function (node, data) {
+                        if (data.hasOwnProperty('ISSUE_WH')) {
+                            if (data.COST_CENTER == '7218') {
+                                $('td', node).eq(4).addClass('highlight_7218');
+                            }
+                        }
+                    },
+                    order: [[0, "desc", 2, "desc"]],
+                    columnDefs: [
+                        {
+                            targets: [0, 1, 2, 4, 5, 6, 7], className: 'text-center'
+                        },
+                        {
+                            targets: [5], render: $.fn.dataTable.render.number(',')
+                        },
+                    ],
+                    "columns": [
+                        { data: "MATGROUP", "name": "MATGROUP", "autoWidth": true },
+                        { data: "MATCODE", "name": "MATCODE", "autoWidth": true },
+                        { data: "ITEM_NUMBER", "name": "ITEM_NUMBER", "autoWidth": true },
+                        { data: "MATNAME", "name": "MATNAME", "autoWidth": true },
+                        { data: "COST_CENTER", "name": "COST_CENTER", "autoWidth": true },
+                        { data: "REMAIN_INLINE", "name": "REMAIN_INLINE", "autoWidth": true },
+                        { data: "UNIT", "name": "UNIT", "autoWidth": true },
+                        {
+                            "render": function (data, type, Me, meta) {
+                                return '<button  type="button" class="btn btn-sm-custom btn-sm btn-outline-danger edit_adjust_cg" aria-hidden="true" " data-toggle="modal" data-target="#myModal_adjust_cg" ' +
+                                    'data-biz ="' + Me.BIZ_NAME + '" data-process = "' + Me.PROCESS + '" data-matcode ="' + Me.MATCODE + '" data-partcode="' + Me.ITEM_NUMBER + '" data-matname = "' + Me.MATNAME + '" ' +
+                                    'data-matgroup ="' + Me.MATGROUP + '" data-cc ="' + Me.COST_CENTER + '" data-fmat ="' + Me.FLAG_MAT + '" data-stockwh = "' + Me.STOCK_WH + '" data-issue ="' + Me.ISSUE_WH + '"data-issue_target ="' + Me.ISSUE_TARGET + '"   data-balance ="' + Me.ISSUE_BALANCE + '" data-usage ="' + Me.USAGE + '" ' +
+                                    'data-engrq ="' + Me.ENG_REQUEST + '" data-remain ="' + Me.REMAIN_INLINE + '" data-upby = "' + Me.UPDATE_BY + '" data-unit="' + Me.UNIT + '"  data-purpose = "' + Me.PURPOSE_DETAIL + '">ADJUST</button >';
+                            }
+                        },
+                    ], // end columns
+                });
+            }//end function ajax shows
+
+            // Edit Modal
+            $(document).on("click", ".edit_adjust_cg", function () {
+                // Declare Variable for Edit data
+                var get_partcode = $(this).data('partcode');
+                var get_matname = $(this).data('matname');
+                var get_cc = $(this).data('cc');
+                var get_remain = $(this).data('remain');
+                var get_matcode = $(this).data('matcode');
+                var get_unit = $(this).data('unit');
+                var get_fmat = $(this).data('fmat');
+                // Get Jquery for Edit data
+                $(".modal-body #matname").val(get_matname);
+                $(".modal-body #cc").val(get_cc);
+                $(".modal-body #remain_inline").val(commaSeparateNumber(get_remain));
+                $(".modal-body #unit").html(get_unit);
+                // Hidden Value
+                $(".modal-body #matcode").val(get_matcode);
+                $(".modal-body #partcode").val(get_partcode);
+                $(".modal-body #fmat").val(get_fmat);
+
+                $('#remain_inline').keyup(function (event) {
+                    // skip for arrow keys
+                    if (event.which >= 37 && event.which <= 40) return;
+                    // format number
+                    $(this).val(function (index, value) {
+                        return value
+                            .replace(/\D/g, "")
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                            ;
+                    });
+                });
+            });//END data into modal
+
+
+            $('#save_adjust_cg').click(function () {
+                var cleanNumber_remain_inlne = $("#remain_inline").val().split(",").join("");
+                var edit_value = {
+                    "MATCODE": $("#matcode").val(),
+                    "ITEM_NUMBER": $("#partcode").val(),
+                    "COST_CENTER": $("#cc").val(),
+                    "REMAIN_INLINE": cleanNumber_remain_inlne,
+                    "FLAG_MAT": $("#fmat").val(),
+                    "UPDATE_BY": temp_user,
+                }
+                console.log(edit_value);
+                $.ajax({
+                    type: "POST",
+                    url: "/Material/InlineStock/Managements/update_adjust_end_month_cg",
+                    //url: "/Managements/update_adjust_end_month_cg",
+                    data: { edit_value: edit_value },
+                    datatype: "json",
+                    success: function (data) {
+                        setInterval(function () {
+                            scrollPos = $(".dataTables_scrollBody").scrollTop();
+                            table.ajax.reload(function () {
+                                $(".dataTables_scrollBody").scrollTop(scrollPos);
+                            }, false);
+                        }, 1000);
+                        $('#myModal_adjust_cg').modal('hide');
+                        swal({
+                            title: "Record success!",
+                            text: "You record of the information success!",
+                            icon: "success",
+                            button: "OK!",
+                        });
+                    },
+                    error: function (request, status, error) {
+                        //$('#usage').attr('required', true);
+                        $('#myModal_adjust_cg').modal('hide');
+                        //$('#usage').val("");
+                        swal({
+                            title: "Fail Record!",
+                            text: "Please check the correct of the information.!",
+                            icon: "error",
+                            button: "OK",
+                        });
+                    }
+                })
+            });
+
+
+        }); // end document
+    </script>
+    <div class="modal fade" id="myModal_adjust_cg" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Windows Input Adjust (CG)</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>MATERIAL NAME</label>
+                    <input type="text" class="form-control" id="matname" readonly />
+                    <label>COST CENTER</label>
+                    <input type="text" class="form-control" id="cc" readonly />
+                    <label>REMAIN INLINE</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="remain_inline" />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="unit"></span>
+                        </div>
+                    </div>
+
+                    @* Hidden Value*@
+                    <input type="hidden" class="form-control" id="matcode" />
+                    <input type="hidden" class="form-control" id="partcode" />
+                    <input type="hidden" class="form-control" id="fmat" />
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save_adjust_cg">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}

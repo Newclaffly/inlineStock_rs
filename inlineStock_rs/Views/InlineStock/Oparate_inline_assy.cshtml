@@ -1,0 +1,351 @@
+﻿
+@{
+    ViewBag.Title = "";
+}
+@if (Session["GOALBAL_ID"] != null)
+{
+
+    <style>
+        .table th, td {
+            color: black;
+        }
+
+        .modal-body label {
+            color: black;
+        }
+
+        td.highlight_max_issue_target {
+            background-color: red;
+            font-weight: bold;
+            color: white;
+        }
+
+        td.highlight_7217 {
+            background-color: blue;
+            font-weight: bold;
+            color: white;
+        }
+
+        td.highlight_7210 {
+            background-color: deeppink;
+            font-weight: bold;
+            color: white;
+        }
+
+        td.highlight_7125 {
+            background-color: blueviolet;
+            font-weight: bold;
+            color: white;
+        }
+
+        td.highlight_7123 {
+            background-color: lightcoral;
+            font-weight: bold;
+            color: white;
+        }
+
+        td.highlight_7120 {
+            background-color: grey;
+            font-weight: bold;
+            color: white;
+        }
+    </style>
+    <input type="hidden" value="@Session["GOALBAL_ID"].ToString()" id="temp_user" />
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mt-3">
+        <h5> Records usage (ASSY)</h5>
+        @*<a type="button" class="btn btn-sm btn-warning" href="@Url.Action("Oparate_inline_assy_view", "InlineStock")">Back to View</a>*@
+    </div>
+    <div class="table-responsive mt-4">
+        <table class="table table-hover table-bordered table-hover" id="table_assy">
+            <thead>
+                <tr>
+                    <th scope="col" style="background-color:royalblue; color:white;">BIZ</th>
+                    @*<th scope="col" style="background-color:royalblue; color:white;">PROCESS</th>*@
+                    <th scope="col" style="background-color:royalblue; color:white;">PART CODE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">MATERIAL NAME</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">MATERIAL GROUP</th>
+                    @*<th scope="col" style="background-color:royalblue; color:white;">COST CENTER</th>*@
+                    <th scope="col" style="background-color:royalblue; color:white;">STOCK W/H</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">ISSUE W/H</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">ISSUE TARGET</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">REMAIN INLINE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">UNIT</th>
+                    @*<th scope="col" style="background-color:royalblue; color:white;">TOOLS</th>*@
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        var temp_user = $('#temp_user').val();
+            $(document).ready(function () {
+                $("#divError").html("").removeClass("error-msg");
+                Create_table_show_csat();
+                var table = $('#table_assy').DataTable();
+
+                function Create_table_show_csat() {
+                    $('#table_assy').DataTable({
+                        "destroy": true,
+                        "searching": true,
+                        "lengthChange": false,
+                        "paging": false,
+                        "bInfo": false,
+                        "stateSave": false,
+                        "scrollY": '65vh',
+                        "scrollCollapse": true,
+                        "lengthChange": false,
+                        "ajax": {
+                            "type": "POST",
+                            "url": "/Material/InlineStock/InlineStock/ajax_show_assy",
+                            //"url": "/InlineStock/ajax_show_assy",
+                            "datatype": "json"
+                        },
+                        createdRow: function (node, data) {
+                            if (data.hasOwnProperty('ISSUE_WH')) {
+                                if (data.ISSUE_WH > data.ISSUE_TARGET) {
+                                    $('td', node).eq(5).addClass('highlight_max_issue_target');
+                                    $('td', node).eq(6).addClass('highlight_max_issue_target');
+                                }
+                                //if (data.COST_CENTER == '7217') {
+                                //    $('td', node).eq(5).addClass('highlight_7217');
+                                //}
+                                //if (data.COST_CENTER == '7210') {
+                                //    $('td', node).eq(5).addClass('highlight_7210');
+                                //}
+                                //if (data.COST_CENTER == '7125') {
+                                //    $('td', node).eq(5).addClass('highlight_7125');
+                                //}
+                                //if (data.COST_CENTER == '7123') {
+                                //    $('td', node).eq(5).addClass('highlight_7123');
+                                //}
+                                //if (data.COST_CENTER == '7120') {
+                                //    $('td', node).eq(5).addClass('highlight_7120');
+                                //}
+                            }
+                        },
+                        order: [[ 3, "desc" ]],
+                        columnDefs: [
+                             { targets: [0,1,2,3,4,5,6,7,8], className: 'text-center' },
+                        ],
+                        "columns": [
+                                  { data: "BIZ_NAME", "name": "BIZ_NAME", "autoWidth": true },
+                                  //{ data: "PROCESS", "name": "PROCESS", "autoWidth": true },
+                                  { data: "ITEM_NUMBER", "name": "ITEM_NUMBER", "autoWidth": true },
+                                  { data: "MATNAME", "name": "MATNAME", "autoWidth": true },
+                                  { data: "MATGROUP", "name": "MATGROUP", "autoWidth": true },
+                                  //{ data: "COST_CENTER", "name": "COST_CENTER", "autoWidth": true },
+                                  { data: "STOCK_WH", "name": "STOCK_WH", "autoWidth": true },
+                                  { data: "ISSUE_WH", "name": "ISSUE_WH", "autoWidth": true },
+                                  { data: "ISSUE_TARGET", "name": "ISSUE_TARGET", "autoWidth": true },
+                                  { data: "REMAIN_INLINE", "name": "REMAIN_INLINE", "autoWidth": true },
+                                  { data: "UNIT", "name": "UNIT", "autoWidth": true },
+                                    //{
+                                    //    "render": function (data, type, Me, meta) {
+                                    //        return '<button  type="button" class="btn btn-sm btn-outline-success edit_assy " aria-hidden="true" " data-toggle="modal" data-target="#myModal_assy" ' +
+                                    //        'data-biz ="' + Me.BIZ_NAME + '" data-process = "' + Me.PROCESS + '" data-matcode ="' + Me.MATCODE + '" data-partcode="' + Me.ITEM_NUMBER + '" data-matname = "' + Me.MATNAME + '" ' +
+                                    //        'data-matgroup ="' + Me.MATGROUP + '" data-cc ="'+ Me.COST_CENTER+ '"   data-fmat ="' + Me.FLAG_MAT + '" data-stockwh = "' + Me.STOCK_WH + '" data-issue ="' + Me.ISSUE_WH + '"data-issue_target ="' + Me.ISSUE_TARGET + '"   data-balance ="' + Me.ISSUE_BALANCE + '" data-usage ="' + Me.USAGE + '" ' +
+                                    //        'data-engrq ="' + Me.ENG_REQUEST + '" data-remain ="' + Me.REMAIN_INLINE + '" data-upby = "' + Me.UPDATE_BY + '" data-unit="'+Me.UNIT+'"  data-purpose = "' + Me.PURPOSE_DETAIL + '">RECORD</button >';
+                                    //    }
+                                    //},
+                        ], // end columns
+                    });
+                }
+
+                // Edit Modal
+                $(document).on("click", ".edit_assy", function () {
+                    // Declare Variable for Edit data
+                    var get_biz = $(this).data('biz');
+                    var get_partcode = $(this).data('partcode');
+                    var get_matname = $(this).data('matname');
+                    var get_matgroup = $(this).data('matgroup');
+                    var get_cc = $(this).data('cc');
+                    var get_stockwh = $(this).data('stockwh');
+                    var get_issue = $(this).data('issue');
+                    var get_balance = $(this).data('balance');
+                    var get_usage = $(this).data('usage');
+                    var get_engrq = $(this).data('engrq');
+                    var get_remain = $(this).data('remain');
+                    var date_format = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+                    var get_upby = temp_user;
+                    var get_purpose = $(this).data('purpose');
+                    // Hidden Value
+                    var get_process = $(this).data('process');
+                    var get_matcode = $(this).data('matcode');
+                    var get_fmat = $(this).data('fmat');
+                    var get_unit = $(this).data('unit');
+                    var temp_usage = $('#usage').val();
+                    var temp_remain = get_remain;
+
+                    // Get Jquery for Edit data
+                    $(".modal-body #biz").val(get_biz);
+                    $(".modal-body #partcode").val(get_partcode);
+                    $(".modal-body #matname").val(get_matname);
+                    $(".modal-body #matgroup").val(get_matgroup);
+                    $(".modal-body #cost_center").val(get_cc);
+                    $(".modal-body #stockwh").val(get_stockwh);
+                    $(".modal-body #issue").val(get_issue);
+                    $(".modal-body #balance").val(get_balance);
+                    $(".modal-body #usage").val(temp_usage);
+                    $(".modal-body #engrq").val(get_engrq);
+                    $(".modal-body #remain").val(get_remain);
+                    $(".modal-body #updd").val(date_format);
+                    $(".modal-body #upby").val(get_upby);
+                    $(".modal-body #unit").html(get_unit);
+                    //$(".modal-body #purpose").val(get_purpose);
+                    // Hidden Value
+                    $(".modal-body #process").val(get_process);
+                    $(".modal-body #fmat").val(get_fmat);
+                    $(".modal-body #matcode").val(get_matcode);
+
+                    $("#usage").keyup(function(){
+                        var compare_reamin = temp_remain;
+                        var compare_usage = $('#usage').val();
+                        if(compare_usage <= compare_reamin && compare_usage != 0 && compare_usage != '' && compare_usage != null){
+                            $("#save_data_junb_csat").prop('disabled', false);
+                            $("#usage").css("background-color", "white");
+                            $("#divError").html("").removeClass("error-msg");
+                        }else if(compare_usage > compare_reamin){
+                            $("#save_data_junb_csat").prop('disabled', true);
+                            $("#usage").css("background-color", "pink");
+                            $("#divError").html("Your input Quantity (usage) exceed remain").addClass("error-msg").css('color', 'red'); // chained methods
+                        }else{
+                            $("#save_data_junb_csat").prop('disabled', true);
+                            $("#usage").css("background-color", "pink");
+                            $("#divError").html("Please check value quantity (usage)").addClass("error-msg").css('color', 'red'); // chained methods
+                        }
+                    });
+                });
+
+                $('#save_data_assy').click(function () {
+                    var edit_value = {
+                        "BIZ_NAME": $("#biz").val(),
+                        "BIZ_PROCESS": $("#process").val(),
+                        "MATCODE": $("#matcode").val(),
+                        "ITEM_NUMBER": $("#partcode").val(),
+                        "MATNAME": $("#matname").val(),
+                        "MATGROUP": $("#matgroup").val(),
+                        "COST_CENTER": $("#cost_center").val(),
+                        "FLAG_MAT": $("#fmat").val(),
+                        "STOCK_WH": $("#stockwh").val(),
+                        "ISSUE_WH": $("#issue").val(),
+                        "USAGE": $('#usage').val(),
+                        "ENG_REQUEST": $("#engrq").val(),
+                        "REMAIN_INLINE": $("#remain").val(),
+                        "UPDATE_DATE": $("#updd").val(),
+                        "UPDATE_BY": $("#upby").val(),
+                        "PURPOSE_DETAIL": $('#purpose').find(":selected").val()
+                    }
+                    console.log(edit_value);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Material/InlineStock/InlineStock/update_usage_assy",
+                        //url: "/InlineStock/update_usage_assy",
+                        data: { edit_value: edit_value },
+                        datatype: "json",
+                        success: function (data) {
+                            setInterval( function () {
+                                scrollPos = $(".dataTables_scrollBody").scrollTop();
+                                table.ajax.reload(function() {
+                                    $(".dataTables_scrollBody").scrollTop(scrollPos);
+                                },false);
+                            }, 10000 );
+                            $('#myModal_assy').modal('hide');
+                            swal({
+                                title: "Record success!",
+                                text: "You record of the information success!",
+                                icon: "success",
+                                button: "OK!",
+                            });
+                        },
+                        error: function (request, status, error) {
+                            $('#usage').attr('required', true);
+                            $('#myModal_assy').modal('hide');
+                            $('#usage').val("");
+                            swal({
+                                title: "Fail Record!",
+                                text: "Please check the correct of the information.!",
+                                icon: "error",
+                                button: "OK",
+                            });
+                        }
+                    })
+                });
+
+                $("#myModal_assy").on('shown.bs.modal', function(){
+                    $(this).find('#usage').focus();
+                    $('#usage').val("");
+                });
+
+            }); @*End Document ready*@
+    </script>
+
+    <div class="modal fade" id="myModal_assy" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Windows Input</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>MATERIAL NAME</label>
+                    <input type="text" class="form-control" id="matname" readonly />
+                    <label>STOCK W/H</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="stockwh" readonly />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="unit"></span>
+                        </div>
+                    </div>
+                    <label>ISSUE W/H</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="issue" readonly />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="unit"></span>
+                        </div>
+                    </div>
+                    <label>COST CENTER</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="cost_center" readonly />
+                    </div>
+                    <label>Quantity (Usage)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="usage" required />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="unit"></span>
+                        </div>
+                    </div>
+                    <div id="divError"></div>
+                    <label>PURPOSE</label>
+                    <select class="custom-select" id="purpose">
+                        <option value="USAGE" selected>USAGE</option>
+                        <option value="REQUEST">ENG REQUEST</option>
+                    </select>
+
+                    @* Hidden Value*@
+                    <input type="hidden" class="form-control" id="matcode" />
+                    <input type="hidden" class="form-control" id="biz" />
+                    <input type="hidden" class="form-control" id="process" />
+                    <input type="hidden" class="form-control" id="matcode" />
+                    <input type="hidden" class="form-control" id="partcode" />
+                    <input type="hidden" class="form-control" id="matgroup" />
+                    <input type="hidden" class="form-control" id="fmat" />
+                    <input type="hidden" class="form-control" id="updd" />
+                    <input type="hidden" class="form-control" id="remain" />
+                    <input type="hidden" class="form-control" id="upby" />
+                    <input type="hidden" class="form-control" id="issue" />
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save_data_assy">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}

@@ -1,0 +1,235 @@
+﻿
+@using System.Data
+
+@model DataTable
+@{
+    ViewBag.Title = "material_pre_pareration_view";
+}
+@{
+    // by type material name
+    DataTable tbl = new DataTable();
+    tbl = ViewData["PivotDataTable_type"] as DataTable;
+
+    List<String> columns = new List<String>();
+
+    for (int c = 0; c < tbl.Columns.Count; c++)
+    {
+        string colname = tbl.Columns[c].Caption.ToString();
+
+        if (colname.Contains("_"))
+        {
+            columns.Add(colname.Substring(0, colname.IndexOf("_")));
+        }
+        else
+        {
+            columns.Add(colname);
+        }
+    }
+    List<String> cols = new List<String>();
+    cols = columns.Distinct().ToList();
+
+    // by material name
+    DataTable tb2 = new DataTable();
+    tb2 = ViewData["PivotDataTable_materialname_all"] as DataTable;
+
+    List<String> columns_tb2 = new List<String>();
+
+    for (int c = 0; c < tb2.Columns.Count; c++)
+    {
+        string colname = tb2.Columns[c].Caption.ToString();
+
+        if (colname.Contains("_"))
+        {
+            columns_tb2.Add(colname.Substring(0, colname.IndexOf("_")));
+        }
+        else
+        {
+            columns_tb2.Add(colname);
+        }
+    }
+    List<String> cols_tb2 = new List<String>();
+    cols_tb2 = columns_tb2.Distinct().ToList();
+}
+
+<div class="container-fluid">
+    <style>
+
+        .top {
+            z-index: 5000 !important
+        }
+
+        td:nth-child(1),
+        td:nth-child(2),
+        td:nth-child(3),
+        td:nth-child(4),
+        td:nth-child(5),
+        td:nth-child(6),
+        td:nth-child(7),
+        td:nth-child(8),
+        td:nth-child(9) {
+            z-index: 5000 !important;
+            /*text-align: left;*/
+            background-color: ghostwhite;
+            font-weight: bold;
+            color: black;
+            font-size: 11px;
+        }
+
+        .sticky-col0 {
+            position: sticky;
+        }
+
+        .sticky-col1 {
+            position: sticky;
+        }
+
+        .sticky-col2 {
+            position: sticky;
+        }
+
+        .sticky-col3 {
+            position: sticky;
+        }
+
+        .sticky-col4 {
+            position: sticky;
+        }
+
+    </style>
+    <div class="container-fluid mt-4">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                @*<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Mapping by Type</a>*@
+                <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Mapping by Material name</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            @*<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-1">
+                        <h4> Usage plan (Mapping By Type)</h4>
+                        <button class="btn btn-success mb-2">
+                            <i class="ms-Icon ms-Icon--ExcelLogo"></i>
+                        </button>
+                    </div>
+                    <div class="tableUsage">
+                        <table class="table table-bordered mb-0" id="type">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col0 top">Biz</th>
+                                    <th>Process</th>
+                                    <th>M/C Name</th>
+                                    <th>Item Name</th>
+                                    <th>Category</th>
+                                    <th>Material Code</th>
+                                    <th>Material Name</th>
+                                    <th>Material Group</th>
+                                    <th>Stock W/H</th>
+                                    <th>Remain inline</th>
+                                    <th>Safety</th>
+                                    @for (int i = 9; i < cols.Count; i++)
+                                    {
+                                        <th>@cols[i]</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (System.Data.DataRow row in tbl.Rows)
+                                {
+                                    <tr>
+                                        @foreach (var cell in row.ItemArray)
+                                        {
+                                            if (String.IsNullOrEmpty(cell.ToString()))
+                                            {
+                                                <td>-</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@cell</td>
+
+                                            }
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>*@
+            <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-1">
+                    <h4> Usage plan (Mapping By Material Name)</h4>
+                    <button class="btn btn-success mb-2 ms-Icon">
+                        <i class="ms-Icon ms-Icon--ExcelLogo"></i>
+                    </button>
+                </div>
+                <table class="table table-bordered mb-0" style="width:100%" id="tables">
+                    @*<table class="stripe row-border order-column" style="width:100%" id="tables">*@
+
+                    <thead>
+                        <tr>
+                            <th class="top ">Biz</th>
+                            <th class="top">Process</th>
+                            <th class="top">Category</th>
+                            <th class="top">Material Code</th>
+                            <th class="top">Material Name</th>
+                            <th class="top">Material Group</th>
+                            <th class="top">Stock W/H</th>
+                            <th class="top">Remain inline</th>
+                            <th class="top">Safety</th>
+                            @*<th class="top">Process</th>
+                                <th class="top">Category</th>
+                                <th class="top">Material Code</th>
+                                <th class="top">Material Name</th>
+                                <th class="top">Material Group</th>
+                                <th class="top">Stock W/H</th>
+                                <th class="top">Remain inline</th>
+                                <th class="top">Safety</th>*@
+                            @for (int i = 7; i < cols_tb2.Count; i++)
+                            {
+                                <th>@cols_tb2[i]</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (System.Data.DataRow row in tb2.Rows)
+                        {
+                            <tr>
+                                @foreach (var cell in row.ItemArray)
+                                {
+
+                                    if (String.IsNullOrEmpty(cell.ToString()))
+                                    {
+                                        <td>-</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@cell</td>
+
+                                    }
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Scripts/DataTables/js/dataTables.fixedColumns.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#tables').DataTable({
+            scrollY: "50vh",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: false,
+            fixedColumns: {
+                left: 9
+                //    right: 1
+            }
+        });
+
+
+    });
+</script>

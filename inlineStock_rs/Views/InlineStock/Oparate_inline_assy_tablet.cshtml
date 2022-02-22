@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "";
+}
+
+<div class="container-fluid">
+    <a class="btn btn-sm btn-outline-primary mt-3" href="@Url.Action("Oparate_inline_assy", "InlineStock")">On Website</a>
+
+    <div class="row mt-3">
+        <div class="col text-center">
+            <button type="button" class="btn btn-lg btn-outline-dark my-3 mx-3" id="topic_record">Usage Inline (เบิกของ)</button>
+            <button type="button" class="btn btn-lg btn-outline-dark my-3 mx-3" id="topic_record">Usage Inline (เบิกของ)</button>
+            <button type="button" class="btn btn-lg btn-outline-dark my-3 mx-3" id="topic_record">Usage Inline (เบิกของ)</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <button type="button" class="btn btn-lg btn-outline-dark my-3 mx-3" id="topic_record">Usage Inline (เบิกของ)</button>
+            <button type="button" class="btn btn-lg btn-outline-dark my-3 mx-3" id="topic_record">Usage Inline (เบิกของ)</button>
+            <button type="button" class="btn btn-lg btn-outline-dark my-3 mx-3" id="topic_record">Usage Inline (เบิกของ)</button>
+        </div>
+    </div>
+</div>
+
+<!--<div class="container-fluid">
+    <a class="btn btn-sm btn-outline-primary mt-3" href="@Url.Action("Oparate_inline_assy", "InlineStock")">On Website</a>
+    <div class="col-lg-6 col-sm-6 my-lg-0 my-3" style="margin:0 auto;" >
+        <div class="d-flex align-items-center">
+            <div class="text-center d-flex align-items-center justify-content-center"></div>
+            <button type="button" class="btn btn-lg btn-primary" id="topic_record">Usage Inline (เบิกของ)</button>
+        </div>
+    </div>-->
+    <!--<div class="container bg-light rounded">
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 my-lg-0 my-3" style="margin:0 auto;" id="topic_record">
+            <div class="box bg-white shadow border">
+                <div class="d-flex align-items-center">
+                    <div class="text-center d-flex align-items-center justify-content-center"></div>
+                    <div class="d-flex flex-column">
+                        <b>Usage Inline (เบิกของ)</b>
+                        <p class="text-muted">MATERIALS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!-- END ROW-->
+    <!--</div>-->
+
+<!--</div>-->
+
+<script>
+    $(document).ready(function () {
+        $("#topic_record").click(function () {
+            window.location.href = "@Url.Action("Oparate_inline_assy_menu_tablet", "InlineStock")";
+        });
+
+    });
+</script>

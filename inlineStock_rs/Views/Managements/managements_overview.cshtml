@@ -1,0 +1,163 @@
+﻿<link rel="stylesheet" href="~/Content/overview-custom.css">
+
+<div class="container bg-light rounded">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center text-center ">
+        <div class="h5 font-weight-bold text-center py-3">MANAMENT SYSTEM</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 my-lg-0 my-3">
+            <div class="box bg-white shadow border" id="box_aurten">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>Authentication</b> <a>
+                            <p class="text-muted">Management</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 my-lg-0 my-3">
+            <div class="box bg-white shadow border" id="box_upload_target">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>Upload data</b> <a href="#">
+                            <p class="text-muted">Management</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 my-lg-0 my-3">
+            <div class="box bg-white shadow border" id="box_cfactor">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>Controls Factor</b> <a href="#">
+                            <p class="text-muted">Management</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center  text-center mt-3 ">
+        <div class="h5 font-weight-bold text-center py-3">ADJUST END OF MONTH (IS)</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 my-lg-0 my-3">
+            <div class="box bg-white shadow border" id="box_adjust_dicing">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>PROCESS : DICING</b> <a>
+                            <p class="text-muted">MATERIALS</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 my-lg-0 my-3">
+            <div class="box bg-white shadow border" id="box_adjust_cg">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>PROCESS : CG</b> <a>
+                            <p class="text-muted">MATERIALS</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 my-lg-0 my-3">
+            <div class="box bg-white shadow border" id="box_adjust_assy">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>PROCESS : ASSY</b> <a href="#">
+                            <p class="text-muted">MATERIALS</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 my-lg-3 my-3">
+            <div class="box bg-white shadow border" id="box_adjust_junb">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>PROCESS : JUNB</b> <a href="#">
+                            <p class="text-muted">MATERIALS</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 my-lg-3 my-3">
+            <div class="box bg-white shadow border" id="box_adjust_csat">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>PROCESS : CSAT</b> <a href="#">
+                            <p class="text-muted">MATERIALS</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center  text-center mt-3 ">
+        <div class="h5 font-weight-bold text-center py-3">ADJUST END OF MONTH (DD)</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 my-lg-3 my-3">
+            <div class="box bg-white shadow border" id="box_adjust_htps">
+                <div class="d-flex align-items-center">
+                    <div class=" d-flex align-items-center justify-content-center"></div>
+                    <div class="d-flex flex-column">
+                        <b>HTPS</b> <a href="#">
+                            <p class="text-muted">MATERIALS</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 my-lg-3 my-3">
+            <div class="box bg-white shadow border" id="box_adjust_moled">
+                <div class="d-flex align-items-center">
+                    <div class=" d-flex align-items-center justify-content-center"></div>
+                    <div class="d-flex flex-column">
+                        <b>M-OLED</b> <a href="#">
+                                          <p class="text-muted">MATERIALS</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#box_adjust_dicing").click(function () {
+            window.location.href = "@Url.Action("managements_adjust_actual_dicing", "Managements")";
+        });
+        $("#box_adjust_cg").click(function () {
+            window.location.href = "@Url.Action("managements_adjust_actual_cg", "Managements")";
+        });
+        $("#box_adjust_assy").click(function () {
+            window.location.href = "@Url.Action("managements_adjust_actual_assy", "Managements")";
+        });
+        $("#box_adjust_junb").click(function () {
+            window.location.href = "@Url.Action("managements_adjust_actual_junb", "Managements")";
+        });
+        $("#box_adjust_csat").click(function () {
+            window.location.href = "@Url.Action("managements_adjust_actual_csat", "Managements")";
+        });
+         $("#box_adjust_moled").click(function () {
+            window.location.href = "@Url.Action("managements_adjust_actual_moled", "Managements")";
+         });
+         $("#box_adjust_htps").click(function () {
+            window.location.href = "@Url.Action("managements_adjust_actual_htps", "Managements")";
+        });
+        $("#box_upload_target").click(function () {
+            window.location.href = "@Url.Action("Upload_excel_taget_junb_csat", "Managements")"; 
+        });
+        $("#box_cfactor").click(function () {
+            window.location.href = "@Url.Action("managements_control_factor", "Managements")";
+        });
+    });
+</script>

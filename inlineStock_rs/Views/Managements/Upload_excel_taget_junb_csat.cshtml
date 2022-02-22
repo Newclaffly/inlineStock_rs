@@ -1,0 +1,663 @@
+﻿@{
+    ViewBag.Title = "";
+}
+<div class="col-sm-12">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow mb-4 mt-3">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary" style="font-size:26px"><strong>UPLOAD DATA TAGET</strong></h6>
+                    <button type="button" class="btn btn-sm btn-danger" id="btn_reset_data">
+                        RESET DATA
+                    </button>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Upload_excel_target", "Managements", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="row d-flex justify-content-start align-items-center">
+                            <div class="col-sm-1 d-flex justify-content-end">
+                                <label>File:</label>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input id="file_target" type="file" name="UploadedFile_junb_csat" class="form-control-file">
+                                        <input type="hidden" id="hidden_upload_data" name="valueINeeds">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 mb-2">
+                                <button type="submit" class="btn btn-sm btn-primary" id="btn_upload_junb_csat_data">
+                                    Submit
+                                </button>
+
+                            </div>
+                        </div>
+                    }
+                    <div class="col-sm-12">
+                        Last update :
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow mb-4 mt-3">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary" style="font-size:26px"><strong>UPLOAD DATA ASSY OBE</strong></h6>
+                    <button type="button" class="btn btn-sm btn-danger" id="btn_reset_data_obe">
+                        RESET DATA
+                    </button>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Upload_excel_obe", "Managements", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="row d-flex justify-content-start align-items-center">
+                            <div class="col-sm-1 d-flex justify-content-end">
+                                <label>File:</label>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input id="file_obe" type="file" name="UploadedFile_obe" class="form-control-file">
+                                        <input type="hidden" id="hidden_upload_data" name="valueINeeds">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 mb-2">
+                                <button type="submit" class="btn btn-sm btn-primary" id="btn_upload_obe">
+                                    Submit
+                                </button>
+
+                            </div>
+                        </div>
+                    }
+                    <div class="col-sm-12">
+                        Last update :
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow mb-4 mt-3">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary" style="font-size:26px"><strong>UPLOAD STANDARD COST</strong></h6>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Upload_std_cost", "Managements", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="row d-flex justify-content-start align-items-center">
+                            <div class="col-sm-1 d-flex justify-content-end">
+                                <label>File:</label>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input id="file_std_cost" type="file" name="UploadedFile_std_cost" class="form-control-file">
+                                        <input type="hidden" id="hidden_upload_data" name="valueINeeds">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 mb-2">
+                                <button type="submit" class="btn btn-sm btn-primary" id="btn_upload_std_cost">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-sm-12">
+                        Last update :
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow mb-4 mt-3">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary" style="font-size:26px"><strong>UPLOAD MASTER ISSUE DAILY REPORTS</strong></h6>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Upload_master", "Managements", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="row d-flex justify-content-start align-items-center">
+                            <div class="col-sm-1 d-flex justify-content-end">
+                                <label>File:</label>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input id="file_master_issue" type="file" name="UploadedFile_master_issue" class="form-control-file">
+                                        <input type="hidden" id="hidden_upload_data" name="valueINeeds">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 mb-2">
+                                <button type="submit" class="btn btn-sm btn-primary" id="btn_upload_master_issue">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-sm-12">
+                        Last update :
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow mb-4 mt-3">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary" style="font-size:26px"><strong>UPLOAD INLINE ASSY</strong></h6>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Upload_excel_data_assy", "Managements", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="row d-flex justify-content-start align-items-center">
+                            <div class="col-sm-1 d-flex justify-content-end">
+                                <label>File:</label>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input id="File_data_assy" type="file" name="UploadedFile_data_assy" class="form-control-file">
+                                        <input type="hidden" id="hidden_upload_data_assy" name="valueINeeds">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 mb-2">
+                                <button type="submit" class="btn btn-sm btn-primary" id="btn_upload_data_assy">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-sm-12">
+                        Last update :
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow mb-4 mt-3">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary" style="font-size:26px"><strong>UPLOAD DATA RPT361069</strong></h6>
+                    <button type="button" class="btn btn-sm btn-danger" id="btn_reset_rpt">
+                        RESET DATA
+                    </button>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Upload_excel_RPT361069", "Managements", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="row d-flex justify-content-start align-items-center">
+                            <div class="col-sm-1 d-flex justify-content-end">
+                                <label>File:</label>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input id="file_rpt" type="file" name="UploadedFile_rpt" class="form-control-file">
+                                        <input type="hidden" id="hidden_upload_data" name="valueINeeds">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 mb-2">
+                                <button type="submit" class="btn btn-sm btn-primary" id="btn_upload_rpt">
+                                    Submit
+                                </button>
+
+                            </div>
+                        </div>
+                    }
+                    <div class="col-sm-12">
+                        Last update :
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+</div>
+
+<script>
+    var temp_gb_biz;
+
+    $(document).ready(function () {
+      
+        $("#btn_reset_data").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Material/InlineStock/Managements/clear_information_target",
+                //url: "/Managements/clear_information_target",
+                data: "",
+                datatype: "json",
+                success: function (data) {
+                    alert("Clear data");
+                },
+                error: function (request, status, error) {
+                    console.log("Error");
+
+                }
+            })
+
+        });
+
+        $("#btn_reset_data_obe").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Material/InlineStock/Managements/clear_information_obe",
+                //url: "/Managements/clear_information_obe",
+                data: "",
+                datatype: "json",
+                success: function (data) {
+                    alert("Clear data");
+                },
+                error: function (request, status, error) {
+                    console.log("Error");
+
+                }
+            })
+
+        });
+
+        function GetMessage() {
+            $.get("/Material/InlineStock/Managements/Upload_excel_taget_junb_csat", function (data) {
+                alert("Clear data success");
+            });
+        }
+      
+        $("#btn_upload_junb_csat_data").click(function () {
+            if (window.FormData !== undefined) {
+                var fileUpload = $("#file_target").get(0);
+                if ($("#file_target").get(0).files.length == 0) {
+                    alert("Please upload the file");
+                    return;
+                }
+                showLoader();
+                var files = fileUpload.files;
+                var fileData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Material/InlineStock/Managements/Upload_excel_taget_junb_csat", true);
+                //xhr.open("POST", "/Managements/Upload_excel_taget_junb_csat", true);
+
+                xhr.upload.onprogress = function (e) {
+
+                    if (e.lengthComputable) {
+                        //updating progress bar here
+                        $("#progressBardiv").attr('max', e.total);
+                        $("#progressBardiv").css('width', e.loaded);
+                    }
+                }
+                xhr.upload.onloadstart = function (e) {
+                    //updating progress bar on strt of AJAX request
+                    $("#progressBardiv").css('width', 0);
+
+                }
+                xhr.upload.onloadend = function (e) {
+                    //called on file upload is done.
+                    $("#progressBardiv").css('width', e.loaded);
+
+                }
+                //send form Data
+                xhr.send(fileData);
+                $.ajax({
+                    url: '/Material/InlineStock/Managements/Upload_excel_taget_junb_csat',
+                    //url: '/Managements/Upload_excel_taget_junb_csat',
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+
+                    data: fileData,
+                    success: function (result) {
+                        hideLoader();
+                        if (result != null)
+                            alert("Excel uploaded successfully");
+                        else
+                            alert("Something went wrong.Please contact developer");
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
+                });
+            } else {
+                alert("Error");
+            }
+            function showLoader() {
+                $('#loading').show();
+            }
+            function hideLoader() {
+                $('#loading').fadeOut();
+            }
+            hideLoader();
+        });
+
+        $("#btn_upload_obe").click(function () {
+            if (window.FormData !== undefined) {
+                var fileUpload = $("#file_obe").get(0);
+                if ($("#file_obe").get(0).files.length == 0) {
+                    alert("Please upload the file");
+                    return;
+                }
+                showLoader();
+                var files = fileUpload.files;
+                var fileData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Material/InlineStock/Managements/Upload_excel_obe", true);
+                //xhr.open("POST", "/Managements/Upload_excel_obe", true);
+
+                xhr.upload.onprogress = function (e) {
+
+                    if (e.lengthComputable) {
+                        //updating progress bar here
+                        $("#progressBardiv").attr('max', e.total);
+                        $("#progressBardiv").css('width', e.loaded);
+                    }
+                }
+                xhr.upload.onloadstart = function (e) {
+                    //updating progress bar on strt of AJAX request
+                    $("#progressBardiv").css('width', 0);
+
+                }
+                xhr.upload.onloadend = function (e) {
+                    //called on file upload is done.
+                    $("#progressBardiv").css('width', e.loaded);
+
+                }
+                //send form Data
+                xhr.send(fileData);
+                $.ajax({
+                    url: '/Material/InlineStock/Managements/Upload_excel_obe',
+                    //url: '/Managements/Upload_excel_obe',
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+
+                    data: fileData,
+                    success: function (result) {
+                        hideLoader();
+                        if (result != null)
+                            alert("Excel uploaded successfully");
+                        else
+                            alert("Something went wrong.Please contact developer");
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
+                });
+            } else {
+                alert("Error");
+            }
+            function showLoader() {
+                $('#loading').show();
+            }
+            function hideLoader() {
+                $('#loading').fadeOut();
+            }
+            hideLoader();
+        });
+
+        //$("#btn_upload_rpt").click(function () {
+        //    if (window.FormData !== undefined) {
+        //        var fileUpload = $("#file_rpt").get(0);
+        //        if ($("#file_rpt").get(0).files.length == 0) {
+        //            alert("Please upload the file");
+        //            return;
+        //        }
+        //        showLoader();
+        //        var files = fileUpload.files;
+        //        var fileData = new FormData();
+        //        for (var i = 0; i < files.length; i++) {
+        //            fileData.append(files[i].name, files[i]);
+        //        }
+        //        var xhr = new XMLHttpRequest();
+        //        xhr.open("POST", "/Material/InlineStock/Managements/Upload_excel_RPT361069", true);
+        //        //xhr.open("POST", "/Managements/Upload_excel_RPT361069", true);
+
+        //        xhr.upload.onprogress = function (e) {
+
+        //            if (e.lengthComputable) {
+        //                //updating progress bar here
+        //                $("#progressBardiv").attr('max', e.total);
+        //                $("#progressBardiv").css('width', e.loaded);
+        //            }
+        //        }
+        //        xhr.upload.onloadstart = function (e) {
+        //            //updating progress bar on strt of AJAX request
+        //            $("#progressBardiv").css('width', 0);
+
+        //        }
+        //        xhr.upload.onloadend = function (e) {
+        //            //called on file upload is done.
+        //            $("#progressBardiv").css('width', e.loaded);
+
+        //        }
+        //        //send form Data
+        //        xhr.send(fileData);
+        //        $.ajax({
+        //            url: '/Material/InlineStock/Managements/Upload_excel_RPT361069',
+        //            //url: '/Managements/Upload_excel_RPT361069',
+        //            type: "POST",
+        //            contentType: false,
+        //            processData: false,
+
+        //            data: fileData,
+        //            success: function (result) {
+        //                hideLoader();
+        //                if (result != null)
+        //                    alert("Excel uploaded successfully");
+        //                else
+        //                    alert("Something went wrong.Please contact developer");
+        //            },
+        //            error: function (request, status, error) {
+        //                alert(request.responseText);
+        //            }
+        //        });
+        //    } else {
+        //        alert("Error");
+        //    }
+        //    function showLoader() {
+        //        $('#loading').show();
+        //    }
+        //    function hideLoader() {
+        //        $('#loading').fadeOut();
+        //    }
+        //    hideLoader();
+        //});
+
+        $("#btn_upload_std_cost").click(function () {
+            if (window.FormData !== undefined) {
+                var fileUpload = $("#file_std_cost").get(0);
+                if ($("#file_std_cost").get(0).files.length == 0) {
+                    alert("Please upload the file");
+                    return;
+                }
+                showLoader();
+                var files = fileUpload.files;
+                var fileData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Material/InlineStock/Managements/Upload_std_cost", true);
+                //xhr.open("POST", "/Managements/Upload_std_cost", true);
+
+                xhr.upload.onprogress = function (e) {
+
+                    if (e.lengthComputable) {
+                        //updating progress bar here
+                        $("#progressBardiv").attr('max', e.total);
+                        $("#progressBardiv").css('width', e.loaded);
+                    }
+                }
+                xhr.upload.onloadstart = function (e) {
+                    //updating progress bar on strt of AJAX request
+                    $("#progressBardiv").css('width', 0);
+
+                }
+                xhr.upload.onloadend = function (e) {
+                    //called on file upload is done.
+                    $("#progressBardiv").css('width', e.loaded);
+
+                }
+                //send form Data
+                xhr.send(fileData);
+                $.ajax({
+                    url: '/Material/InlineStock/Managements/Upload_std_cost',
+                    //url: '/Managements/Upload_excel_taget_junb_csat',
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+                    success: function (result) {
+                        hideLoader();
+                        if (result != null)
+                            alert("Excel uploaded successfully");
+                        else
+                            alert("Something went wrong.Please contact developer");
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
+                });
+            } else {
+                alert("Error");
+            }
+            function showLoader() {
+                $('#loading').show();
+            }
+            function hideLoader() {
+                $('#loading').fadeOut();
+            }
+            hideLoader();
+        });
+
+        $("#btn_upload_master_issue").click(function () {
+            if (window.FormData !== undefined) {
+                var fileUpload = $("#file_master_issue").get(0);
+                if ($("#file_master_issue").get(0).files.length == 0) {
+                    alert("Please upload the file");
+                    return;
+                }
+                showLoader();
+                var files = fileUpload.files;
+                var fileData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Material/InlineStock/Managements/Upload_master", true);
+                //xhr.open("POST", "/Managements/Upload_master", true);
+
+                xhr.upload.onprogress = function (e) {
+
+                    if (e.lengthComputable) {
+                        //updating progress bar here
+                        $("#progressBardiv").attr('max', e.total);
+                        $("#progressBardiv").css('width', e.loaded);
+                    }
+                }
+                xhr.upload.onloadstart = function (e) {
+                    //updating progress bar on strt of AJAX request
+                    $("#progressBardiv").css('width', 0);
+
+                }
+                xhr.upload.onloadend = function (e) {
+                    //called on file upload is done.
+                    $("#progressBardiv").css('width', e.loaded);
+
+                }
+                //send form Data
+                xhr.send(fileData);
+                $.ajax({
+                    url: '/Material/InlineStock/Managements/Upload_master',
+                    //url: '/Managements/Upload_master',
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+                    success: function (result) {
+                        hideLoader();
+                        if (result != null)
+                            alert("Excel uploaded successfully");
+                        else
+                            alert("Something went wrong.Please contact developer");
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
+                });
+            } else {
+                alert("Error");
+            }
+            function showLoader() {
+                $('#loading').show();
+            }
+            function hideLoader() {
+                $('#loading').fadeOut();
+            }
+            hideLoader();
+        });
+      
+        $("#btn_upload_data_assy").click(function () {
+            if (window.FormData !== undefined) {
+                var fileUpload = $("#File_data_assy").get(0);
+                if ($("#File_data_assy").get(0).files.length == 0) {
+                    alert("Please upload the file");
+                    return;
+                }
+                showLoader();
+                var files = fileUpload.files;
+                var fileData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                $.ajax({
+                    url: '/Material/InlineStock/Managements/Upload_excel_data_assy',
+                    //url: '/Managements/Upload_excel_data_assy',
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+                    success: function (result) {
+                        hideLoader();
+                        if (result != null)
+                            alert("Excel uploaded successfully");
+                        else
+                            alert("Something went wrong.Please contact developer");
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
+                });
+            } else {
+                alert("Error");
+            }
+            function showLoader() {
+                $('#loading').show();
+            }
+            function hideLoader() {
+                $('#loading').fadeOut();
+            }
+            hideLoader();
+        });
+    });
+</script>

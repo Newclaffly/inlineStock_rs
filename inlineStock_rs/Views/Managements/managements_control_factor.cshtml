@@ -1,0 +1,379 @@
+﻿
+@{
+    ViewBag.Title = "";
+}
+@if (Session["GOALBAL_ID"] != null)
+{
+    <style>
+    </style>
+
+    <input type="hidden" id="permission" value="@Session["PERMISSION"].ToString()" />
+    <input type="hidden" value="@Session["GOALBAL_ID"].ToString()" id="temp_user" />
+    <div class="card mt-3">
+        <h5 class="card-header">Controls factor convert unit</h5>
+        <div class="card-body">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <input type="text" id="matcode_search" placeholder="Material Code" class="form-control" />
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" id="item_number_search" placeholder="Part Code" class="form-control ml-3" />
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" id="flag_search" placeholder="Biz or Process" class="form-control ml-3" />
+                    </div>
+                    <div class="col-sm-3">
+                        <button type="button" id="add_factor" class="btn btn-sm btn-primary ml-5" data-toggle="modal" data-target="#modal_add_cfactor">Add Factor</button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive mt-2">
+                <table class="table table-sm table-hover table-bordered mb-0" style="width:100%" id="table_cfactor">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="background-color:royalblue;color:white;">MATERIAL CODE</th>
+                            <th scope="col" style="background-color:royalblue;color:white;">ITEM NUMBER</th>
+                            <th scope="col" style="background-color:royalblue;color:white;">BIZ OR PROCESS</th>
+                            <th scope="col" style="background-color:royalblue;color:white;">FACTOR</th>
+                            <th scope="col" style="background-color:royalblue;color:white;">UNIT</th>
+                            <th scope="col" style="background-color:royalblue;color:white;">TOOLS</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#table_cfactor').DataTable({
+                     "dom": 'lrtip',
+                    "destroy": true,
+                    "searching": true,
+                    "lengthChange": false,
+                    "paging": false,
+                    "bInfo": false,
+                    "stateSave": false,
+                    "scrollY": '70vh',
+                    "scrollCollapse": true,
+                    "lengthChange": false,
+                    "ajax": {
+                        "type": "POST",
+                        "url": "/Material/InlineStock/Managements/information_control_factor",
+                        //"url": "/Managements/information_control_factor",
+                        "data": { "permis": $('#permission').val() },
+                        "datatype": "json"
+                    },
+                    //createdRow: function (node, data) {
+                    //    if (data.hasOwnProperty('ISSUE_WH')) {
+                    //        if (data.ISSUE_WH >= data.ISSUE_TARGET && data.ISSUE_TARGET != 0) {
+                    //            $('td', node).eq(7).addClass('highlight_max_issue_target');
+                    //            $('td', node).eq(8).addClass('highlight_max_issue_target');
+
+                    //        }
+                    //        if (data.MATGROUP == 'PROTECTION TAPE') {
+                    //            $('td', node).eq(2).addClass('highlight_PROTECTION_TAPE');
+                    //            //$('td', node).eq(5).addClass('highlight_SURFACE_PROTECTION_FILM');
+                    //        }
+                    //        //if (data.COST_CENTER == '7216') {
+                    //        //    $('td', node).eq(5).addClass('highlight_7216');
+                    //        //}
+                    //        //if (data.COST_CENTER == '7211') {
+                    //        //    $('td', node).eq(5).addClass('highlight_7211');
+                    //        //}
+                    //        //if (data.COST_CENTER == '7124') {
+                    //        //    $('td', node).eq(5).addClass('highlight_7124');
+                    //        //}
+                    //        //if (data.COST_CENTER == '7121') {
+                    //        //    $('td', node).eq(5).addClass('highlight_7121');
+                    //        //}
+                    //    }
+                    //},
+                    //order: [[3, "desc", 5, "desc"]],
+                    columnDefs: [
+                        {
+                            targets: [0, 1, 2, 3, 4, 5,], className: 'text-center'
+                        },
+                        {
+                            targets: [3], render: $.fn.dataTable.render.number(',')
+                        },
+                    ],
+                    "columns": [
+                        { data: "MATCODE", "name": "MATCODE", "autoWidth": true },
+                        { data: "ITEM_NUMBER", "name": "ITEM_NUMBER", "autoWidth": true },
+                        { data: "FLAG_MAT", "name": "MATNAME", "autoWidth": true },
+                        { data: "FACTOR", "name": "COST_CENTER", "autoWidth": true },
+                        { data: "UNIT", "name": "UNIT", "autoWidth": true },
+                        {
+                            "render": function (data, type, Me, meta) {
+                                return '<button  type="button" class="btn btn-sm btn-warning edit_cfactor " aria-hidden="true" " data-toggle="modal" data-target="#modal_edit_cfactor" ' +
+                                    'data-matcode ="' + Me.MATCODE + '" data-item_number ="' + Me.ITEM_NUMBER + '" data-flag ="' + Me.FLAG_MAT + '" data-factor ="' + Me.FACTOR + '" data-unit ="' + Me.UNIT + '"><i class=" ms-Icon ms-Icon--Edit"></i></button >';
+                            }
+                        },
+                    ], // end columns
+                });
+
+            // Edit information factor convert unit
+            $(document).on("click", ".edit_cfactor", function () {
+                // Declare Variable for Edit factor
+                var get_matcode = $(this).data('matcode');
+                var get_item_number = $(this).data('item_number');
+                var get_flag = $(this).data('flag');
+                var get_factor = $(this).data('factor');
+                var get_unit = $(this).data('unit');
+
+                //For Edit data
+                $(".modal-body #matcode_edit").val(get_matcode);
+                $(".modal-body #item_number_edit").val(get_item_number);
+                $(".modal-body #flag_edit").val(get_flag);
+                $(".modal-body #flag_edit_hidden").val(get_flag);
+                $(".modal-body #factor_edit").val(get_factor);
+                $(".modal-body #unit_edit").val(get_unit);
+            });
+
+            $('#save_edit_factor').click(function () {
+                var edit_value_factor = {
+                    "MATCODE": $("#matcode_edit").val(),
+                    "ITEM_NUMBER": $("#item_number_edit").val(),
+                    "FLAG_MAT": $("#flag_edit").val(),
+                    "FACTOR": $("#factor_edit").val(),
+                    "UNIT": $("#unit_edit").val(),
+                    "UPDATE_BY": $("#temp_user").val()
+                }
+                var procedure = 'UPDATE';
+                console.log(edit_value_factor);
+                $.ajax({
+                    type: "POST",
+                    url: "/Material/InlineStock/Managements/control_factor_edit_update",
+                    //url: "/Managements/information_control_factor",
+                    data: {
+                        edit_value_factor: edit_value_factor,
+                        "PROCEDURE": procedure
+                    },
+                    datatype: "json",
+                    success: function (data) {
+                        setInterval(function () {
+                            scrollPos = $(".dataTables_scrollBody").scrollTop();
+                            table.ajax.reload(function () {
+                                $(".dataTables_scrollBody").scrollTop(scrollPos);
+                            }, false);
+                        }, 1000);
+                        $('#modal_edit_cfactor').modal('hide');
+                        swal({
+                            title: "Save success!",
+                            text: "You save of the information success!",
+                            icon: "success",
+                            button: "OK!",
+                        });
+                    },
+                    error: function (request, status, error) {
+                        $('#factor_edit').attr('required', true);
+                        $('#unit_edit').attr('required', true);
+                        $('#factor_edit').val("");
+                        $('#unit_edit').val("");
+                        $('#modal_edit_cfactor').modal('hide');
+                        swal({
+                            title: "Fail save !",
+                            text: "Please check the correct of the information.!",
+                            icon: "error",
+                            button: "OK",
+                        });
+                    }
+                })
+            });
+
+
+            $(document).on("click", "#add_factor", function () {
+                //For Add data
+                $(".modal-body #flag_add").val("FOR_" + $('#permission').val());
+                $(".modal-body #flag_add_hidden").val("FOR_" + $('#permission').val());
+
+                $(".modal-body #add").val("FOR_" + $('#permission'));
+            });
+
+
+            // this is the id of the form
+            $("#newModalForm").submit(function (e) {
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+                var form = $(this);
+
+                var add_value_factor = {
+                    "MATCODE": $("#matcode_add").val(),
+                    "ITEM_NUMBER": $("#item_number_add").val(),
+                    "FLAG_MAT": $('#permission').val(),
+                    "FACTOR": $("#factor_add").val(),
+                    "UNIT": $("#unit_add").val(),
+                    "UPDATE_BY": $("#temp_user").val()
+                }
+                var procedure = 'INSERT';
+                console.log(add_value_factor);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Material/InlineStock/Managements/control_factor_edit_update",
+                    //url: "/Managements/information_control_factor",
+                    data: {
+                        edit_value_factor: add_value_factor,
+                        "PROCEDURE": procedure
+                    },
+                    datatype: "json",
+                    success: function (data) {
+                        $('#table_cfactor').DataTable().ajax.reload();
+
+                        //setInterval(function () {
+                        //    scrollPos = $(".dataTables_scrollBody").scrollTop();
+                        //    table.ajax.reload(function () {
+                        //        $(".dataTables_scrollBody").scrollTop(scrollPos);
+                        //    }, false);
+                        //}, 1000);
+                        $('#modal_add_cfactor').modal('hide');
+                        swal({
+                            title: "Save success!",
+                            text: "You save of the information success!",
+                            icon: "success",
+                            button: "OK!",
+                        });
+                    },
+                    error: function (request, status, error) {
+                        $('#factor_add').attr('required', true);
+                        $('#unit_add').attr('required', true);
+                        $('#factor_add').val("");
+                        $('#unit_add').val("");
+                        $('#modal_add_cfactor').modal('hide');
+                        swal({
+                            title: "Fail save !",
+                            text: "Please check the correct of the information.!",
+                            icon: "error",
+                            button: "OK",
+                        });
+                    }
+                })
+
+            });
+
+            //Jquery Search condition
+
+            $('#matcode_search').keyup(function () {
+                var search = [];
+                search.push($(this).val())
+                search = search.join('|');
+
+                table.column(0).search(search, true, false).draw();
+            })
+
+            $('#item_number_search').keyup(function () {
+                var search = [];
+                search.push($(this).val())
+                search = search.join('|');
+
+                table.column(1).search(search, true, false).draw();
+            })
+
+            $('#flag_search').keyup(function () {
+                var search = [];
+                search.push($(this).val())
+                search = search.join('|');
+
+                table.column(2).search(search, true, false).draw();
+            })
+
+          
+
+        });
+    </script>
+
+    <!-- Modal add factor -->
+    <div class="modal fade" id="modal_add_cfactor" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">ADD FACTOR CONVERT UNIT</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="newModalForm" action="">
+                        <div class="form-group">
+                            <label for="matcode" class="col-form-label">MATERIAL CODE:</label>
+                            <input type="text" class="form-control" id="matcode_add" placeholder="ex.28xxxx" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="item_number-name" class="col-form-label">PART CODE:</label>
+                            <input type="text" class="form-control" id="item_number_add" placeholder="ex.28xxxx_28xxx" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="process-name" class="col-form-label">BIZ OR PROCESS:</label>
+                            <input type="text" class="form-control" id="flag_add" disabled>
+                            <input type="hidden" class="form-control" id="flag_add_hidden">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="factor-name" class="col-form-label">FACTOR:</label>
+                            <input type="text" class="form-control" id="factor_add" placeholder="value" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="unit-name" class="col-form-label">UNIT:</label>
+                            <input type="text" class="form-control" id="unit_add" placeholder="ex.Roll" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-sm btn-success" id="save_add_factor">Add</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal cfactor -->
+    <div class="modal fade" id="modal_edit_cfactor" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">EDIT FACTOR CONVERT UNIT</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="matcode" class="col-form-label">MATERIAL CODE:</label>
+                        <input type="text" class="form-control" id="matcode_edit">
+                    </div>
+                    <div class="form-group">
+                        <label for="item_number-name" class="col-form-label">ITEM NUMBER:</label>
+                        <input type="text" class="form-control" id="item_number_edit">
+                    </div>
+                    <div class="form-group">
+                        <label for="process-name" class="col-form-label">BIZ OR PROCESS:</label>
+                        <input type="text" class="form-control" id="flag_edit" disabled>
+                        <input type="hidden" class="form-control" id="flag_edit_hidden">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="factor-name" class="col-form-label">FACTOR:</label>
+                        <input type="text" class="form-control" id="factor_edit">
+                    </div>
+                    <div class="form-group">
+                        <label for="unit-name" class="col-form-label">UNIT:</label>
+                        <input type="text" class="form-control" id="unit_edit">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-success" id="save_edit_factor">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+else
+{
+    Response.Redirect("~/Login/Login");
+}
+

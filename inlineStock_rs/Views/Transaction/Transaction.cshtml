@@ -1,0 +1,220 @@
+﻿
+@{
+    ViewBag.Title = "Transaction";
+}
+@if (Session["GOALBAL_ID"] != null)
+{
+    <style>
+        table.center-all td, th {
+            text-align: center;
+        }
+
+        .table th, td {
+            color: black;
+        }
+
+        .modal-body label {
+            color: black;
+        }
+    </style>
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom">
+        <h5> Transaction Usaage </h5>
+    </div>
+    <input type="hidden" id="permission" value="@Session["PERMISSION"].ToString()" />
+    <div class="table-responsive mt-4">
+        <table class="table center-all table-bordered table-responsive-lg table-hover" id="tts_table">
+            <thead>
+                <tr>
+                    <th scope="col" style="background-color:royalblue; color:white;">PART CODE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">PROCESS</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">ISSUE W/H</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">COST_CENTER</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">USAGE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">REMAIN INLINE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">UPDATE DATE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">UPDATE BY</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">PURPOSE DETAIL</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">TOOLS</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+        <script>
+            var temp_user = $('#temp_user').val();
+
+            $(document).ready(function () {
+                Create_table_transaction();
+                console.log($(permission).val());
+                function Create_table_transaction() {
+                    $('#tts_table').DataTable({
+                        "destroy": true,
+                        "searching": true,
+                        "lengthChange": false,
+                        "paging": false,
+                        "bInfo": false,
+                        "stateSave": true,
+                        "ajax": {
+                            "type": "POST",
+                            "url": "/Material/InlineStock/Transaction/Ajax_get_transaction",
+                            //"url": "/Transaction/Ajax_get_transaction",
+                            data: { 'param_name': $(permission).val() },
+                            "datatype": "json"
+                        },
+                        "columns": [
+                                  { data: "ITEM_NUMBER", "name": "ITEM_NUMBER", "autoWidth": true },
+                                  { data: "FLAG_MAT", "name": "FLAG_MAT", "autoWidth": true },
+                                  { data: "ISSUE_WH", "name": "ISSUE_WH", "autoWidth": true },
+                                  { data: "COST_CENTER", "name": "COST_CENTER", "autoWidth": true },
+                                  { data: "USAGE", "name": "USAGE", "autoWidth": true },
+                                  { data: "REMAIN_INLINE", "name": "REMAIN_INLINE", "autoWidth": true },
+                                  {
+                                      data: "UPDATE_DATE",
+                                      "render": function (value) {
+                                          if (value === null) return "";
+                                          return moment(value).format('YYYY-MM-DD HH:mm:ss');
+                                      }
+                                  },
+                                  { data: "UPDATE_BY", "name": "UPDATE_BY", "autoWidth": true },
+                                  { data: "PURPOSE_DETAIL", "name": "PURPOSE_DETAIL", "autoWidth": true },
+                                   {
+                                       "render": function (data, type, Me, meta) {
+                                           return '<button  type="button" class="btn btn-sm btn-danger delete_transaction" aria-hidden="true" " data-toggle="modal" data-target="#myModal_delete" ' +
+                                           'data-matid ="' + Me.MAT_ID + '" data-matcode = "' + Me.MATCODE + '"  data-partcode = "' + Me.ITEM_NUMBER + '" data-matname = "' + Me.MATNAME + '" data-cc = "' + Me.COST_CENTER + '" data-issue = "' + Me.ISSUE_WH + '" data-usage = "' + Me.USAGE + '" data-purpose = "' + Me.PURPOSE_DETAIL + '"  data-flag = "' + Me.FLAG_MAT + '" ><i class="ms-Icon ms-Icon--RemoveFromTrash"></i></button >';
+                                       }
+                                   },
+                        ], // end columns
+                        "scrollY": '65vh',
+                        "scrollCollapse": true,
+                    });
+                }
+
+                $(document).on("click", ".delete_transaction", function () {
+                    var get_matid = $(this).data('matid');
+                    var get_matcode = $(this).data('matcode');
+                    var get_partcode = $(this).data('partcode');
+                    var get_flag = $(this).data('flag');
+                    var get_cc = $(this).data('cc');
+
+                    var get_issue = $(this).data('issue');
+                    var get_usage = $(this).data('usage');
+                    var get_purpose = $(this).data('purpose');
+
+                    $(".modal-body #matid").val(get_matid);
+                    $(".modal-body #matcode").val(get_matcode);
+                    $(".modal-body #partcode").val(get_partcode);
+                    $(".modal-body #cost_center").val(get_cc);
+                    $(".modal-body #FLAG").val(get_flag);
+
+                    //$(".modal-body #matname").val(get_matname);
+                    $(".modal-body #issue").val(get_issue);
+                    $(".modal-body #usage").val(get_usage);
+                    $(".modal-body #purpose").val(get_purpose);
+                });
+
+                $('#save_delete').click(function () {
+                    var temp_cc = '';
+                    if ($("#cost_center").val() == '') {
+                        temp_cc = ' ';
+                    } else {
+                        temp_cc = $("#cost_center").val();
+                    }
+                    var delete_value = {
+                        "MAT_ID": $("#matid").val(),
+                        "FLAG_MAT": $("#FLAG").val(),
+                        "MATCODE": $("#matcode").val(),
+                        "ITEM_NUMBER": $("#partcode").val(),
+                        "COST_CENTER": temp_cc,
+                        "ISSUE_WH": $("#issue").val(),
+                        "USAGE": $('#usage').val(),
+                        "PURPOSE_DETAIL": $('#purpose').val()
+                    }
+                    console.log(delete_value);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Material/InlineStock/Transaction/DeleteTransaction",
+                        //url: "/Transaction/DeleteTransaction",
+
+                        data: { delete_value: delete_value },
+                        datatype: "json",
+                        success: function (data) {
+                            $('#tts_table').DataTable().ajax.reload();
+                            $('#myModal_delete').modal('hide');
+                            swal({
+                                title: "Record success!",
+                                text: "You delete record of the information success!",
+                                icon: "success",
+                                button: "OK!",
+                            });
+                        },
+                        error: function (request, status, error) {
+                            $('#usage').attr('required', true);
+                            $('#myModal_delete').modal('hide');
+                            swal({
+                                title: "Fail Delete Record!",
+                                text: "Please check the correct of the information.!",
+                                icon: "error",
+                                button: "OK",
+                            });
+                        }
+                    })
+                });
+            }); @*End Document ready*@
+        </script>
+    
+    <div class="modal fade" id="myModal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Windows Delete Transaction</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>PROCESS</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="FLAG" readonly />
+                    </div>
+                    <label>PART CODE</label>
+                    <input type="text" class="form-control" id="partcode" readonly />
+                    <label>ISSUE W/H</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="issue" readonly />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="unit"></span>
+                        </div>
+                    </div>
+                    <label>COST CENTER</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="cost_center" readonly />
+                    </div>
+                    <label>Quantity (Usage)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="usage" readonly />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="unit"></span>
+                        </div>
+                    </div>
+                    <label>PURPOSE</label>
+                    <input type="text" class="form-control" id="purpose" readonly />
+                    @* Hidden Value*@
+                    <input type="hidden" class="form-control" id="matid" />
+                    <input type="hidden" class="form-control" id="matcode" />
+                    <input type="hidden" class="form-control" id="partcode" />
+                    <input type="hidden" class="form-control" id="issue" />
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save_delete">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}

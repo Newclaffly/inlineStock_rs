@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "Managements";
+}
+
+@if (Session["GOALBAL_ID"] != null)
+{
+    <style>
+        .table th, td {
+            color: black;
+        }
+
+        .tight-gutter {
+            padding: 0 2px;
+        }
+
+        td.highlight_7212 {
+            font-weight: bold;
+            color: deeppink;
+        }
+
+        td.highlight_7213 {
+            font-weight: bold;
+            color: blue;
+        }
+    </style>
+    <input type="hidden" value="@Session["GOALBAL_ID"].ToString()" id="temp_user" />
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom">
+        <h5> Transaction Issue from (Warehouse)</h5>
+    </div>
+    <div class="ml-2 row mt-2">
+        <div class="col-sm-2 tight-gutter">
+            <input type="text" class="form-control" placeholder="Ex.280xxxxx (Matcode)" id="txtmatcode" />
+        </div>
+        <div class="col-sm-3 tight-gutter">
+            <button type="button" class="btn btn-sm btn-primary ml-3" id="fillter_data_issue">Search</button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" id="tb_issues_log">
+            <thead>
+                <tr>
+                    <th scope="col" style="background-color:royalblue; color:white;">MAT CODE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">MATERIAL NAME</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">REQ QTY</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">REQ UOM</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">COST CENTER</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">COST CENTER NAME</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">CREATE DATE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">CREATE BY</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">USE DATE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">RESON REQUEST</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyid"></tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript" src="~/Scripts/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+    <link rel="stylesheet" href="~/Scripts/bootstrap-datepicker/dist/css/bootstrap-datepicker.css">
+    <script>
+        var temp_user = $('#temp_user').val();
+        $(document).ready(function () {
+            $('.input-daterange input').each(function () {
+                $(this).datepicker('clearDates');
+            });
+
+            var table = $('#tb_issues_log').dataTable({
+                "destroy": true,
+                "searching": false,
+                "lengthChange": false,
+                "paging": false,
+                "bInfo": false,
+                "stateSave": false,
+                "scrollY": '60vh',
+                "scrollCollapse": true,
+                "lengthChange": false
+                //columnDefs: [
+                //            { targets: [0, 1, 3, 4, 5, 6], className: 'text-center' },
+                //],
+            });
+
+
+            $( "#fillter_data_issue" ).click(function() {
+                var matcode =  $('#txtmatcode').val();
+                var start_date =  $('#txtstart_date').val();
+                var end_date =  $('#txtend_date').val();
+                $('#tbodyid').empty();
+                const format1 = "YYYY-MM-DD HH:mm:ss"
+
+                console.log(start_date);
+                $.ajax({
+                    type: "POST",
+                    url: "/Material/InlineStock/Transaction/Ajax_get_transaction_issue",
+                    //url: "/Transaction/Ajax_get_transaction_issue",
+                    data: {
+                        'material_code': matcode
+
+                    },
+                    datatype: "json",
+                    success: function (data) {
+                        $.each(data, function (i) {
+                            $.each(data[i], function (key, val) {
+                                var CREATE_DATE =  moment(val.CREATE_DATE).format(format1);
+                                var rows = "<tr>" +
+                                    "<td class=''>" + val.MATCODE + "</td>" +
+                                    "<td class=''>" + val.MATNAME + "</td>" +
+                                    "<td class=''>" + val.REQ_QTY + "</td>" +
+                                    "<td class=''>" + val.REQ_UOM + "</td>" +
+                                    "<td class=''>" + val.COST_CENTER + "</td>" +
+                                    "<td class=''>" + val.COST_CENTER_NAME + "</td>" +
+                                    "<td class=''>" + CREATE_DATE + "</td>" +
+                                    "<td class=''>" + val.CREATE_BY + "</td>" +
+                                    "<td class=''>" + val.USE_DATE + "</td>" +
+                                    "<td class=''>" + val.RESON_REQUEST + "</td>" +
+                                    "</tr>";
+                                $('#tb_issues_log').append(rows);
+                            });
+                        });
+                    },
+                    error: function (request, status, error) {
+                        alert("Error");
+                    }
+                })
+            });
+        }); @*End Document ready*@
+    </script>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}

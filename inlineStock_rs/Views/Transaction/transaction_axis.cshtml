@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewBag.Title = "";
+}
+
+@if (Session["GOALBAL_ID"] != null)
+{
+    <style>
+        .table th, td {
+            color: black;
+            text-align: center;
+        }
+
+        /*     .tight-gutter {
+            padding: 0 2px;
+        }*/
+    </style>
+    <input type="hidden" value="@Session["GOALBAL_ID"].ToString()" id="temp_user" />
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom">
+        <h5 class="mr-2">Transaction Usage from (AXIS) </h5>
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-lg-12 mt-2">
+        <div class="card">
+            <div class="card-header" style="background-color:royalblue; color:white;">
+                Featured
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-inline col-sm-6" id="Demo">
+                        <div class="form-group">
+                            <label for="startDate">startDate : </label>
+                            <input type="text" class="form-control" id="startDate">
+                        </div>
+
+                        <div class="form-group" >
+                            <label for="endDate" class="ml-2">endDate : </label>
+                            <input type="text" class="form-control" id="endDate">
+                        </div>
+                        <button type="button" class="btn btn-outline-success ml-2 " id="fillter_data_axis">Confirm Date</button>
+                    </div>
+                </div>
+
+                <div class="row justify-content-between">
+                    <div class="table-responsive mt-4">
+                        <table class="table table-bordered mb-0 table-hover" id="tb_issues_log_axis">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="background-color:royalblue; color:white;">OPE NAME</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">LOT NO</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">HIST CD</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">MAC ID</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">MATER CODE</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">MATER NAME</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">PART CD</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">USE QTY</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">CREATE DATE</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+        var temp_user = $('#temp_user').val();
+        $(document).ready(function () {
+            //Create_table_transaction_axis();
+
+            $('#startDate').daterangepicker({
+                locale: {
+                    format: 'YYYY-MM-DD',
+                },
+                singleDatePicker: true,
+                showDropdowns: true
+            });
+
+            $('#endDate').daterangepicker({
+                locale: {
+                    format: 'YYYY-MM-DD',
+                },
+                singleDatePicker: true,
+                showDropdowns: true
+            });
+
+            //$('#Demo').daterangepicker({
+            //    opens: 'left'
+            //}, function (start, end, label) {
+            //        //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            //        var start_date = start.format('YYYY-MM-DD');
+            //        var end_date = end.format('YYYY-MM-DD');
+            //        console.log("START:" + start_date);
+            //        console.log("END:" + end_date);
+            //        Create_table_transaction_axis(start_date, end_date)
+            //});
+
+            //$('.input-daterange input').each(function () {
+            //    $(this).datepicker('clearDates');
+            //});
+            //var start = moment().subtract(29, 'days');
+            //var end = moment();
+
+            //function cb(start, end) {
+            //    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            //}
+
+            //$('#reportrange').daterangepicker({
+            //    startDate: start,
+            //    endDate: end,
+            //    ranges: {
+            //        'Today': [moment(), moment()],
+            //        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            //        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            //        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            //        'This Month': [moment().startOf('month'), moment().endOf('month')],
+            //        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            //    }
+            //}, cb);
+
+            //cb(start, end);
+
+            function Create_table_transaction_axis(start_date,end_date) {
+                $('#tb_issues_log_axis').DataTable({
+                    "destroy": true,
+                    "searching": false,
+                    "lengthChange": false,
+                    "paging": false,
+                    "bInfo": false,
+                    "stateSave": true,
+                    "ajax": {
+                        "type": "POST",
+                        "url": "/Material/InlineStock/Transaction/ajax_get_request_axis",
+                        //"url": "/Transaction/Ajax_get_transaction",
+                        data: { 'param_start_date': start_date,'param_end_date': end_date },
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { data: "OPE_NAME", "name": "OPE_NAME", "autoWidth": true },
+                        { data: "LOT_NO", "name": "LOT_NO", "autoWidth": true },
+                        { data: "HIST_CD", "name": "HIST_CD", "autoWidth": true },
+                        { data: "MAC_ID", "name": "MAC_ID", "autoWidth": true },
+                        { data: "MATER_CODE", "name": "MATER_CODE", "autoWidth": true },
+                        { data: "MATER_NAME", "name": "MATER_NAME", "autoWidth": true },
+                        { data: "PARTS_CD", "name": "PARTS_CD", "autoWidth": true },
+                        { data: "USE_QTY", "name": "USE_QTY", "autoWidth": true },
+                        {
+                            data: "CREATE_DATE",
+                            "render": function (value) {
+                                if (value === null) return "";
+                                return moment(value).format('YYYY-MM-DD HH:mm:ss');
+                            }
+                        },
+                    ], // end columns
+                    columnDefs: [
+                        {
+                            targets: [0, 1, 2, 3, 4, 5], className: 'text-center'
+                        },
+                        {
+                            targets: [4], render: $.fn.dataTable.render.number(',')
+                        },
+                    ],
+                    "scrollY": '65vh',
+                    "scrollCollapse": true,
+                });
+            }
+
+            $("#fillter_data_axis").click(function () {
+                console.log("START:" + $('#startDate').val());
+                console.log("END:" +  $('#endDate').val());
+                var start_date = $('#startDate').val();
+                var end_date = $('#endDate').val();
+                Create_table_transaction_axis(start_date, end_date)
+            });
+
+        }); @*End Document ready*@
+    </script>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}

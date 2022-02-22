@@ -1,0 +1,1084 @@
+﻿
+@{
+    ViewBag.Title = "";
+}
+@if (Session["GOALBAL_ID"] != null)
+{
+    <style>
+        #table-custom th, td {
+            color: black;
+        }
+
+        #table-custom {
+            font-size: 0.58rem;
+        }
+
+        td.highlight_red {
+            font-weight: bold;
+            color: red;
+        }
+
+        td.highlight_blue {
+            font-weight: bold;
+            color: blue;
+        }
+
+        .wrapper {
+            height: 500px !important;
+        }
+    </style>
+    <input type="hidden" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="temp_date" />
+    <input type="hidden" value="@Session["GOALBAL_ID"].ToString()" id="temp_user" />
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mt-3">
+        <h5 class="mr-2">MATERIAL ISSUE DAILY REPORT @DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")</h5>
+        <a type="button" class="btn btn-sm btn-primary" href="@Url.Action("miscell_schedule", "Report")">SCHEDULE</a>
+    </div>
+
+    <!-- CONTENT SEARCHING -->
+    <div class="row justify-content-start">
+        <div class="col-sm-3">
+            <lable>BIZ</lable>
+            <select class="form-control form-control-sm" id="biz_selected">
+                <option value='' selected='selected'>ALL</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <lable>MATERIAL CATEGORY</lable>
+            <select class="form-control form-control-sm" id="cat_selected">
+                <option value='' selected='selected'>ALL</option>
+                <option value="DIRECT">DIRECT MATERIAL</option>
+                <option value="INDIRECT">INDIRECT MATERIAL</option>
+                <option value="WASTING">WASTING MATERIAL</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <lable>MATERIAL GROUP</lable>
+            <select class="form-control form-control-sm " id="group_selected">
+                <option value='' selected='selected'>ALL</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <lable>PROCESS</lable>
+            <select class="form-control form-control-sm " id="process_selected">
+                <option value='' selected='selected'>ALL</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <lable>MATERIAL NAME</lable>
+            <input type="text" class="form-control form-control-sm" id="matname_search">
+        </div>
+        <div class="col-sm-3">
+            <lable>COST CENTER</lable>
+            <select class="form-control form-control-sm" id="cc_selected">
+                <option value='' selected='selected'>ALL</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <lable>ITEM NUMBER</lable>
+            <input type="text" class="form-control form-control-sm" id="item_number_search">
+        </div>
+        <div class="col-sm-3 d-flex align-items-center mt-3">
+            <button class="btn btn-sm btn-danger  ms-Icon ms-Icon--Reset" id="reset">  RESETS</button>
+            <button class="btn btn-sm btn-success ms-Icon ms-Icon--Search ml-2" id="export_excel_miscell">  EXPORT</button>
+        </div>
+    </div>
+    <!-- END CONTENT SEARCHING -->
+
+    <!-- CONTENT TABLE -->
+    <div class="table-responsive mt-2">
+        <table class="table table-bordered mb-0 table-custom display table-hover" style="width:100%" id="table_daily_issue">
+            <thead>
+                <tr>
+                    <th scope="col" rowspan="2" style="background-color:#dddddd">BIZ</th>
+                    <th scope="col" rowspan="2" style="background-color:#dddddd">MATERIAL CATEGORY</th>
+                    <th scope="col" rowspan="2" style="background-color:#dddddd">MATERIAL GROUP</th>
+                    <th scope="col" rowspan="2" style="background-color:#dddddd">PROCESS</th>
+                    <th scope="col" rowspan="2" style="background-color:#dddddd">MATERIAL NAME</th>
+                    <th scope="col" rowspan="2" style="background-color:#dddddd">COST CENTER</th>
+                    <th scope="col" rowspan="2" style="background-color:#dddddd">ITEM NUMBER</th>
+                    <th scope="col" colspan="3" style="background-color:#f875aa">DIFF</th>
+                    <th scope="col" rowspan="1" style="background-color:#b4aee8">MONTHLY PLAN</th>
+                    <th scope="col" rowspan="1" style="background-color:#b4aee8">ACTUAL ISSUE</th>
+                    <th scope="col" rowspan="1" style="background-color:#b4aee8">DAILY PLAN USAGE</th>
+                    <th scope="col" colspan="3" style="background-color:#eabf9f">DIFF</th>
+                    <th scope="col" rowspan="2" style="background-color:#dddddd">REASON</th>
+                </tr>
+
+                <tr>
+                    <th style="background-color:#fbaccc">GAP(%)</th>
+                    <th style="background-color:#fbaccc" class="sum_gap_amount_mp">GAP AMOUNT (THB)</th>
+                    <th style="background-color:#fbaccc" class="sum_gap_qty_mp">GAP Q'ty</th>
+                    <th style="background-color:#ffe3fe" id="monthly_current_fct"></th>
+                    <th style="background-color:#ffe3fe" id="monthly_current_act"></th>
+                    <th style="background-color:#ffe3fe" id="daily_issue_usage"></th>
+                    <th style="background-color:#faf3e0">GAP Q'ty</th>
+                    <th style="background-color:#faf3e0">GAP AMOUNT (THB)</th>
+                    <th style="background-color:#faf3e0">GAP(%)</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="2"></th>
+                    <th scope="col" rowspan="1"></th>
+                </tr>
+                <tr>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- END CONTENT TABLE -->
+
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-6 mt-4">
+                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="table-responsive">
+                    <table class="table table-bordered mb-0 table-custom display table-hover" id="table_summary_indw_f1">
+                        <thead>
+                            <tr>
+                                <th scope="col">BIZ</th>
+                                <th scope="col">MATERIAL CATEGORY</th>
+                                <th scope="col">FCST</th>
+                                <th scope="col">ACT</th>
+                                <th scope="col">GAP</th>
+                                <th scope="col">GAP (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @*<div class="col-sm-6">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0 table-custom display table-hover" style="width:100%" id="table_summary_indw">
+                            <thead>
+                                <tr>
+                                    <th scope="col">MATERIAL CATEGORY</th>
+                                    <th scope="col">FCST</th>
+                                    <th scope="col">ACT</th>
+                                    <th scope="col">GAP</th>
+                                    <th scope="col">GAP (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>*@
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+    <script>
+       var temp_user = $('#temp_user').val();
+
+        $(document).ready(function () {
+            get_master_biz();
+            init_table_chart_summary_f1();
+            function test_chart() {
+                var biz_temp = $('#biz_selected option:selected').val();
+                $.ajax({
+                    type: "POST",
+                    "url": "/Material/InlineStock/Report/ajax_miscell_summary_to_chart",
+                    //url: "/Report/ajax_miscell_summary_to_chart",
+                    "data": {
+                        'biz': $('#biz_selected option:selected').val(),
+                        //    'category': $('#cat_selected option:selected').val(),
+                    },
+                    //contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var dataPoints_FCST = []
+                        var dataPoints_ACT = []
+                        for (let index = 0; index < data.length; index++) {
+                            const element = data[index];
+                            dataPoints_FCST.push({
+
+                                label: "FCST", name: data[index]["CAT_TYPE"], y: Number(data[0]["SUM_MONTHLY_FCST"]),
+                                label: "ACT", name: data[index]["CAT_TYPE"], y: Number(data[0]["SUM_ACTUAL_ISSUE"])
+                            })
+                            console.log(data.length);
+
+                            //dataPoints_ACT.push({
+                            //    label: "ACT", name: data[0]["CAT_TYPE"], y: Number(data[index]["SUM_MONTHLY_FCST"]),
+                            //    label: "ACT", name: data[0]["CAT_TYPE"], y: Number(data[index]["SUM_ACTUAL_ISSUE"])
+                            //})
+                        //    dataPoints_ACT.push({ label: "ACT", name: data[1]["CAT_TYPE"],y: Number(data[index]["SUM_ACTUAL_ISSUE"]) })
+                        //    dataPoints_ACT.push({ label: "ACT", y: Number(data[index]["SUM_MONTHLY_FCST"]) },{ label: "ACT", y: Number(data[index]["SUM_ACTUAL_ISSUE"]) })
+                        }
+                        console.log(data);
+
+                        console.log(JSON.stringify(dataPoints_FCST));
+                        console.log(JSON.stringify(dataPoints_ACT));
+
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
+                            theme: "light2", // "light1", "dark1", "dark2"
+                            exportEnabled: true,
+                            title: {
+                                text: "Compare " + biz_temp + " ",
+                                fontSize: 21
+                            },
+                            toolTip: {
+                                shared: true
+                            },
+                            //axisX: {
+                            //    interval: 1,
+                            //    intervalType: "year"
+                            //},
+                            axisY: {
+                                valueFormatString: "#,##0.##",
+                                gridColor: "#B6B1A8",
+                                tickColor: "#B6B1A8"
+                            },
+                            legend: {
+                                cursor: "pointer",
+                                verticalAlign: "center",
+                                horizontalAlign: "right",
+                                itemclick: toggleDataSeries
+                            },
+                            toolTip: {
+                                shared: true
+                            },
+                            data: [
+                                {
+                                    type: "stackedColumn",
+                                    legendText: "Indirect",
+                                    showInLegend: "true",
+                                    //indexLabel: "#total bn",
+                                    //yValueFormatString: "#0.#,.",
+                                    //indexLabelFormatString: "#0.#,.",
+                                    //indexLabelPlacement: "outside",
+                                    dataPoints: dataPoints_FCST,
+
+                                   //dataPoints: [
+                                   //     { name: "Indirect", y: 135305, label: "FCT" },
+                                   //     { name: "Indirect", y: 30000, label: "ACT" }
+                                   // ],
+                                },
+                                {
+                                    type: "stackedColumn",
+                                    legendText: "Wasting",
+                                    showInLegend: "true",
+                                    //indexLabel: "#total bn",
+                                    //yValueFormatString: "#0.#,.",
+                                    //indexLabelFormatString: "#0.#,.",
+                                    //indexLabelPlacement: "outside",
+                                    dataPoints: dataPoints_FCST,
+
+                                //    dataPoints:
+                                //        [
+                                //        { name: "Wasting", y: 115305, label: "FCT" },
+                                //        { name: "Wasting", y: 20000, label: "ACT" }
+                                //    ],
+                                }
+                            ],
+                            //data: [
+                            //    {
+                            //        type: "stackedColumn",
+                            //        legendText: "Indirect",
+                            //        showInLegend: "true",
+                            //        //indexLabel: "#total bn",
+                            //        //yValueFormatString: "#0.#,.",
+                            //        //indexLabelFormatString: "#0.#,.",
+                            //        //indexLabelPlacement: "outside",
+                            //        //dataPoints: [
+                            //        //    { name: "Indirect", y: 135305, label: "FCT" },
+                            //        //    { name: "Indirect", y: 30000, label: "ACT" }
+                            //        //],
+                            //        dataPoints: dataPoints,
+
+                            //    },
+                            //    {
+                            //        type: "stackedColumn",
+                            //        legendText: "Wasting",
+                            //        showInLegend: "true",
+                            //        //indexLabel: "#total bn",
+                            //        //yValueFormatString: "#0.#,.",
+                            //        //indexLabelFormatString: "#0.#,.",
+                            //        //indexLabelPlacement: "outside",
+                            //    //    dataPoints: [
+                            //    //        { name: "Wasting", y: 115305, label: "FCT" },
+                            //    //        { name: "Wasting", y: 20000, label: "ACT" }
+                            //    //    ],
+                            //        dataPoints: dataPoints,
+
+                            //    }
+                            //],
+
+                        });
+                        chart.render();
+
+                        function toggleDataSeries(e) {
+                            if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                                e.dataSeries.visible = false;
+                            }
+                            else {
+                                e.dataSeries.visible = true;
+                            }
+                            chart.render();
+                        }
+                    }
+
+                });
+            }
+           
+
+
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            var dateobj = new Date();
+            var month = monthNames[dateobj.getMonth()];
+            var day = dateobj.getDate();
+            var year = dateobj.getFullYear();
+
+            $('#monthly_current_fct').text(month + '/' + year + '_FCST');
+            $('#monthly_current_act').text(month + '/' + year + '_ACC');
+            $('#daily_issue_usage').text(month + '/' + year + '_ACC');
+
+
+            var oTable = $('#table_daily_issue').DataTable({
+                "dom": 'lrtip',
+                "destroy": true,
+                "searching": true,
+                "bInfo": false,
+                "stateSave": false,
+                "scrollY": '50vh',
+                "scrollX": true,
+                //"scrollY": '50vh',
+                //"scrollCollapse": true,
+                "lengthChange": false,
+                "paging": false,
+                "ajax": {
+                    "type": "POST",
+                    "url": "/Material/InlineStock/Report/ajax_material_issue_daily_report",
+                    //"url": "/Report/ajax_material_issue_daily_report",
+                    "datatype": "json"
+                },
+                "footerCallback": function (row, data, start, end, display) {
+
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ? i : 0;
+                    };
+
+                    // Total over all pages
+
+                    if (api.column(8, { search: 'applied' }).data().length) {
+                        total_revenue = api
+                            .column(8, { search: 'applied' })
+                            .data()
+                             .reduce(function (a, b) {
+                                a = parseFloat(a);
+                                if (isNaN(a)) { a = 0; }
+
+                                b = parseFloat(b);
+                                if (isNaN(b)) { b = 0; }
+                                return intVal(a) + intVal(b);
+                            });
+                    } else {
+                        total_revenue = 0;
+                    }
+
+                    $(api.column(8).footer()).html(
+                        'TOTAL (THB): ' + total_revenue.toFixed(2)
+                    );
+
+                    if (api.column(9, { search: 'applied' }).data().length) {
+                        total_gap_qty_mp = api
+                            .column(9, { search: 'applied' })
+                            .data()
+                            .reduce(function (a, b) {
+                                a = parseFloat(a);
+                                if (isNaN(a)) { a = 0; }
+
+                                b = parseFloat(b);
+                                if (isNaN(b)) { b = 0; }
+                                return intVal(a) + intVal(b);
+                            });
+                    } else {
+                        total_gap_qty_mp = 0;
+                    }
+
+                    $(api.column(9).footer()).html(
+                        'TOTAL: ' + total_gap_qty_mp.toFixed(2)
+                    );
+
+                    if (api.column(10, { search: 'applied' }).data().length) {
+                        total_fcst_mp = api
+                            .column(10, { search: 'applied' })
+                            .data()
+                            .reduce(function (a, b) {
+                                a = parseFloat(a);
+                                if (isNaN(a)) { a = 0; }
+
+                                b = parseFloat(b);
+                                if (isNaN(b)) { b = 0; }
+                                return intVal(a) + intVal(b);
+                            });
+                    } else {
+                        total_fcst_mp = 0;
+                    }
+
+                    $(api.column(10).footer()).html(
+                        'TOTAL: ' + total_fcst_mp.toFixed(2)
+                    );
+
+
+                    if (api.column(11, { search: 'applied' }).data().length) {
+                        total_issue_mp = api
+                            .column(11, { search: 'applied' })
+                            .data()
+                            .reduce(function (a, b) {
+                                a = parseFloat(a);
+                                if (isNaN(a)) { a = 0; }
+
+                                b = parseFloat(b);
+                                if (isNaN(b)) { b = 0; }
+                                return intVal(a) + intVal(b);
+                            });
+                    } else {
+                        total_issue_mp = 0;
+                    }
+
+                    $(api.column(11).footer()).html(
+                        'TOTAL: ' + total_issue_mp.toFixed(2)
+                    );
+
+                    if (api.column(12, { search: 'applied' }).data().length) {
+                        total_act_dpu = api
+                            .column(12, { search: 'applied' })
+                            .data()
+                            .reduce(function (a, b) {
+                                a = parseFloat(a);
+                                if (isNaN(a)) { a = 0; }
+
+                                b = parseFloat(b);
+                                if (isNaN(b)) { b = 0; }
+                                return intVal(a) + intVal(b);
+                            });
+                    } else {
+                        total_act_dpu = 0;
+                    }
+
+                    $(api.column(12).footer()).html(
+                        'TOTAL: ' + total_act_dpu.toFixed(2)
+                    );
+
+                    if (api.column(13, { search: 'applied' }).data().length) {
+                        total_gap_qty_dp = api
+                            .column(13, { search: 'applied' })
+                            .data()
+                            .reduce(function (a, b) {
+                                a = parseFloat(a);
+                                if (isNaN(a)) { a = 0; }
+
+                                b = parseFloat(b);
+                                if (isNaN(b)) { b = 0; }
+                                return intVal(a) + intVal(b);
+                            });
+                    } else {
+                        total_gap_qty_dp = 0;
+                    }
+
+                    $(api.column(13).footer()).html(
+                        'TOTAL: ' + total_gap_qty_dp.toFixed(2)
+                    );
+
+
+                    if (api.column(14, { search: 'applied' }).data().length) {
+                        total_revenue_daily = api
+                            .column(14, { search: 'applied' })
+                            .data()
+                            .reduce(function (a, b) {
+                                a = parseFloat(a);
+                                if (isNaN(a)) { a = 0; }
+
+                                b = parseFloat(b);
+                                if (isNaN(b)) { b = 0; }
+                                return intVal(a) + intVal(b);
+                            });
+                    } else {
+                        total_revenue_daily = 0;
+                    }
+
+                    $(api.column(14).footer()).html(
+                        'TOTAL (THB): ' + total_revenue_daily.toFixed(2)
+                    );
+
+                },
+                //"initComplete": function (settings,data) {
+                //    this.api().columns('.sum_gap_amount_mp').every(function () {
+                //        var column = this;
+                //        var sum = column
+                //            .data()
+                //            .reduce(function (a, b) {
+                //                a = parseFloat(a);
+                //                if (isNaN(a)) { a = 0; }
+
+                //                b = parseFloat(b);
+                //                if (isNaN(b)) { b = 0; }
+
+                //                return a + b;
+                //            });
+
+                //        $(column.footer()).html('TOTAL GAP AMOUNT (THB): ' + sum);
+                //    });
+
+                //    this.api().columns('.sum_gap_qty_mp').every(function () {
+                //        var column = this;
+                //        var sum = column
+                //            .data()
+                //            .reduce(function (a, b) {
+                //                a = parseFloat(a);
+                //                if (isNaN(a)) { a = 0; }
+
+                //                b = parseFloat(b);
+                //                if (isNaN(b)) { b = 0; }
+
+                //                return a + b;
+                //            });
+
+                //        $(column.footer()).html('TOTAL GAP QTY: ' + sum);
+                //    });
+                //},
+                createdRow: function (node, data) {
+                    if (data.hasOwnProperty('GAP')) {
+                        if (data.GAP < 0) {
+                            $('td', node).eq(7).addClass('highlight_red');
+                        } else if (data.GAP > 0) {
+                            $('td', node).eq(7).addClass('highlight_blue');
+                        }
+                        if (data.GAP_AMOUNTH < 0) {
+                            $('td', node).eq(8).addClass('highlight_red');
+                        } else if (data.GAP_AMOUNTH > 0) {
+                            $('td', node).eq(8).addClass('highlight_blue');
+                        }
+                        if (data.GAP_QTY < 0) {
+                            $('td', node).eq(9).addClass('highlight_red');
+                        } else if (data.GAP_QTY > 0) {
+                            $('td', node).eq(9).addClass('highlight_blue');
+                        }
+
+                        if (data.GAP_DAILY < 0) {
+                            $('td', node).eq(13).addClass('highlight_red');
+                        } else if (data.GAP_DAILY > 0) {
+                            $('td', node).eq(13).addClass('highlight_blue');
+                        }
+                        if (data.GAP_AMOUNTH_DAILY < 0) {
+                            $('td', node).eq(14).addClass('highlight_red');
+                        } else if (data.GAP_AMOUNTH_DAILY > 0) {
+                            $('td', node).eq(14).addClass('highlight_blue');
+                        }
+                        if (data.GAP_QTY_DAILY < 0) {
+                            $('td', node).eq(15).addClass('highlight_red');
+                        } else if (data.GAP_QTY_DAILY > 0) {
+                            $('td', node).eq(15).addClass('highlight_blue');
+                        }
+                    }
+                },
+                "columns": [
+                    {
+                        "data": "BIZ",
+                        "name": "BIZ",
+                        "sWidth": "20px"
+                    },
+                    {
+                        "data": "CAT_TYPE",
+                        "sWidth": "50px"
+                    },
+
+                    {
+                        "data": "MATGROUP",
+                        "sWidth": "50px"
+                    },
+                    {
+                        "data": "PROCESS",
+                        "sWidth": "20px"
+                    },
+                    {
+                        "data": "MATNAME",
+                        "sWidth": "50px"
+                    },
+                    {
+                        "data": "COST_CENTER",
+                        "sWidth": "20px"
+                    },
+                    {
+                        "data": "ITEM_NUMBER",
+                        "sWidth": "50px"
+                    },
+                    {
+                        "data": "GAP",
+                        "sWidth": "50px",
+                        render: function (data, type, row) {
+                            return data + '%';
+                        }
+                    },
+                    {
+                        "data": "GAP_AMOUNTH",
+                        "sWidth": "50px"
+                    },
+                    {
+                        "data": "GAP_QTY",
+                        "sWidth": "50px"
+                    },
+                    {
+                        "data": "MONTHLY_ISSUE",
+                        "sWidth": "50px"
+                    },
+                    {
+                        "data": "ACTUAL_ISSUE",
+                        "sWidth": "50px"
+                    },
+
+                    {
+                        "data": "DAILY_ISSUE",
+                        "sWidth": "50px"
+                    },
+                    {
+                        "data": "GAP_QTY_DAILY",
+                        "sWidth": "50px"
+                    },
+                  
+                    {
+                        "data": "GAP_AMOUNT_DAILY",
+                        "sWidth": "50px"
+                    },
+                    {
+                        "data": "GAP_DAILY",
+                        "sWidth": "50px",
+                        render: function (data, type, row) {
+                            return data + '%';
+                        }
+                    },
+
+                    {
+                        "sWidth": "50px",
+                        "render": function (data, type, Me, meta) {
+                            return '<button type="button" class="btn btn-sm-custom btn-sm btn-outline-warning edit_reason " aria-hidden="true"  data-toggle="modal" data-target="#myModal_reason" '+
+                                   'data-matcode ="' + Me.MATCODE + '" data-item_number ="'+ Me.ITEM_NUMBER + '" data-matname ="'+ Me.MATNAME +'" data-biz ="'+ Me.BIZ +'" data-process ="' + Me.PROCESS + '" data-cc = "' + Me.COST_CENTER + '" ' +
+                                   '>REASON</button > ';
+                        }
+                    },
+
+                ],
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16], className: 'text-center'
+                    },
+                    {
+                        targets: [8], render: $.fn.dataTable.render.number(',')
+                    },
+                ],
+            });
+              // Initial search box
+            function get_master_biz() {
+                $.ajax({
+                    type: "POST",
+                    url: "/Material/InlineStock/Report/ajax_search_biz",
+                    //url: "/Report/ajax_search_biz",
+                    datatype: "json",
+                    success: function (data) {
+                        var $select = $('#biz_selected');
+                        $.each(data, function (i) {
+                            $.each(data[i], function (key, val) {
+                                $select.append('<option value=' + val + '>' + val + '</option>');
+                            });
+                        });
+                    }
+                })
+            }
+
+            function init_table_chart_summary_f1() {
+                $('#table_summary_indw_f1').dataTable().fnDestroy();
+                console.log($('#biz_selected option:selected').val());
+                //console.log($('#cat_selected option:selected').val());
+
+                $('#table_summary_indw_f1').DataTable({
+                    "destroy": true,
+                    "searching": false,
+                    "lengthChange": false,
+                    "paging": false,
+                    "bInfo": false,
+                    "stateSave": false,
+                    "scrollY": '10vh',
+                    "scrollCollapse": true,
+                    "lengthChange": false,
+                    "ajax": {
+                        "type": "POST",
+                        "url": "./ajax_miscell_summary_table",
+                        //"url": "/Report/ajax_miscell_summary_table",
+                        "data": {
+                            'biz': $('#biz_selected option:selected').val(),
+                        //    'category': $('#cat_selected option:selected').val(),
+                        },
+                        "datatype": "json"
+                    },
+                    //createdRow: function (node, data) { //Before distibute data
+                    //    if (data.REMAIN_INLINE < 0) {
+                    //        $('td', node).eq(4).addClass('highlight_font_red'); //Condtion before render
+                    //    }
+                    //    if (data.DIFF < 0) {
+                    //        $('td', node).eq(5).addClass('highlight_font_red'); //Condtion before render
+                    //    }
+                    //},
+                    //columnDefs: [
+                    //    {
+                    //        targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], className: 'text-center', //Custom Condtion text-center
+                    //    },
+                    //    {
+                    //        targets: [2, 3, 4, 5, 6], render: $.fn.dataTable.render.number(',') //Custom Condtion (,) value(int or float)
+                    //    },
+                    //],
+                    "columns": [ // Init render data
+                        { data: "BIZ", "name": "BIZ", "autoWidth": true },
+                        { data: "CAT_TYPE", "name": "CAT_TYPE", "autoWidth": true },
+                        { data: "SUM_MONTHLY_FCST", "name": "SUM_MONTHLY_FCST", "autoWidth": true },
+                        { data: "SUM_ACTUAL_ISSUE", "name": "SUM_ACTUAL_ISSUE", "autoWidth": true },
+                        { data: "GAP", "name": "GAP", "autoWidth": true },
+                        { data: "GAP_DAILY", "name": "GAP_DAILY", "autoWidth": true },
+                   ], // end columns
+                });
+            }
+
+           
+
+            $('#biz_selected').on('change', function () {
+                //$("#cat_selected").empty();
+                $("#group_selected").empty();
+                $("#process_selected").empty();
+                $("#cc_selected").empty();
+                var biz_selected = $('#biz_selected option:selected').val();
+                init_table_chart_summary_f1();
+                test_chart();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Material/InlineStock/Report/ajax_search_matgroup",
+                    //url: "/Report/ajax_search_matgroup",
+                    data: { 'param_name': biz_selected },
+                    "datatype": "json",
+                    success: function (data) {
+                        //render products to appropriate dropdown
+                        var $select = $('#group_selected');
+                        $.each(data, function (i) {
+                            $select.prepend('<option value="">ALL</option>');
+                            $.each(data[i], function (key, val) {
+                                $select.append('<option value=' + val + '>' + val + '</option>');
+                            });
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Material/InlineStock/Report/ajax_search_process",
+                    //url: "/Report/ajax_search_process",
+                    data: { 'param_name': biz_selected },
+                    "datatype": "json",
+                    success: function (data) {
+                        //render products to appropriate dropdown
+                        var $select = $('#process_selected');
+                        $.each(data, function (i) {
+                            $select.prepend('<option value="">ALL</option>');
+                            $.each(data[i], function (key, val) {
+                                $select.append('<option value=' + val + '>' + val + '</option>');
+                            });
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Material/InlineStock/Report/ajax_search_cc",
+                    //url: "/Report/ajax_search_cc",
+                    data: { 'param_name': biz_selected },
+                    "datatype": "json",
+                    success: function (data) {
+                        //render products to appropriate dropdown
+                        var $select = $('#cc_selected');
+                        $.each(data, function (i) {
+                            $select.prepend('<option value="">ALL</option>');
+                            $.each(data[i], function (key, val) {
+                                $select.append('<option value=' + val + '>' + val + '</option>');
+                            });
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            $('#biz_selected').on('change', function () {
+                var search = [];
+                $.each($('#biz_selected option:selected'), function () {
+                    search.push($(this).val());
+                });
+
+                search = search.join('|');
+                oTable.column(0).search(search, true, false).draw();
+            });
+
+            $('#cat_selected').on('change', function () {
+                var search = [];
+                $.each($('#cat_selected option:selected'), function () {
+                    search.push($(this).val());
+                });
+
+                search = search.join('|');
+                oTable.column(1).search(search, true, false).draw();
+            });
+
+            $('#group_selected').on('change', function () {
+                var search = [];
+                $.each($('#group_selected option:selected'), function () {
+                    search.push($(this).val());
+                });
+
+                search = search.join('|');
+                oTable.column(2).search(search, true, false).draw();
+            });
+
+            $('#process_selected').on('change', function () {
+                var search = [];
+                $.each($('#process_selected option:selected'), function () {
+                    search.push($(this).val());
+                });
+
+                search = search.join('|');
+                oTable.column(3).search(search, true, false).draw();
+            });
+
+            $('#cc_selected').on('change', function () {
+                var search = [];
+                $.each($('#cc_selected option:selected'), function () {
+                    search.push($(this).val());
+                });
+
+                search = search.join('|');
+                oTable.column(5).search(search, true, false).draw();
+            });
+
+            $('#matname_search').keyup(function () {
+                oTable.search($(this).val()).draw();
+            })
+
+            $('#item_number_search').keyup(function () {
+                oTable.search($(this).val()).draw();
+            })
+
+            $("#reset").click(function () {
+                location.reload();
+            });
+
+            // MODAL CONTROLS
+            $(document).on("click", ".edit_reason", function () {
+                // Declare Variable for edit_reason
+                var get_matcode = $(this).data('matcode');
+                var get_item_number = $(this).data('item_number');
+                var get_matname = $(this).data('matname');
+                var get_biz = $(this).data('biz');
+
+                var get_process = $(this).data('process');
+                var get_cc = $(this).data('cc');
+                var date_format = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+                var get_upby = temp_user;
+
+                // Get Jquery for load data to modal
+                $(".modal-body #matcode_modal").val(get_matcode);
+                $(".modal-body #item_number_modal").val(get_item_number);
+                $(".modal-body #matname_modal").val(get_matname);
+                $(".modal-body #biz_modal").val(get_biz);
+                $(".modal-body #process_modal").val(get_process);
+                $(".modal-body #cc_modal").val(get_cc);
+                $(".modal-body #update_date_modal").val(date_format);
+                $(".modal-body #update_by_modal").val(get_upby);
+            });
+
+            $('#btn_record_reason_modal').click(function () {
+                var edit_value = {
+                    "MATCODE": $("#matcode_modal").val(),
+                    "ITEM_NUMBER": $("#item_number_modal").val(),
+                    "BIZ": $("#biz_modal").val(),
+                    "PROCESS": $("#process_modal").val(),
+                    "COST_CENTER": $("#cc_modal").val(),
+                    "REASON": $("#reason_modal").val(),
+                    "CREATE_DATE": $("#update_date_modal").val(),
+                    "CREATE_BY": $("#update_by_modal").val()
+                }
+                console.log(edit_value);
+                $.ajax({
+                    type: "POST",
+                    url: "/Material/InlineStock/InlineStock/record_reason",
+                    //url: "/InlineStock/record_reason",
+                    data: { edit_value: edit_value },
+                    datatype: "json",
+                    success: function (data) {
+                        $('#myModal_reason').modal('hide');
+                        swal({
+                            title: "Record success!",
+                            text: "You record of the information success!",
+                            icon: "success",
+                            button: "OK!",
+                        });
+                    },
+                    error: function (request, status, error) {
+                        $('#reason_modal').attr('required', true);
+                        $('#reason_modal').val("");
+                        $('#myModal_reason').modal('hide');
+                        swal({
+                            title: "Fail Record!",
+                            text: "Please check the correct of the information.!",
+                            icon: "error",
+                            button: "OK",
+                        });
+                    }
+                })
+            });
+
+            $("#myModal_reason").on('shown.bs.modal', function () {
+                $(this).find('#reason_modal').focus();
+                $('#reason_modal').val("");
+            });
+
+            $(document).on("click", "#export_excel_miscell", function () {
+                $.confirm({
+                    title: 'Export Excel?',
+                    content: 'This dialog will automatically trigger \'cancel\' in 6 seconds if you don\'t respond.',
+                    autoClose: 'cancelAction|8000',
+                    type: 'green',
+                    typeAnimated: true,
+                    buttons: {
+                        deleteUser: {
+                            text: 'Export from',
+                            btnClass: 'btn-green',
+                            action: function () {
+                                $.alert('Export file Miscell time: ' + $('#temp_date').val() + ' completed! ');
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Material/InlineStock/Report/Export_excel_miscell",
+                                    data: "",
+                                    dataType: "json",
+                                    success: function (data) {
+                                        var bytes = new Uint8Array(data.FileContents);
+                                        var blob = new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                                        var link = document.createElement("a");
+                                        link.href = window.URL.createObjectURL(blob);
+                                        link.download = "Inlinestock_miscell_" + $('#temp_date').val() + ".xlsx";
+                                        link.click();
+                                    },
+                                    error: function (err) {
+                                        console.log(err);
+                                    }
+                                });
+                            }
+                        },
+                        cancelAction: function () {
+                            $.alert('Action is canceled');
+                        }
+                    }
+                });
+            });
+
+            }); @*End Document ready*@
+    </script>
+
+    <div class="modal fade" id="myModal_reason" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">PLEASE INPUT REASON</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-form-label">BIZ:</label>
+                        <input type="hidden" class="form-control" id="biz_modal">
+                        <input type="text" class="form-control" id="biz_modal" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">PROCESS:</label>
+                        <input type="hidden" class="form-control" id="process_modal">
+                        <input type="text" class="form-control" id="process_modal" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">ITEM NUMBER:</label>
+                        <input type="hidden" class="form-control" id="item_number_modal">
+                        <input type="text" class="form-control" id="item_number_modal" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">MATERIAL NAME:</label>
+                        <input type="hidden" class="form-control" id="matname_modal">
+                        <input type="text" class="form-control" id="matname_modal" disabled>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">COST CENTER:</label>
+                        <input type="hidden" class="form-control" id="cc_modal">
+                        <input type="text" class="form-control" id="cc_modal" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">MESSAGE:</label>
+                        <textarea class="form-control" id="reason_modal"></textarea>
+                    </div>
+                    <input type="hidden" class="form-control" id="matcode_modal">
+                    <input type="hidden" class="form-control" id="update_date_modal">
+                    <input type="hidden" class="form-control" id="update_by_modal">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                    <button type="button" class="btn btn-primary" id="btn_record_reason_modal">RECORD REASON</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}
+

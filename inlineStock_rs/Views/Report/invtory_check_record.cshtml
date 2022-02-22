@@ -1,0 +1,372 @@
+﻿@{
+    ViewBag.Title = "";
+}
+@if (Session["GOALBAL_ID"] != null)
+{
+    <style>
+        #table-custom th, td {
+            color: black;
+        }
+
+        #table-custom {
+            font-size: 1rem;
+        }
+
+        .wrapper {
+            height: 500px !important;
+        }
+
+        .text_white {
+            background-color: royalblue;
+            color: white;
+        }
+
+        td.highlight_font_red {
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+    <input type="hidden" value="@DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")" id="temp_date" />
+    <input type="hidden" value="@Session["GOALBAL_ID"].ToString()" id="temp_user" />
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mt-3">
+        <h5 class="mr-2">Format 1</h5>
+        <button type="button" class="btn btn-sm btn-success" id="export_excel_inv_check">Export Excel</button>
+    </div>
+
+    <!-- CONTENT TABLE -->
+    <div class="table-responsive mt-2">
+        <table class="table table-bordered mb-0 table-custom display table-hover" style="width:100%" id="table_inventory_check">
+            <thead>
+                <tr>
+                    <th scope="col" rowspan="2" style="background-color:royalblue" class="text_white">Material Name</th>
+                    <th scope="col" rowspan="2" style="background-color:royalblue" class="text_white">Material Code</th>
+                    <th scope="col" colspan="1" style="background-color:royalblue" class="text_white">i-Semicon Data</th>
+                    <th scope="col" rowspan="2" style="background-color:royalblue" class="text_white">Total</th>
+                    <th scope="col" colspan="1" style="background-color:royalblue" class="text_white">Actual Count</th>
+                    <th scope="col" colspan="3" style="background-color:royalblue" class="text_white">Varaince</th>
+                    <th scope="col" rowspan="2" style="background-color:royalblue" class="text_white">Reason</th>
+                    <th scope="col" rowspan="2" style="background-color:royalblue" class="text_white">TOOLS</th>
+                </tr>
+                <tr>
+                    <th style="background-color:royalblue" class="text_white">DRT_2G2_FL</th>
+                    <th style="background-color:royalblue" class="text_white">DRT_2G2_FL</th>
+                    <th style="background-color:royalblue" class="text_white">Diff</th>
+                    <th style="background-color:royalblue" class="text_white">Actual adjust</th>
+                    <th style="background-color:royalblue" class="text_white">Adjust</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- END CONTENT TABLE -->
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mt-4">
+        <h5 class="mr-2">Format 2</h5>
+    </div>
+    <!-- CONTENT TABLE -->
+    <div class="table-responsive mt-2">
+        <table class="table table-bordered mb-0 table-custom display table-hover" style="width:100%" id="table_inventory_check_ffp">
+            <thead>
+                <tr>
+                    <th scope="col" rowspan="2" style="background-color:royalblue" class="text_white">Material Name</th>
+                    <th scope="col" rowspan="2" style="background-color:royalblue" class="text_white">Material Code</th>
+                    <th scope="col" colspan="1" style="background-color:royalblue" class="text_white">i-Semicon Data</th>
+                    <th scope="col" rowspan="2" style="background-color:royalblue" class="text_white">Total</th>
+                    <th scope="col" colspan="1" style="background-color:royalblue" class="text_white">Actual Count</th>
+                    <th scope="col" colspan="3" style="background-color:royalblue" class="text_white">Varaince</th>
+                    <th scope="col" rowspan="2" style="background-color:royalblue" class="text_white">Reason</th>
+                    <th scope="col" rowspan="2" style="background-color:royalblue" class="text_white">TOOLS</th>
+
+                </tr>
+                <tr>
+                    <th style="background-color:royalblue" class="text_white">PM_2G</th>
+                    <th style="background-color:royalblue" class="text_white">PM_2G</th>
+                    <th style="background-color:royalblue" class="text_white">Diff</th>
+                    <th style="background-color:royalblue" class="text_white">Actual adjust</th>
+                    <th style="background-color:royalblue" class="text_white">Adjust</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- END CONTENT TABLE -->
+
+    <script>
+        var temp_user = $('#temp_user').val(); //Temporary user value
+        $(document).ready(function () {
+            init_table(); // Call function init_table
+            init_table_ffp();
+            console.log("Init_start"); // Debuging data init start
+
+            function init_table() {
+                $('#table_inventory_check').DataTable({
+                    "destroy": true,
+                    "searching": true,
+                    "lengthChange": false,
+                    "paging": false,
+                    "bInfo": false,
+                    "stateSave": false,
+                    "scrollY": '60vh',
+                    "scrollCollapse": true,
+                    "lengthChange": false,
+                    "ajax": {
+                        "type": "POST",
+                        "url": "./ajax_get_invtory_check_record",
+                        //"url": "/Report/ajax_get_invtory_check_record",
+                        "datatype": "json"
+                    },
+                    createdRow: function (node, data) { //Before distibute data
+                        if (data.REMAIN_INLINE < 0) {
+                            $('td', node).eq(4).addClass('highlight_font_red'); //Condtion before render
+                        }
+                        if (data.DIFF < 0) {
+                            $('td', node).eq(5).addClass('highlight_font_red'); //Condtion before render
+                        }
+                    },
+                    columnDefs: [
+                        {
+                            targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], className: 'text-center', //Custom Condtion text-center
+                        },
+                        {
+                            targets: [2, 3, 4, 5, 6], render: $.fn.dataTable.render.number(',') //Custom Condtion (,) value(int or float)
+                        },
+                    ],
+                    "columns": [ // Init render data
+                        //{ data: "CAT_TYPE", "name": "CAT_TYPE", "autoWidth": true },
+                        //{ data: "MATGROUP", "name": "MATGROUP", "autoWidth": true },
+                        { data: "MATNAME", "name": "MATNAME", "autoWidth": true },
+                        { data: "ITEM_NUMBER", "name": "ITEM_NUMBER", "autoWidth": true },
+                        { data: "ON_HAND", "name": "ON_HAND", "autoWidth": true },
+                        { data: "TOTAL", "name": "TOTAL", "autoWidth": true },
+                        { data: "REMAIN_INLINE", "name": "REMAIN_INLINE", "autoWidth": true },
+                        { data: "DIFF", "name": "DIFF", "autoWidth": true },
+                        { data: "DIFF2", "name": "DIFF2", "autoWidth": true },
+
+                        //{ data: "ADJUST_VALUE", "name": "ADJUST_VALUE", "autoWidth": true },
+                        { data: "ADJUST_DETAIL", "name": "ADJUST_DETAIL", "autoWidth": true },
+                        { data: "ADJUST_REASON", "name": "ADJUST_REASON", "autoWidth": true },
+                        {//Render button packdata
+                            "sWidth": "50px",
+                            "render": function (data, type, Me, meta) {
+                                return '<button type="button" class="btn btn-sm-custom btn-sm btn-outline-warning edit_reason " aria-hidden="true"  data-toggle="modal" data-target="#myModal_reason" ' +
+                                    'data-matcode ="' + Me.MATCODE + '" data-item_number ="' + Me.ITEM_NUMBER + '" data-matname ="' + Me.MATNAME + '" data-diff ="' + Me.DIFF + '"s ' +
+                                    '>REASON</button > ';
+                            }
+                        },
+                    ], // end columns
+                });
+            }
+
+            function init_table_ffp() {
+                $('#table_inventory_check_ffp').DataTable({
+                    "destroy": true,
+                    "searching": true,
+                    "lengthChange": false,
+                    "paging": false,
+                    "bInfo": false,
+                    "stateSave": false,
+                    "scrollY": '60vh',
+                    "scrollCollapse": true,
+                    "lengthChange": false,
+                    "ajax": {
+                        "type": "POST",
+                        "url": "./ajax_get_invtory_check_record_ffp",
+                        //"url": "/Report/ajax_get_invtory_check_record_ffp",
+                        "datatype": "json"
+                    },
+                    createdRow: function (node, data) { //Before distibute data
+                        if (data.REMAIN_INLINE < 0) {
+                            $('td', node).eq(4).addClass('highlight_font_red'); //Condtion before render
+                        }
+                        if (data.DIFF < 0) {
+                            $('td', node).eq(5).addClass('highlight_font_red'); //Condtion before render
+                        }
+                    },
+                    columnDefs: [
+                        {
+                            targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], className: 'text-center', //Custom Condtion text-center
+                        },
+                        {
+                            targets: [2, 3, 4, 5, 6], render: $.fn.dataTable.render.number(',') //Custom Condtion (,) value(int or float)
+                        },
+                    ],
+                    "columns": [ // Init render data
+                        { data: "MATNAME", "name": "MATNAME", "autoWidth": true },
+                        { data: "MATCODE", "name": "MATCODE", "autoWidth": true },
+                        { data: "ON_HAND", "name": "ON_HAND", "autoWidth": true },
+                        { data: "TOTAL", "name": "TOTAL", "autoWidth": true },
+                        { data: "REMAIN_INLINE", "name": "REMAIN_INLINE", "autoWidth": true },
+                        { data: "DIFF", "name": "DIFF", "autoWidth": true },
+                        { data: "DIFF2", "name": "DIFF2", "autoWidth": true },
+                        { data: "ADJUST_DETAIL", "name": "ADJUST_DETAIL", "autoWidth": true },
+                        { data: "ADJUST_REASON", "name": "ADJUST_REASON", "autoWidth": true },
+                        {//Render button packdata
+                            "sWidth": "50px",
+                            "render": function (data, type, Me, meta) {
+                                return '<button type="button" class="btn btn-sm-custom btn-sm btn-outline-warning edit_reason " aria-hidden="true"  data-toggle="modal" data-target="#myModal_reason" ' +
+                                    'data-matcode ="' + Me.MATCODE + '" data-item_number ="' + Me.ITEM_NUMBER + '" data-matname ="' + Me.MATNAME + '"  data-diff ="' + Me.DIFF + '" ' +
+                                    '>REASON</button > ';
+                            }
+                        },
+                    ], // end columns
+                });
+            }
+
+            $(document).on("click", ".edit_reason", function () {
+                // Declare Variable for edit_reason
+                var get_matcode = $(this).data('matcode');
+                var get_item_number = $(this).data('item_number');
+                var get_matname = $(this).data('matname');
+                var get_diff = $(this).data('diff');
+
+                var date_format = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+                var get_upby = temp_user;
+
+                // Get Jquery for load data to modal
+                $(".modal-body #matcode_modal").val(get_matcode);
+                $(".modal-body #item_number_modal").val(get_item_number);
+                $(".modal-body #matname_modal").val(get_matname);
+                $(".modal-body #diff_modal").val(get_diff);
+                $(".modal-body #update_date_modal").val(date_format);
+            });
+
+            $('#btn_record_reason_modal_inv_check').click(function () {
+                var object_value = {
+                    "ITEM_NUMBER": $("#item_number_modal").val(),
+                    "ADJUST_VALUE": $("#actual_adjust_modal").val(),
+                    "ADJUST_REASON": $('#reason_model').find(":selected").text(),
+                    "CREATE_BY": $("#temp_user").val(),
+                }
+                console.log(object_value);
+                $.ajax({
+                    type: "POST",
+                    url: "./record_reason_inv_check",
+                    //url: "/Report/record_reason_inv_check",
+                    data: { object_value: object_value },
+                    datatype: "json",
+                    success: function (data) {
+                        $('#myModal_reason').modal('hide');
+                        swal({
+                            title: "Record success!",
+                            text: "You record of the information success!",
+                            icon: "success",
+                            button: "OK!",
+                        });
+                        $('#table_inventory_check').DataTable().clear();
+                        $('#table_inventory_check').DataTable().ajax.reload();
+
+                        $('#table_inventory_check_ffp').DataTable().clear();
+                        $('#table_inventory_check_ffp').DataTable().ajax.reload();
+                    },
+                    error: function (request, status, error) {
+                        $('#reason_modal').attr('required', true);
+                        $('#reason_modal').val("");
+                        $('#myModal_reason').modal('hide');
+                        swal({
+                            title: "Fail Record!",
+                            text: "Please check the correct of the information.!",
+                            icon: "error",
+                            button: "OK",
+                        });
+                    }
+                })
+            });
+
+            $(document).on("click", "#export_excel_inv_check", function () {
+                $.confirm({
+                    title: 'Export Excel?',
+                    content: 'This dialog will automatically trigger \'cancel\' in 6 seconds if you don\'t respond.',
+                    autoClose: 'cancelAction|8000',
+                    type: 'green',
+                    typeAnimated: true,
+                    buttons: {
+                        deleteUser: {
+                            text: 'Export from',
+                            btnClass: 'btn-green',
+                            action: function () {
+                                $.alert('Export file Inventry Check time: ' + $('#temp_date').val() + ' completed! ');
+                                $.ajax({
+                                    type: "POST",
+                                    url: "./export_excel_inv_check",
+                                    data: "",
+                                    dataType: "json",
+                                    success: function (data) {
+                                        var bytes = new Uint8Array(data.FileContents);
+                                        var blob = new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                                        var link = document.createElement("a");
+                                        link.href = window.URL.createObjectURL(blob);
+                                        link.download = "Inventory_check_" + $('#temp_date').val() + ".xlsx";
+                                        link.click();
+                                    },
+                                    error: function (err) {
+                                        console.log(err);
+                                    }
+                                });
+                            }
+                        },
+                        cancelAction: function () {
+                            $.alert('Action is canceled');
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
+
+    <div class="modal fade" id="myModal_reason" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Input detail reason and adjust</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-form-label">Material Code:</label>
+                        <input type="hidden" class="form-control" id="item_number_modal">
+                        <input type="text" class="form-control" id="item_number_modal" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Material Name:</label>
+                        <input type="hidden" class="form-control" id="matname_modal">
+                        <input type="text" class="form-control" id="matname_modal" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Diff:</label>
+                        <input type="hidden" class="form-control" id="diff_modal">
+                        <input type="text" class="form-control" id="diff_modal" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Actual adjust:</label>
+                        <input type="text" class="form-control" id="actual_adjust_modal">
+                    </div>
+                    <div class="form-group">
+                        <label>Reason</label>
+                        <select class="custom-select" id="reason_model">
+                            <option value="waiting_confirme">Wait confirm adjust</option>
+                            <option value="dummy">Dummy confrim & M/C Error</option>
+                            <option value="gap_month">Gap from previous month stock adjust</option>
+                            <option value="expire">Expire</option>
+                        </select>
+                    </div>
+                    <input type="hidden" class="form-control" id="matcode_modal">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary" id="btn_record_reason_modal_inv_check">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}

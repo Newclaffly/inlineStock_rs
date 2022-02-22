@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <style>
+             table {
+                font-family: Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                border: 1px solid rgb(221, 221, 221);
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+            table td,
+            table th {
+                border: 1px solid rgb(204, 204, 204);
+                border-collapse: collapse;
+                font-size: 10px;
+                text-align: center;
+            }
+          
+            table th {
+                text-align: center;
+                background-color: royalblue;
+                color: white;
+            }
+    </style>
+</head>
+
+<body>
+    Dear concern member,
+    <h4>Material inline in system Critical: [total_critical] items <b style="color:red;">Please take action !!</b></h4>
+    See detail: <a type="button" href="http://43.72.1.2/Material/InlineStock/"> Material inline stock system</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">BIZ_NAME</th>
+                <th scope="col">PROCESS</th>
+                <th scope="col">MATGROUP</th>
+                <th scope="col">MATCODE</th>
+                <th scope="col">MATNAME</th>
+                <th scope="col">COST_CENTER</th>
+                <th scope="col">REMAIN_INLINE</th>
+            </tr>
+        </thead>
+        <tbody>
+            [table_critical]
+        </tbody>
+    </table>
+
+    <h4>Material inline in system : [total] items </h4>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">BIZ_NAME</th>
+                <th scope="col">PROCESS</th>
+                <th scope="col">MATGROUP</th>
+                <th scope="col">MATCODE</th>
+                <th scope="col">MATNAME</th>
+                <th scope="col">COST_CENTER</th>
+                <th scope="col">REMAIN_INLINE</th>
+            </tr>
+        </thead>
+        <tbody>
+            [table]
+        </tbody>
+    </table>
+
+    <br />
+    <span>
+        Best regards, <br />
+        Thatphon C.
+    </span>
+
+</body>
+
+</html>

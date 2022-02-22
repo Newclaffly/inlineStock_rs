@@ -1,0 +1,200 @@
+﻿
+@{
+    ViewBag.Title = "";
+}
+
+<style>
+    .table th, td {
+        color: black;
+    }
+
+    .modal-body label {
+        color: black;
+    }
+
+    td.highlight_max_issue_target {
+        background-color: red;
+        font-weight: bold;
+        color: white;
+    }
+
+
+    td.highlight_7218 {
+        background-color: #0094ff;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+
+@if (Session["GOALBAL_ID"] != null)
+{
+    <input type="hidden" value="@Session["GOALBAL_ID"].ToString()" id="temp_user" />
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mt-3">
+        <h5 class="ml-1 mr-1" style="color:green;"> NOT OVER TARGET (CG)</h5>
+        <h6 class="ml-3"> Last update : @DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")</h6>
+        <a type="button" class="btn btn-sm btn-success" href="@Url.Action("Oparate_inline_cg", "InlineStock")">Open Usage</a>
+    </div>
+    <div class="table-responsive mt-2">
+        <table class="table table-hover table-bordered table-hover" id="table_cg">
+            <thead>
+                <tr>
+                    <th scope="col" style="background-color:royalblue; color:white;">BIZ</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">PROCESS</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">MATERIAL GROUP</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">PART CODE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">MATERIAL NAME</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">COST CENTER</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">ISSUE W/H</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">ISSUE TARGET</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">REMAIN INLINE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">UNIT</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mt-2">
+        <h5 class="ml-1 mr-1" style="color:red;"> OVER TARGET (CG)</h5>
+    </div>
+    <div class="table-responsive mt-2 bt-5">
+        <table class="table table-bordered table-hover bt-5" id="table_cg_over_target">
+            <thead>
+                <tr>
+                    <th scope="col" style="background-color:royalblue; color:white;">BIZ</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">PROCESS</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">MATERIAL GROUP</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">PART CODE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">MATERIAL NAME</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">COST CENTER</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">ISSUE W/H</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">ISSUE TARGET</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">REMAIN INLINE</th>
+                    <th scope="col" style="background-color:royalblue; color:white;">UNIT</th>
+
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+            var temp_user = $('#temp_user').val();
+            $(document).ready(function () {
+                $("#divError").html("").removeClass("error-msg");
+                Create_table_show_cg();
+                table_cg_over_target();
+                var table = $('#table_cg').DataTable();
+
+                function Create_table_show_cg() {
+                    $('#table_cg').DataTable({
+                        "destroy": true,
+                        "searching": false,
+                        "lengthChange": false,
+                        "paging": false,
+                        "bInfo": false,
+                        "stateSave": false,
+                        "scrollY": '50vh',
+                        "scrollCollapse": true,
+                        "lengthChange": false,
+                        "ajax": {
+                            "type": "POST",
+                            "url": "/Material/InlineStock/InlineStock/ajax_show_cg",
+                            //"url": "/InlineStock/ajax_show_cg",
+                            "datatype": "json"
+                        },
+                        createdRow: function (node, data) {
+                            if (data.hasOwnProperty('ISSUE_WH')) {
+                                if (data.ISSUE_WH >= data.ISSUE_TARGET && data.ISSUE_TARGET != 0 ) {
+                                    $('td', node).hide();
+                                }
+                            }
+                            if (data.COST_CENTER == '7218') {
+                                $('td', node).eq(5).addClass('highlight_7218');
+                            }
+
+                        },
+                        order: [[ 3, "desc" ]],
+                        columnDefs: [
+                            {
+                                targets: [0, 1, 2, 3, 5, 6, 7, 8, 9], className: 'text-center',
+                            },
+                            {
+                                targets: [6, 7, 8], render: $.fn.dataTable.render.number(',')
+                            },
+                        ],
+                        "columns": [
+                                  { data: "BIZ_NAME", "name": "BIZ_NAME", "autoWidth": true },
+                                  { data: "PROCESS", "name": "PROCESS", "autoWidth": true },
+                                  { data: "MATGROUP", "name": "MATGROUP", "autoWidth": true },
+                                  { data: "ITEM_NUMBER", "name": "ITEM_NUMBER", "autoWidth": true },
+                                  { data: "MATNAME", "name": "MATNAME", "autoWidth": true },
+                                  { data: "COST_CENTER", "name": "COST_CENTER", "autoWidth": true },
+                                  { data: "ISSUE_WH", "name": "ISSUE_WH", "autoWidth": true },
+                                  { data: "ISSUE_TARGET", "name": "ISSUE_TARGET", "autoWidth": true },
+                                  { data: "REMAIN_INLINE", "name": "REMAIN_INLINE", "autoWidth": true },
+                                  { data: "UNIT", "name": "UNIT", "autoWidth": true },
+
+                        ], // end columns
+                    });
+                }
+
+                function table_cg_over_target() {
+                    $('#table_cg_over_target').DataTable({
+                        "destroy": true,
+                        "searching": false,
+                        "lengthChange": false,
+                        "paging": false,
+                        "bInfo": false,
+                        "stateSave": false,
+                        "scrollY": '50vh',
+                        "scrollCollapse": true,
+                        "lengthChange": false,
+                        "ajax": {
+                            "type": "POST",
+                            "url": "/Material/InlineStock/InlineStock/ajax_show_cg",
+                            //"url": "/InlineStock/ajax_show_cg",
+                            "datatype": "json"
+                        },
+                        createdRow: function (node, data) {
+                            if (data.ISSUE_WH <= data.ISSUE_TARGET ) {
+                                $('td', node).hide();
+                            }
+                            if (data.ISSUE_WH >= data.ISSUE_TARGET ) {
+                                $('td', node).eq(7).addClass('highlight_max_issue_target');
+                                $('td', node).eq(6).addClass('highlight_max_issue_target');
+                            }
+                            if (data.COST_CENTER == '7218') {
+                                $('td', node).eq(5).addClass('highlight_7218');
+                            }
+                        },
+                        order: [[ 3, "desc" ]],
+                        columnDefs: [
+                               {
+                                   targets: [0,1,2,3,5,6,7,8,9], className: 'text-center',
+                               },
+                             {
+                                 targets: [6,7,8] , render: $.fn.dataTable.render.number( ',' )
+                             },
+                        ],
+                        "columns": [
+                                  { data: "BIZ_NAME", "name": "BIZ_NAME", "autoWidth": true },
+                                  { data: "PROCESS", "name": "PROCESS", "autoWidth": true },
+                                  { data: "MATGROUP", "name": "MATGROUP", "autoWidth": true },
+                                  { data: "ITEM_NUMBER", "name": "ITEM_NUMBER", "autoWidth": true },
+                                  { data: "MATNAME", "name": "MATNAME", "autoWidth": true },
+                                  { data: "COST_CENTER", "name": "COST_CENTER", "autoWidth": true },
+                                  { data: "ISSUE_WH", "name": "ISSUE_WH", "autoWidth": true },
+                                  { data: "ISSUE_TARGET", "name": "ISSUE_TARGET", "autoWidth": true },
+                                  { data: "REMAIN_INLINE", "name": "REMAIN_INLINE", "autoWidth": true },
+                                  { data: "UNIT", "name": "UNIT", "autoWidth": true },
+                        ], // end columns
+                    });
+                }
+
+            }); @*End Document ready*@
+    </script>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}

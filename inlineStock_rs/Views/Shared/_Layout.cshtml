@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Inline Stock System</title>
+
+    <!-- Javascript Library -->
+    <script type="text/javascript" src="~/Scripts/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/umd/popper.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/respond.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/moment.js"></script>
+    <script type="text/javascript" src="~/Scripts/fabric/fabric.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/sweetalert.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-confirm/js/jquery-confirm.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/loader.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
+
+    <!-- CSS Library -->
+    <link rel="stylesheet" href="~/Content/bootstrap.css">
+    <link rel="stylesheet" href="~/Content/bootstrap.css.map">
+    <link rel="stylesheet" href="~/Scripts/DataTables/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/fabric_icon/fabric-icons.css">
+    <link rel="stylesheet" href="~/Content/fabric_icon/fabric-icons-inline.css">
+    <link rel="stylesheet" href="~/Content/custom.css">
+    <link rel="stylesheet" href="~/Scripts/jquery-confirm/css/jquery-confirm.css">
+    <link rel="stylesheet" href="~/Scripts/jquery-ui.css">
+    <link rel="stylesheet" href="~/Scripts/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+
+
+</head>
+@if (Session["GOALBAL_ID"] != null && Session["PERMISSION"] != null)
+{
+<body class="d-flex flex-column vh-100">
+    <style>
+        .bg-nav-blue {
+            background-color: mediumblue;
+        }
+
+        .divider2 {
+            background-color: white;
+        }
+
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+        }
+
+        #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: red;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+            #myBtn:hover {
+                background-color: #555;
+            }
+    </style>
+    @*<button onclick="topFunction()" class="btn btn-sm" id="myBtn" title="Go to top">Top</button>*@
+
+    <div id="navs">
+        <nav class="navbar navbar-inverse  navbar-expand-lg navbar-dark bg-nav-blue border-bottom pb-1 pt-1">
+            <a class="navbar-brand" href="@Url.Action("overview_records","InlineStock")"><i class="ms-Icon ms-Icon--AddHome"></i> Inline Stock</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item d-flex align-items-center">
+                        <div class="divider divider2"></div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("overview_records", "InlineStock")"><i class=" ms-Icon ms-Icon--ProductList"></i>  Records</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("transaction_overview", "Transaction")"><i class="ms-Icon ms-Icon--Transition"></i>  Transaction</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("managements_overview", "Managements")"><i class="ms-Icon  ms-Icon--ManagerSelfService"></i> Management</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("material_pre_pareration_view", "MTPreapre")"><i class="ms-Icon  ms-Icon--CalculatedTable"></i> Material Preparation</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="ms-Icon ms-Icon--CalculatedTable"> Reports</i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="@Url.Action("report_monthly", "Report")">Report Monthly</a>
+                            <a class="dropdown-item" href="@Url.Action("snap_inline", "Report")">Snap Inline End of month</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="@Url.Action("material_issue_daily_report", "Report")">Material Issue Daily report</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="@Url.Action("invtory_check_record", "Report")">Inventory Check</a>
+                        </div>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <div class="divider divider2"></div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://43.72.1.2/IE/Web/SDT_APP_COM.aspx">IED</a>
+                    </li>
+                </ul>
+                <span class="mr-2 d-none d-lg-inline  small" style="color:white;"><i class="ms-Icon ms-Icon--LeaveUser"></i>   : @Session["GOALBAL_ID"].ToString() ROLE: @Session["PERMISSION"].ToString()</span>
+                <a class="btn btn-sm btn-danger ms-Icon ms-Icon--SignOut " id="logout" href="@Url.Action("Logout", "Login")"> Logout</a>
+                <input id="permission" type="hidden" value="@Session["PERMISSION"].ToString()" />
+            </div>
+        </nav>
+    </div>
+    @*<div class="nav-scroller bg-white border-bottom mt-2">
+        </div>*@
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+</body>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}
+@RenderSection("scripts", required: false)
+</html>
+<script>
+    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+        window.location = 'microsoft-edge:' + window.location;
+        setTimeout(function () {
+            window.location = 'https://go.microsoft.com/fwlink/?linkid=2135547';
+        }, 1);
+    }
+    ////Get the button
+    //var mybutton = document.getElementById("myBtn");
+
+    //// When the user scrolls down 20px from the top of the document, show the button
+    //window.onscroll = function () { scrollFunction() };
+
+    //function scrollFunction() {
+    //    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    //        mybutton.style.display = "block";
+    //    } else {
+    //        mybutton.style.display = "none";
+    //    }
+    //}
+
+    //// When the user clicks on the button, scroll to the top of the document
+    //function topFunction() {
+    //    document.body.scrollTop = 0;
+    //    document.documentElement.scrollTop = 0;
+    //}
+</script>

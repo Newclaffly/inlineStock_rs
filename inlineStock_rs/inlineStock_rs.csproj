@@ -1,0 +1,1125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8A5C4ACE-ECF3-4C80-88E2-1A21283B1373}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>inlineStock_rs</RootNamespace>
+    <AssemblyName>inlineStock_rs</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+    <TypeScriptToolsVersion>4.1</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EPPlus, Version=5.5.5.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.5.5.5\lib\net45\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.3.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.3.6\lib\net45\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AutomailController.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InlineStockController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ManagementsController.cs" />
+    <Compile Include="Controllers\MTPreapreController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\SpRecordController.cs" />
+    <Compile Include="Controllers\TransactionController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Bom_access.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Model1.Context.cs">
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Models\Model1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Models\Model1.Designer.cs">
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Models\Model_Search.cs" />
+    <Compile Include="Models\sp_chart_issue_daily_report_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_chart_miscell_report_fillter_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_chart_miscell_report_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_check_master_all_biz_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_display_adjust_htps_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_display_CSAT_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_display_history_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_display_htps_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_display_junb_main_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_display_JUNB_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_display_moled_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_display_transaction_detail_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_display_transaction_detail_Result1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_export_miscell_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_export_monthly_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_Inline_auto_transaction_axis_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_Inline_auto_usage_ind_ws_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_inline_snap_eomonth_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_issue_history_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_login_axis_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_master_table_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_material_issue_daily_report_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_material_prepareration_material_name_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_material_prepareration_type_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_ma_cc_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_record_assy_fillter_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_record_check_inv_report_f1_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_record_check_inv_report_f2_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_record_check_inv_report_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_running_date_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_search_transaction_axis_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_test_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_update_schedule_cutoff_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbDailyPlan.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_formula_factor.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_information_issue_daily_report.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_log_reason.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_Master_cut_off.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_master_issue_daily.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_Master_MAC_D.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_Master_Purpose.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tb_Material_Flag.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tb_member_Inline.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_Monitor_log.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_NEvent.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_NEvent_ASSY.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_NEvent_CG.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_NEvent_CSAT.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_NEvent_HTPS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_NEvent_JUNBS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_NEvent_M_OLED.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_Ntransaction.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_SanpInline.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_std_cost_upload.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_temp_data_assy.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_temp_junb_csat_target.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_temp_obe.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_UsageAuto_MST.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tb_wh_std_pack.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vwV_RECEIPT.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_miscell_summary_email_is.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_miscell_summary_email_other.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_test.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_MaterialMaster_Biz.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_REQUEST_MAT.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_REQUEST_MAT_HISTORY.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\20945347.jpg" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-logo.svg" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\custom.css" />
+    <Content Include="Content\fabric_icon\fabric-icons-inline.css" />
+    <Content Include="Content\fabric_icon\fabric-icons.css" />
+    <Content Include="Content\img\ASSY.png" />
+    <Content Include="Content\img\CG.png" />
+    <Content Include="Content\img\CSAT.png" />
+    <Content Include="Content\img\DICING.png" />
+    <Content Include="Content\img\IS.png" />
+    <Content Include="Content\img\JUNB.png" />
+    <Content Include="Content\overview-custom.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Models\Model1.Context.tt">
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Model1.tt">
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker.css" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker.min.css" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker.standalone.css" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker3.css" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker3.min.css" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker3.standalone.css" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\js\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\js\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker-en-CA.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ar-tn.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ar.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.az.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.bg.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.bm.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.bn.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.br.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.bs.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ca.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.cs.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.cy.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.da.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.de.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.el.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-AU.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-CA.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-GB.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-IE.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-NZ.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-ZA.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.eo.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.es.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.et.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.eu.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.fa.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.fi.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.fo.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.fr-CH.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.fr.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.gl.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.he.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.hi.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.hr.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.hu.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.hy.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.id.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.is.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.it-CH.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.it.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ja.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ka.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.kh.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.kk.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.km.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ko.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.kr.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.lt.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.lv.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.me.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.mk.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.mn.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ms.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.nl-BE.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.nl.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.no.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.oc.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.pl.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.pt-BR.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.pt.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ro.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.rs-latin.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.rs.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ru.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.si.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sk.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sl.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sq.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sr-latin.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sr.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sv.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sw.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ta.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.tg.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.th.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.tk.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.tr.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.uk.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.uz-cyrl.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.uz-latn.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.vi.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.zh-CN.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\requirements.txt" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\screenshots.js" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\assets\common.css" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\assets\common.js" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\demo_head.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\markup_component.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\markup_daterange.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\markup_inline.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\markup_input.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\option_calendarweeks.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\option_clearbtn.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\option_daysofweekdisabled.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\option_enddate.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\option_language.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\option_multidate.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\option_showweekdays.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\option_startdate.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\option_todaybtn.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\option_todayhighlight.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_screenshots\option_weekstart.html" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\demo_head.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\markup_component.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\markup_daterange.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\markup_inline.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\markup_input.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\option_calendarweeks.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\option_clearbtn.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\option_daysofweekdisabled.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\option_enddate.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\option_language.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\option_multidate.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\option_showweekdays.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\option_startdate.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\option_todaybtn.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\option_todayhighlight.png" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\_static\screenshots\option_weekstart.png" />
+    <Content Include="Scripts\bootstrap-datepicker\Gruntfile.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker-en-CA.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.ar-tn.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.az.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.bm.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.bn.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.br.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.bs.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.da.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.de.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.el.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-AU.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-CA.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-GB.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-IE.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-NZ.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-US.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-ZA.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.eo.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.et.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.eu.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.fo.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.fr-CH.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.he.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.hi.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.hy.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.id.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.is.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.it-CH.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.it.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.kh.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.km.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.ko.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.me.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.mn.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.mr.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.no.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.oc.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.si.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.sr-latin.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.sr.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.ta.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.tg.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.tk.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.uk.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.uz-cyrl.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.uz-latn.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.vi.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Scripts\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\assets\coverage.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\assets\mock.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\assets\qunit-logging.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\assets\qunit.css" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\assets\qunit.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\assets\utils.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\calendar-weeks.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\component.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\data-api.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\events.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\formats.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\inline.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\keyboard_navigation\2011.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\keyboard_navigation\2012.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\keyboard_navigation\all.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\methods.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\methods_jquery.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\mouse_navigation\2011.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\mouse_navigation\2012.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\mouse_navigation\all.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\noconflict.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\options.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\timezone.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\suites\touch_navigation\all.js" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\tests.html" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\timezone.html" />
+    <Content Include="Content\fonts\fabric-icons-4edc6faa.woff" />
+    <Content Include="Scripts\bootstrap-datepicker\.editorconfig" />
+    <Content Include="Scripts\bootstrap-datepicker\.github\ISSUE_TEMPLATE.md" />
+    <Content Include="Scripts\bootstrap-datepicker\.github\PULL_REQUEST_TEMPLATE.md" />
+    <Content Include="Scripts\bootstrap-datepicker\.gitignore" />
+    <Content Include="Scripts\bootstrap-datepicker\.travis.yml" />
+    <Content Include="Scripts\bootstrap-datepicker\bower.json" />
+    <Content Include="Scripts\bootstrap-datepicker\build\build.less" />
+    <Content Include="Scripts\bootstrap-datepicker\build\build3.less" />
+    <Content Include="Scripts\bootstrap-datepicker\build\build_standalone.less" />
+    <Content Include="Scripts\bootstrap-datepicker\build\build_standalone3.less" />
+    <Content Include="Scripts\bootstrap-datepicker\CHANGELOG.md" />
+    <Content Include="Scripts\bootstrap-datepicker\CODE_OF_CONDUCT.md" />
+    <Content Include="Scripts\bootstrap-datepicker\composer.json" />
+    <Content Include="Scripts\bootstrap-datepicker\CONTRIBUTING.md" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker.css.map" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker.standalone.css.map" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker3.css.map" />
+    <Content Include="Scripts\bootstrap-datepicker\dist\css\bootstrap-datepicker3.standalone.css.map" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\conf.py" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\events.rst" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\i18n.rst" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\index.rst" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\keyboard.rst" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\make.bat" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\Makefile" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\markup.rst" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\methods.rst" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\options.rst" />
+    <Content Include="Scripts\bootstrap-datepicker\docs\README.md" />
+    <Content Include="Scripts\bootstrap-datepicker\grunt\.jshintrc" />
+    <Content Include="Scripts\bootstrap-datepicker\js\.jscsrc" />
+    <Content Include="Scripts\bootstrap-datepicker\js\.jshintrc" />
+    <Content Include="Scripts\bootstrap-datepicker\less\.csslintrc" />
+    <Content Include="Scripts\bootstrap-datepicker\less\datepicker.less" />
+    <Content Include="Scripts\bootstrap-datepicker\less\datepicker3.less" />
+    <Content Include="Scripts\bootstrap-datepicker\LICENSE" />
+    <Content Include="Scripts\bootstrap-datepicker\package.json" />
+    <Content Include="Scripts\bootstrap-datepicker\README.md" />
+    <Content Include="Scripts\bootstrap-datepicker\tests\README.md" />
+    <Content Include="Scripts\bootstrap-datepicker\yarn.lock" />
+    <Content Include="Content\Inline_stock.xlsx" />
+    <Content Include="Content\Template_inline_miscell.xlsx" />
+    <Content Include="Content\Template_inv_check_assy.xlsx" />
+    <Content Include="Content\Template_snap_inline.xlsx" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <None Include="Properties\PublishProfiles\inline.pubxml" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\datatables-rowsgroup\LICENSE" />
+    <Content Include="Scripts\datatables-rowsgroup\README.md" />
+    <Content Include="Scripts\DataTables\js\dataTables.fixedColumns.min.js" />
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\index.js.flow" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\datatables-rowsgroup\anotherExample.html" />
+    <Content Include="Scripts\datatables-rowsgroup\dataTables.rowsGroup.js" />
+    <Content Include="Scripts\datatables-rowsgroup\example.html" />
+    <Content Include="Scripts\DataTables\css\dataTables.bootstrap.css" />
+    <Content Include="Scripts\DataTables\css\dataTables.bootstrap.min.css" />
+    <Content Include="Scripts\DataTables\css\dataTables.bootstrap4.css" />
+    <Content Include="Scripts\DataTables\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Scripts\DataTables\css\dataTables.foundation.css" />
+    <Content Include="Scripts\DataTables\css\dataTables.foundation.min.css" />
+    <Content Include="Scripts\DataTables\css\dataTables.jqueryui.css" />
+    <Content Include="Scripts\DataTables\css\dataTables.jqueryui.min.css" />
+    <Content Include="Scripts\DataTables\css\dataTables.semanticui.css" />
+    <Content Include="Scripts\DataTables\css\dataTables.semanticui.min.css" />
+    <Content Include="Scripts\DataTables\css\jquery.dataTables.css" />
+    <Content Include="Scripts\DataTables\css\jquery.dataTables.min.css" />
+    <Content Include="Scripts\DataTables\images\sort_asc.png" />
+    <Content Include="Scripts\DataTables\images\sort_asc_disabled.png" />
+    <Content Include="Scripts\DataTables\images\sort_both.png" />
+    <Content Include="Scripts\DataTables\images\sort_desc.png" />
+    <Content Include="Scripts\DataTables\images\sort_desc_disabled.png" />
+    <Content Include="Scripts\DataTables\js\dataTables.bootstrap.js" />
+    <Content Include="Scripts\DataTables\js\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\js\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\js\dataTables.foundation.js" />
+    <Content Include="Scripts\DataTables\js\dataTables.foundation.min.js" />
+    <Content Include="Scripts\DataTables\js\dataTables.jqueryui.js" />
+    <Content Include="Scripts\DataTables\js\dataTables.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\js\dataTables.semanticui.js" />
+    <Content Include="Scripts\DataTables\js\dataTables.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\js\jquery.dataTables.js" />
+    <Content Include="Scripts\DataTables\js\jquery.dataTables.min.js" />
+    <Content Include="Scripts\fabric\fabric.min.js" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.0.0.js" />
+    <Content Include="Scripts\jquery-3.0.0.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <Content Include="Scripts\jquery-confirm\.github\ISSUE_TEMPLATE.md" />
+    <Content Include="Scripts\jquery-confirm\.gitignore" />
+    <Content Include="Scripts\jquery-confirm\.idea\jquery-confirm3.iml" />
+    <Content Include="Scripts\jquery-confirm\bower.json" />
+    <Content Include="Scripts\jquery-confirm\css\jquery-confirm.less" />
+    <Content Include="Scripts\jquery-confirm\demo\libs\fonts\fontawesome-webfont.eot" />
+    <Content Include="Scripts\jquery-confirm\demo\libs\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Scripts\jquery-confirm\demo\libs\fonts\fontawesome-webfont.woff" />
+    <Content Include="Scripts\jquery-confirm\demo\libs\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Scripts\jquery-confirm\demo\libs\fonts\FontAwesome.otf" />
+    <Content Include="Scripts\jquery-confirm\LICENSE" />
+    <Content Include="Scripts\jquery-confirm\package.json" />
+    <Content Include="Scripts\jquery-confirm\README.md" />
+    <Content Include="Scripts\jquery-confirm\themelayout.psd" />
+    <Content Include="Scripts\jquery-freeze\bower.json" />
+    <Content Include="Scripts\jquery-freeze\LICENSE" />
+    <Content Include="Scripts\jquery-freeze\package.json" />
+    <Content Include="Scripts\jquery-freeze\README.md" />
+    <Content Include="Scripts\jquery-freeze\RECOMMENDATIONS.md" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.0.0.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.5.1.js" />
+    <Content Include="Scripts\jquery-3.5.1.min.js" />
+    <Content Include="Scripts\jquery-confirm\.idea\codeStyles\codeStyleConfig.xml" />
+    <Content Include="Scripts\jquery-confirm\.idea\deployment.xml" />
+    <Content Include="Scripts\jquery-confirm\.idea\dictionaries\bonif.xml" />
+    <Content Include="Scripts\jquery-confirm\.idea\inspectionProfiles\Project_Default.xml" />
+    <Content Include="Scripts\jquery-confirm\.idea\misc.xml" />
+    <Content Include="Scripts\jquery-confirm\.idea\modules.xml" />
+    <Content Include="Scripts\jquery-confirm\.idea\vagrant.xml" />
+    <Content Include="Scripts\jquery-confirm\.idea\vcs.xml" />
+    <Content Include="Scripts\jquery-confirm\.idea\workspace.xml" />
+    <Content Include="Scripts\jquery-confirm\animations.html" />
+    <Content Include="Scripts\jquery-confirm\callback.html" />
+    <Content Include="Scripts\jquery-confirm\css\jquery-confirm.css" />
+    <Content Include="Scripts\jquery-confirm\demo\demo.css" />
+    <Content Include="Scripts\jquery-confirm\demo\demo.js" />
+    <Content Include="Scripts\jquery-confirm\demo\libs\bundled.css" />
+    <Content Include="Scripts\jquery-confirm\demo\libs\bundled.js" />
+    <Content Include="Scripts\jquery-confirm\demo\libs\fonts\fontawesome-webfont.svg" />
+    <Content Include="Scripts\jquery-confirm\demo\logo-name.svg" />
+    <Content Include="Scripts\jquery-confirm\dist\jquery-confirm.min.css" />
+    <Content Include="Scripts\jquery-confirm\dist\jquery-confirm.min.js" />
+    <Content Include="Scripts\jquery-confirm\form.html" />
+    <Content Include="Scripts\jquery-confirm\index.html" />
+    <Content Include="Scripts\jquery-confirm\jquery-confirm.png" />
+    <Content Include="Scripts\jquery-confirm\js\jquery-confirm.js" />
+    <Content Include="Scripts\jquery-confirm\table.html" />
+    <Content Include="Scripts\jquery-confirm\text.txt" />
+    <Content Include="Scripts\jquery-confirm\themelayout.png" />
+    <Content Include="Scripts\jquery-confirm\themes.html" />
+    <Content Include="Scripts\jquery-freeze\dist\js\freeze-table.js" />
+    <Content Include="Scripts\jquery-freeze\dist\js\freeze-table.min.js" />
+    <Content Include="Scripts\jquery-freeze\docs\dist\js\freeze-table.js" />
+    <Content Include="Scripts\jquery-freeze\docs\index.html" />
+    <Content Include="Scripts\jquery-freeze\docs\narrow-jumbotron.css" />
+    <Content Include="Scripts\jquery-freeze\img\demonstration.png" />
+    <Content Include="Scripts\jquery-freeze\src\js\freeze-table.js" />
+    <Content Include="Scripts\jquery-ui.css" />
+    <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\loader.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\src\index.js" />
+    <Content Include="Scripts\src\methods\defaults.js" />
+    <Content Include="Scripts\src\methods\destroy.js" />
+    <Content Include="Scripts\src\methods\disableEventListeners.js" />
+    <Content Include="Scripts\src\methods\enableEventListeners.js" />
+    <Content Include="Scripts\src\methods\placements.js" />
+    <Content Include="Scripts\src\methods\update.js" />
+    <Content Include="Scripts\src\modifiers\applyStyle.js" />
+    <Content Include="Scripts\src\modifiers\arrow.js" />
+    <Content Include="Scripts\src\modifiers\computeStyle.js" />
+    <Content Include="Scripts\src\modifiers\flip.js" />
+    <Content Include="Scripts\src\modifiers\hide.js" />
+    <Content Include="Scripts\src\modifiers\index.js" />
+    <Content Include="Scripts\src\modifiers\inner.js" />
+    <Content Include="Scripts\src\modifiers\keepTogether.js" />
+    <Content Include="Scripts\src\modifiers\offset.js" />
+    <Content Include="Scripts\src\modifiers\preventOverflow.js" />
+    <Content Include="Scripts\src\modifiers\shift.js" />
+    <Content Include="Scripts\src\utils\clockwise.js" />
+    <Content Include="Scripts\src\utils\computeAutoPlacement.js" />
+    <Content Include="Scripts\src\utils\debounce.js" />
+    <Content Include="Scripts\src\utils\find.js" />
+    <Content Include="Scripts\src\utils\findCommonOffsetParent.js" />
+    <Content Include="Scripts\src\utils\findIndex.js" />
+    <Content Include="Scripts\src\utils\getBordersSize.js" />
+    <Content Include="Scripts\src\utils\getBoundaries.js" />
+    <Content Include="Scripts\src\utils\getBoundingClientRect.js" />
+    <Content Include="Scripts\src\utils\getClientRect.js" />
+    <Content Include="Scripts\src\utils\getFixedPositionOffsetParent.js" />
+    <Content Include="Scripts\src\utils\getOffsetParent.js" />
+    <Content Include="Scripts\src\utils\getOffsetRect.js" />
+    <Content Include="Scripts\src\utils\getOffsetRectRelativeToArbitraryNode.js" />
+    <Content Include="Scripts\src\utils\getOppositePlacement.js" />
+    <Content Include="Scripts\src\utils\getOppositeVariation.js" />
+    <Content Include="Scripts\src\utils\getOuterSizes.js" />
+    <Content Include="Scripts\src\utils\getParentNode.js" />
+    <Content Include="Scripts\src\utils\getPopperOffsets.js" />
+    <Content Include="Scripts\src\utils\getReferenceNode.js" />
+    <Content Include="Scripts\src\utils\getReferenceOffsets.js" />
+    <Content Include="Scripts\src\utils\getRoot.js" />
+    <Content Include="Scripts\src\utils\getRoundedOffsets.js" />
+    <Content Include="Scripts\src\utils\getScroll.js" />
+    <Content Include="Scripts\src\utils\getScrollParent.js" />
+    <Content Include="Scripts\src\utils\getStyleComputedProperty.js" />
+    <Content Include="Scripts\src\utils\getSupportedPropertyName.js" />
+    <Content Include="Scripts\src\utils\getViewportOffsetRectRelativeToArtbitraryNode.js" />
+    <Content Include="Scripts\src\utils\getWindow.js" />
+    <Content Include="Scripts\src\utils\getWindowSizes.js" />
+    <Content Include="Scripts\src\utils\includeScroll.js" />
+    <Content Include="Scripts\src\utils\index.js" />
+    <Content Include="Scripts\src\utils\isBrowser.js" />
+    <Content Include="Scripts\src\utils\isFixed.js" />
+    <Content Include="Scripts\src\utils\isFunction.js" />
+    <Content Include="Scripts\src\utils\isIE.js" />
+    <Content Include="Scripts\src\utils\isModifierEnabled.js" />
+    <Content Include="Scripts\src\utils\isModifierRequired.js" />
+    <Content Include="Scripts\src\utils\isNumeric.js" />
+    <Content Include="Scripts\src\utils\isOffsetContainer.js" />
+    <Content Include="Scripts\src\utils\removeEventListeners.js" />
+    <Content Include="Scripts\src\utils\runModifiers.js" />
+    <Content Include="Scripts\src\utils\setAttributes.js" />
+    <Content Include="Scripts\src\utils\setStyles.js" />
+    <Content Include="Scripts\src\utils\setupEventListeners.js" />
+    <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_dicing.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Scripts\moment.min.js.map" />
+    <Content Include="Scripts\moment-with-locales.min.js.map" />
+    <Content Include="Views\InlineStock\Oparate_inline_junb.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_csat.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_assy.cshtml" />
+    <Content Include="Views\InlineStock\overview_records.cshtml" />
+    <Content Include="Views\Transaction\vw_request_stats.cshtml" />
+    <Content Include="Views\Transaction\transaction_overview.cshtml" />
+    <Content Include="Views\Transaction\transaction_issue.cshtml" />
+    <Content Include="Views\Transaction\Transaction.cshtml" />
+    <Content Include="Views\Report\report_monthly.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_assy_tablet.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_junb_view.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_csat_view.cshtml" />
+    <Content Include="Views\SpRecord\record_assy_resin.cshtml" />
+    <Content Include="Views\Managements\managements_overview.cshtml" />
+    <Content Include="Views\Managements\managements_adjust_actual_dicing.cshtml" />
+    <Content Include="Views\Managements\managements_adjust_actual_junb.cshtml" />
+    <Content Include="Views\Managements\managements_adjust_actual_csat.cshtml" />
+    <Content Include="Views\Managements\Upload_excel_taget_junb_csat.cshtml" />
+    <Content Include="Views\Managements\managements_control_factor.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_cg.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_cg_view.cshtml" />
+    <Content Include="Views\Managements\managements_adjust_actual_cg.cshtml" />
+    <Content Include="Views\Report\material_issue_daily_report.cshtml" />
+    <Content Include="Views\SpRecord\record_assy_interposer.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_moled.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_moled_view.cshtml" />
+    <Content Include="Views\SpRecord\record_assy_b_frame.cshtml" />
+    <Content Include="Views\SpRecord\record_assy_seal_glass.cshtml" />
+    <Content Include="Views\SpRecord\record_assy_capillary.cshtml" />
+    <Content Include="Views\SpRecord\record_assy_gold_wire.cshtml" />
+    <Content Include="Views\Login\Login_axis.cshtml" />
+    <Content Include="Views\Managements\managements_adjust_actual_assy.cshtml" />
+    <Content Include="Views\Managements\managements_adjust_actual_moled.cshtml" />
+    <Content Include="Views\Transaction\transaction_axis.cshtml" />
+    <Content Include="Views\Report\invtory_check_record.cshtml" />
+    <Content Include="Views\InlineStock\inline_home.cshtml" />
+    <Content Include="Views\Automail\vw_template_automail_assy.cshtml" />
+    <Content Include="Views\Report\miscell_schedule.cshtml" />
+    <Content Include="Views\Report\dashboard_summary.cshtml" />
+    <Content Include="Views\Automail\vw_template_automail_miscell.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_htps.cshtml" />
+    <Content Include="Views\Managements\managements_adjust_actual_htps.cshtml" />
+    <Content Include="Views\MTPreapre\material_pre_pareration_view.cshtml" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper.js.flow" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\MTPreapre\test_pivote.cshtml" />
+    <Content Include="Views\Automail\vw_template_automail_moled.cshtml" />
+    <Content Include="Views\InlineStock\Oparate_inline_assy_menu_tablet.cshtml" />
+    <Content Include="Views\Report\snap_inline.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\Default\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>57706</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:57706/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,459 @@
+﻿
+@{
+    ViewBag.Title = "";
+}
+@if (Session["GOALBAL_ID"] != null)
+{
+    <style>
+        .custom_font_size_button {
+            font-size: 35px;
+        }
+
+        .custom_input_size {
+            font-size: 1.6rem;
+        }
+
+        .flexContainer {
+            display: flex;
+        }
+
+        .inputField {
+            flex: 1;
+        }
+    </style>
+
+    <input type="hidden" id="permission" value="@Session["PERMISSION"].ToString()" />
+    <input type="hidden" value="@Session["GOALBAL_ID"].ToString()" id="temp_user" />
+
+    <div class="container h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-12 mx-auto">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom mt-3">
+                    <h5 class="mr-2"> Records GOLD WIRE: (Usage)</h5>
+                    <a type="button" class="btn btn-sm btn-warning" href="@Url.Action("Oparate_inline_assy_menu_tablet", "InlineStock")"><i class="ms-Icon ms-Icon--Back" style="color:white;">   TO MENU</i></a>
+                </div>
+                <div class="tab-content mt-4" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="row justify-content-start">
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <select class="custom-select custom_input_size" id="mc_id" placeholder="MAC ID" required>
+                                    <option disabled="" selected="">Select MAC ID</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6 flexContainer">
+                                <input type="hidden" class="form-control" id="matcode">
+                                <input type="hidden" class="form-control" id="item_number">
+                                <input type="hidden" class="form-control" id="flag_mat">
+                                <input type="hidden" class="form-control" id="matgroup">
+                                <input type="hidden" class="form-control" id="cost_center">
+                                <input type="hidden" class="form-control" id="biz_name">
+                                <input type="hidden" class="form-control" id="issue_wh">
+                                <input type="hidden" class="form-control" id="stock_wh">
+                                <input type="hidden" class="form-control" id="remain_inline">
+                                <input type="hidden" class="form-control" id="unit">
+                                <input type="hidden" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")" id="update_date">
+                                @*<input type="text" class="autocomplete custom_input_size form-control" id="matname" placeholder="Material Name">*@
+                            <select class="custom-select custom_input_size" id="matname" placeholder="Select Material Name" required>
+                                <option disabled="" selected="">Select Material name</option>
+                                <option value="280738345">Au Wire ฟGFD ฟ20umฟ3000M</option>
+                                <option value="280740002">Au Wire 　GFD φ20um　3000M (TA20.0D4-300-M)</option>
+                            </select>
+                                <button type="button" class="btn btn-primary mb-2 custom_input_size" id="confirmed_mat">Confirmed</button>
+                            </div>
+                        </div>
+                        <div class="row justify-content-start mt-4">
+                            <div class="col-md-6 col-sm-6 col-xs-6 input-group">
+                                <input type="number" class=" custom_input_size form-control" id="usage" placeholder="Input (Usage) Qty" disabled />
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="unit_span"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <select class="custom-select custom_input_size" id="purpose" placeholder="PURPOSE ID">
+                                    <option value="CWB#1">CWB#1</option>
+                                    <option value="CWB#2">CWB#2</option>
+                                    <option value="CWB#3">CWB#3</option>
+                                    <option value="CWB#4">CWB#4</option>
+                                    <option value="CWB#5">CWB#5</option>
+                                    <option value="CWB#6">CWB#6</option>
+                                    <option value="CWB#7">CWB#7</option>
+                                    <option value="CWB#8">CWB#8</option>
+                                    <option value="CWB#9">CWB#9</option>
+                                    <option value="CWB#10">CWB#10</option>
+                                    <option value="CWB#11">CWB#11</option>
+                                    <option value="CWB#12">CWB#12</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row col-md-12 col-sm-12 col-xs-12 mtpurpose-2">
+                            <button type="button" class="btn btn-md btn-success btn-block ml-4 mr-1 mt-4 custom_font_size_button" id="record_gold_wire"><i class="ms-Icon ms-Icon--Save">  RECORD</i></button>
+                        </div>
+                        <div class="row col-md-12 col-sm-12 col-xs-12 mt-2">
+                            <button type="reset" class="btn btn-md btn-danger btn-block ml-4 mr-1 mt-4 custom_font_size_button" id="reset_direct"><i class="ms-Icon ms-Icon--Reset">  RESETS</i></button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive mt-2">
+                        <table class="table table-bordered" id="table_assy_gold_wire">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="background-color:royalblue; color:white;">BIZ</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">MAT CODE</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">PART CODE</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">MATERIAL NAME</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">PROCESS</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">MACHINE ID</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">USAGE</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">REMAIN INLINE</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">UPDATE DATE</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">UPDATE BY</th>
+                                    <th scope="col" style="background-color:royalblue; color:white;">PURPOSE DETAIL</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        var temp_user = $('#temp_user').val();
+        $(document).ready(function () {
+            Create_table_transaction();
+            get_master_mac_id();
+            //get_master_matname_gold_wire();
+            //get_master_purpose();
+
+            $('#matname').keyup(function (e) {
+                if (e.keyCode == 13) {
+                    //alert($('#matname').val());
+                    Fillter_data(); // Call function
+                } else {
+
+                }
+            });
+
+            $("#confirmed_mat").click(function () {
+                console.log($('#matname').val());
+                if ($('#matname').text() != '') {
+                    Fillter_data();
+                    $('#usage').focus();
+                } else if ($('#matname').val() == '') {
+                    swal({
+                        title: "Material name is empty !",
+                        text: "",
+                        icon: "error",
+                        button: "OK!"
+                    });
+                } else {
+                    swal({
+                        title: "Material name not found !",
+                        text: "",
+                        icon: "error",
+                        button: "OK!"
+                    });
+                }
+            });
+
+            //$(".autocomplete").autocomplete({
+            //    source: function (request, response) {
+            //        $.ajax({
+            //            url: "/Material/InlineStock/SpRecord/ajax_master_auto_completed_gold_wire",
+            //            type: "POST",
+            //            dataType: "json",
+            //            data: { term: request.term },
+            //            success: function (data) {
+            //                response($.map(data, function (item) {
+            //                    return { label: item, value: item };
+            //                }))
+            //            }
+            //        })
+            //    },
+            //    messages: {
+            //        noResults: '',
+            //        results: function (resultsCount) { }
+            //    }
+            //});
+
+            //function get_master_matname_gold_wire() {
+            //    $.ajax({
+            //        type: "POST",
+            //        url: "/Material/InlineStock/SpRecord/ajax_master_gold_wire",
+            //        //url: "/SpRecord/ajax_master_mac_id",
+            //        datatype: "json",
+            //        success: function (data) {
+            //            var $select = $('#matname');
+            //            $.each(data, function (i) {
+            //                $.each(data[i], function (key, val) {
+            //                    $select.append('<option value=' + val.MATNAME + '>' + val.MATNAME + '</option>');
+            //                });
+            //            });
+            //        }
+            //    })
+            //}
+
+            function Fillter_data() {
+                var material_code = $('#matname').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Material/InlineStock/SpRecord/ajax_get_data_check_goldwire_mtcode",
+                    //url: "/SpRecord/ajax_get_data_check_goldwire_mtcode",
+                    datatype: "json",
+                    data: { "matcode": material_code },
+                    success: function (data) {
+                        if (JSON.stringify(data).length == 11) {
+                            $('#matname').val('');
+                            $('#usage').prop("disabled", true); // Element(s) are now disables.
+
+                            swal({
+                                title: "Material name not found !",
+                                text: "",
+                                icon: "error",
+                                button: true,
+                                timer: 1500
+                            });
+                        } else {
+                            $.each(data, function (i) {
+                                $.each(data[i], function (key, val) {
+                                    if (val.MATGROUP == 'GOLD WIRE') {
+                                        //console.log("OK");
+                                        swal({
+                                            title: "Good job!",
+                                            text: "Correct Material Name!",
+                                            icon: "success",
+                                            button: false,
+                                            timer: 1500
+                                        });
+                                        $('#usage').prop("disabled", false); // Element(s) are now enabled.
+                                        $('#matcode').val(val.MATCODE);
+                                        $('#item_number').val(val.ITEM_NUMBER);
+                                        $('#cost_center').val(val.COST_CENTER);
+                                        $('#flag_mat').val(val.FLAG_MAT);
+                                        $('#remain_inline').val(val.REMAIN_INLINE);
+                                        $('#biz_name').val(val.BIZ_NAME);
+                                        $('#matgroup').val(val.MATGROUP);
+                                        $('#issue_wh').val(val.ISSUE_WH);
+                                        $('#stock_wh').val(val.STOCK_WH);
+                                        $('#unit').val(val.UNIT);
+                                        $('#unit_span').text("Roll");
+                                    } else {
+                                        $('#usage').prop("disabled", true); // Element(s) are now disables.
+                                        $('#matname').val('');
+                                        swal({
+                                            title: "Failed Input Material Name",
+                                            text: "Material not Group : GOLD WIRE !",
+                                            icon: "error",
+                                            button: "OK!"
+                                            //button: false,
+                                            //    timer: 1500
+                                        });
+
+                                    }
+                                });
+                            });
+
+                        }
+                    },
+                    error: function (e) {
+                        console.log('Error');
+                    }
+                });
+            }
+
+            $('#record_gold_wire').click(function () {
+                swal({
+                    title: "Are you sure value qty usage?",
+                    text: "This Qty : " + $('#usage').val() + " " + $('#unit_span').text() + " ",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            swal("System record data success!", {
+                                icon: "success",
+                            });
+
+                            if ($("#mc_id option:selected").val() === 'SELECT MAC ID') {
+                                var edit_value = {
+                                    "BIZ_NAME": $("#biz_name").val(),
+                                    "MATCODE": $("#matcode").val(),
+                                    "ITEM_NUMBER": $("#item_number").val(),
+                                    "MATNAME": $("#matname").val(),
+                                    "MATGROUP": $("#matgroup").val(),
+                                    "STOCK_WH": $("#stock_wh").val(),
+                                    //"COST_CENTER": '',
+                                    "FLAG_MAT": $("#flag_mat").val(),
+                                    "ISSUE_WH": $('#issue_wh').val(),
+                                    "USAGE": $('#usage').val(),
+                                    "REMAIN_INLINE": $("#remain_inline").val(),
+                                    "UPDATE_DATE": $("#update_date").val(),
+                                    "UPDATE_BY": temp_user,
+                                    "PURPOSE_DETAIL": $("#purpose option:selected").text(),
+                                    "MC_ID": '-',
+                                }
+                            } else {
+                                var edit_value = {
+                                    "BIZ_NAME": $("#biz_name").val(),
+                                    "MATCODE": $("#matcode").val(),
+                                    "ITEM_NUMBER": $("#item_number").val(),
+                                    "MATNAME": $("#matname").val(),
+                                    "MATGROUP": $("#matgroup").val(),
+                                    "STOCK_WH": $("#stock_wh").val(),
+                                    //"COST_CENTER": '',
+                                    "FLAG_MAT": $("#flag_mat").val(),
+                                    "ISSUE_WH": $('#issue_wh').val(),
+                                    "USAGE": $('#usage').val(),
+                                    "REMAIN_INLINE": $("#remain_inline").val(),
+                                    "UPDATE_DATE": $("#update_date").val(),
+                                    "UPDATE_BY": temp_user,
+                                    "PURPOSE_DETAIL": $("#purpose option:selected").text(),
+                                    "MC_ID": $("#mc_id option:selected").val(),
+                                }
+                            }
+
+                            console.log(edit_value);
+                            $.ajax({
+                                type: "POST",
+                                url: "/Material/InlineStock/SpRecord/update_usage_assy",
+                                //url: "/SpRecord/update_usage_assy",
+                                data: {
+                                    edit_value: edit_value
+                                },
+                                datatype: "json",
+                                success: function (data) {
+                                    $('#usage').prop("disabled", true); // Element(s) are now disables.
+                                    console.log("ajax_send_data_completed");
+                                    $('#matname').val('');
+                                    $('#usage').val('');
+                                    $('#unit_span').text('');
+                                    $('#matname').focus();
+                                    $('#table_assy_gold_wire').DataTable().ajax.reload();
+
+                                    swal({
+                                        title: "Record success!",
+                                        text: "You record of the information success!",
+                                        icon: "success",
+                                        button: "OK!",
+                                    });
+                                },
+                                error: function (request, status, error) {
+                                    console.log(status);
+                                    swal({
+                                        title: "Fail Record!",
+                                        text: "Please check the correct of the information.!",
+                                        icon: "error",
+                                        button: "OK",
+                                    });
+                                }
+                            })
+
+                        } else {
+                            swal("System cancle record data!");
+                        }
+                    });
+            });
+
+
+
+
+            $("#reset_direct").click(function () {
+                $('#matname').val('');
+                $('#usage').val('')
+                $('#unit_span').text('');
+                $('#usage').prop("disabled", true); // Element(s) are now disables.
+
+                console.log("Reset data success !");
+            });
+
+
+            function Create_table_transaction() {
+                $('#table_assy_gold_wire').DataTable({
+                    "destroy": true,
+                    "searching": false,
+                    "lengthChange": false,
+                    "paging": false,
+                    "bInfo": false,
+                    "stateSave": true,
+                    "ajax": {
+                        "type": "POST",
+                        "url": "/Material/InlineStock/Transaction/Ajax_get_transaction_assy",
+                        //"url": "/Transaction/Ajax_get_transaction_assy",
+                        data: { 'param_name': $(permission).val() },
+                        "datatype": "json"
+                    },
+                    order: [[8, "desc"]],
+                    columnDefs: [
+                        {
+                            targets: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10], className: 'text-center',
+                        },
+                    ],
+                    "columns": [
+                        { data: "BIZ_NAME", "name": "BIZ_NAME", "autoWidth": false },
+                        { data: "MATCODE", "name": "MATCODE", "autoWidth": false },
+                        { data: "ITEM_NUMBER", "name": "ITEM_NUMBER", "autoWidth": false },
+                        { data: "MATNAME", "name": "MATNAME", "autoWidth": false },
+                        { data: "FLAG_MAT", "name": "FLAG_MAT", "autoWidth": false },
+                        { data: "MC_ID", "name": "MC_ID", "autoWidth": false },
+                        { data: "USAGE", "name": "USAGE", "autoWidth": false },
+                        { data: "REMAIN_INLINE", "name": "REMAIN_INLINE", "autoWidth": false },
+                        {
+                            data: "UPDATE_DATE",
+                            "render": function (value) {
+                                if (value === null) return "";
+                                return moment(value).format('YYYY-MM-DD HH:mm:ss');
+                            }
+                        },
+                        { data: "UPDATE_BY", "name": "UPDATE_BY", "autoWidth": true },
+                        { data: "PURPOSE_DETAIL", "name": "PURPOSE_DETAIL", "autoWidth": false },
+                    ], // end columns
+                    "scrollY": '20vh',
+                    "scrollCollapse": true,
+                });
+            }
+
+            function get_master_mac_id() {
+                $.ajax({
+                    type: "POST",
+                    url: "/Material/InlineStock/SpRecord/ajax_master_mac_id",
+                    //url: "/SpRecord/ajax_master_mac_id",
+                    datatype: "json",
+                    success: function (data) {
+                        var $select = $('#mc_id');
+                        $.each(data, function (i) {
+                            $.each(data[i], function (key, val) {
+                                $select.append('<option value=' + val + '>' + val + '</option>');
+                            });
+                        });
+                    }
+                })
+            }
+
+            //function get_master_purpose() {
+            //    $.ajax({
+            //        type: "POST",
+            //        url: "/Material/InlineStock/SpRecord/ajax_master_purpose_gold_wire",
+            //        //url: "/SpRecord/ajax_master_purpose",
+            //        datatype: "json",
+            //        success: function (data) {
+            //            var $select = $('#purpose');
+            //            $.each(data, function (i) {
+            //                $.each(data[i], function (key, val) {
+            //                    $select.append('<option value=' + val + '>' + val + '</option>');
+            //                });
+            //            });
+            //        }
+            //    })
+            //}
+
+        });
+
+    </script>
+}
+else
+{
+    Response.Redirect("~/Login/Login");
+}

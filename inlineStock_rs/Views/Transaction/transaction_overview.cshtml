@@ -1,0 +1,66 @@
+﻿<link rel="stylesheet" href="~/Content/overview-custom.css">
+
+@*<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom  text-center">
+    <div class="h4 font-weight-bold text-center py-3"><i class="ms-Icon ms-Icon--DatabaseSync"> Menu Transaction</i></div>
+</div>*@
+<div class="container bg-light rounded">
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 my-lg-0 my-3">
+            <div class="box bg-white shadow border" id="box_axis">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>Transaction usage From (AXIS)</b> <a href="#">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 my-lg-0 my-3">
+            <div class="box bg-white shadow border" id="box_request">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>Transaction Request From (Warehouse)</b> <a>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 my-lg-0 my-3">
+            <div class="box bg-white shadow border" id="box_issue">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>Transaction Issue From (Warehouse)</b> <a href="#">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 my-lg-0 my-3">
+            <div class="box bg-white mt-4 shadow border" id="box_inline">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column">
+                        <b>Transaction usage From (Inline Stock)</b> <a href="#">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#box_request").click(function () {
+            window.location.href = "@Url.Action("vw_request_stats", "Transaction")";
+        });
+        $("#box_issue").click(function () {
+            window.location.href = "@Url.Action("transaction_issue", "Transaction")";
+        });
+        $("#box_inline").click(function () {
+            window.location.href = "@Url.Action("Transaction", "Transaction")";
+        });
+        $("#box_axis").click(function () {
+            window.location.href = "@Url.Action("transaction_axis", "Transaction")";
+        });
+    });
+</script>

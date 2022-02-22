@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "test_pivote";
+}
+
+<div class="container-fluid">
+    <style>
+        .tableUsage {
+            overflow-y: auto;
+            height: 500px;
+        }
+    /*     .tableUsage table tbody th {
+            top: auto;
+            background-color: #f8f9fa !important;
+            z-index: 2;
+            white-space: nowrap !important;
+            padding: 0.2rem;
+            border-left: solid 1px #DDEFEF;
+            font-size: 0.75rem;
+        }
+
+        .tableUsage {
+            overflow-y: auto;
+            height: 500px;
+        }
+
+        .tableUsage td {
+             white-space: nowrap !important;
+        }
+
+        #byMaterial {
+            width: 95%;
+            float: left;
+            overflow-x: scroll;
+            background: #ddd;
+        }
+*/
+      /*  .tscroll {
+            overflow-x: scroll;
+            height: 500px;
+        }
+
+            .tscroll table tbody th {
+                top: auto;
+                background-color: #f8f9fa !important;
+                z-index: 2;
+                white-space: nowrap !important;
+                padding: 0.2rem;
+                border-left: solid 1px #DDEFEF;
+                font-size: 0.75rem;
+                position: sticky;
+                left: 0;
+            }
+            .tscroll table td:first-child {
+                position: sticky;
+                left: 0;
+                background-color: #ddd;
+            }
+
+            .tscroll td, .tscroll th {
+                white-space: nowrap !important;
+                border-bottom: dashed #888 1px;
+            }
+     */
+    </style>
+
+    <div class="table-scrollable tableUsage mt-4">
+        <table class="table table-bordered mb-0 " id="table1">
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="~/Scripts/jquery-freeze/dist/js/freeze-table.js"></script>
+@*<link rel="stylesheet" href="~/Scripts/jQuery-Plugin-To-Freeze-Table/css/ScrollTabla.css">*@
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $.ajax({
+            url: "./get_json_material_name_all",
+            method: "GET",
+            dataType: 'json',
+            success: function (datas) {
+                $(function () {
+                    const thead = $("#table1 thead");
+                    const tbody = $("#table1 tbody");
+                    let tr = $("<tr />");
+                    //Header
+                    $.each(Object.keys(datas[0]), function (_, key) {
+                        tr.append("<th class="+ key +">" + key + "</th>")
+                    });
+                    tr.appendTo(thead);
+                    //Body
+                    $.each(datas, function (_, obj) {
+                        tr = $("<tr />");
+                        $.each(obj, function (_, text) {
+                            tr.append("<td>" + text + "</td>")
+                        });
+                        tr.appendTo(tbody);
+                    });
+                })
+            },
+            error: function () {
+                console.log(datas);
+            }
+        });
+
+        $(".table-multi-columns").freezeTable({
+            'columnNum': 2,
+        });
+
+        //jQuery.ajax({
+        //    type: "Get",
+        //    url: "./get_json_material_name_all",
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    data: [],
+        //    success: function (data) {
+        //        //alert(JSON.stringify(data));
+        //        $("#output").pivot(
+        //           data,
+        //            {
+        //                cols: [""],
+        //                rows: ["Biz", "Process", "Category", "Material_Code", "Material_Name", "Material_Group", "26-11-2021", "27-11-2021"]
+        //            }
+        //        );
+        //    }
+        //});
+
+    });
+</script>
